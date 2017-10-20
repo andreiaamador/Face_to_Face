@@ -61,11 +61,11 @@ namespace Face2Face
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "38656113977-d9i1473b6hp6itk8j9piv5cjukirnc1i.apps.googleusercontent.com",
-            //    ClientSecret = "S_kxBXZDkVZQfUhs8_UJITiH"
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "38656113977-d9i1473b6hp6itk8j9piv5cjukirnc1i.apps.googleusercontent.com",
+                ClientSecret = "S_kxBXZDkVZQfUhs8_UJITiH"
+            });
         }
     }
 }
