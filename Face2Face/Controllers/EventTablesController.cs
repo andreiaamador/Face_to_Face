@@ -21,6 +21,15 @@ namespace Face2Face.Controllers
             return View(eventTable.ToList());
         }
 
+        //[HttpPost]
+        //public ActionResult Index(HttpPostedFileBase file)
+        //{
+        //    if(file != null && file.ContentLength > 0)
+        //    {
+
+        //    }
+        //}
+
         // GET: EventTables/Details/5
         public ActionResult Details(int? id)
         {

@@ -15,7 +15,7 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.LanguageID, "LanguageID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LanguageID, "Event Language", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("LanguageID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LanguageID, "", new { @class = "text-danger" })
@@ -23,7 +23,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.UserID, "Username", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
@@ -43,6 +43,16 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
+                @using (Html.BeginForm("Index", "EventTables", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <label for="eventImage" id="imageLabel" style="visibility:hidden;"></label>
+                    <input type="file" name="file" id="eventImage" style="visibility:hidden;"/>
+                    <input type="button" id="buttonUpload" value="Upload Image" />
+                    <br /><br />
+                    <input type="submit" value="Upload Image" />
+
+                    @ViewBag.Message
+                }
             </div>
         </div>
 
@@ -105,3 +115,13 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $('#buttonUpload').click(function () {
+            $('#imageLabel');
+        })
+    </script>
+}
