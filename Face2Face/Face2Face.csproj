@@ -192,8 +192,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EventTablesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LanguagesTablesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NationalityTablesController.cs" />
+    <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -324,6 +328,26 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\EventTables\Create.cshtml" />
+    <Content Include="Views\EventTables\Delete.cshtml" />
+    <Content Include="Views\EventTables\Details.cshtml" />
+    <Content Include="Views\EventTables\Edit.cshtml" />
+    <Content Include="Views\EventTables\Index.cshtml" />
+    <Content Include="Views\LanguagesTables\Create.cshtml" />
+    <Content Include="Views\LanguagesTables\Delete.cshtml" />
+    <Content Include="Views\LanguagesTables\Details.cshtml" />
+    <Content Include="Views\LanguagesTables\Edit.cshtml" />
+    <Content Include="Views\LanguagesTables\Index.cshtml" />
+    <Content Include="Views\NationalityTables\Create.cshtml" />
+    <Content Include="Views\NationalityTables\Delete.cshtml" />
+    <Content Include="Views\NationalityTables\Details.cshtml" />
+    <Content Include="Views\NationalityTables\Edit.cshtml" />
+    <Content Include="Views\NationalityTables\Index.cshtml" />
+    <Content Include="Views\UserProfiles\Create.cshtml" />
+    <Content Include="Views\UserProfiles\Delete.cshtml" />
+    <Content Include="Views\UserProfiles\Details.cshtml" />
+    <Content Include="Views\UserProfiles\Edit.cshtml" />
+    <Content Include="Views\UserProfiles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
