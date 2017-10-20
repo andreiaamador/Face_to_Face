@@ -63,8 +63,8 @@ namespace Face2Face
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
-            //    ClientId = "",
-            //    ClientSecret = ""
+            //    ClientId = "38656113977-d9i1473b6hp6itk8j9piv5cjukirnc1i.apps.googleusercontent.com",
+            //    ClientSecret = "S_kxBXZDkVZQfUhs8_UJITiH"
             //});
         }
     }
