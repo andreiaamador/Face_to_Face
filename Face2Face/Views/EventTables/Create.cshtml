@@ -13,25 +13,28 @@
     <div class="form-horizontal">
         <h4>EventTable</h4>
         <hr />
+
+        <span>* - Required Fields</span>
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.LanguageID, "Event Language", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LanguageID, "Event Language*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("LanguageID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LanguageID, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserID, "Username", htmlAttributes: new { @class = "control-label col-md-2" })
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Name, "Event Name*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
@@ -47,9 +50,7 @@
                 {
                     <label for="eventImage" id="imageLabel" style="visibility:hidden;"></label>
                     <input type="file" name="file" id="eventImage" style="visibility:hidden;"/>
-                    <input type="button" id="buttonUpload" value="Upload Image" />
-                    <br /><br />
-                    <input type="submit" value="Upload Image" />
+                    <input type="submit" id="buttonUpload" value="Upload Image" />
 
                     @ViewBag.Message
                 }
@@ -57,10 +58,12 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Date, "Event Date*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
+                <input class="datefield" data-val="true" data-val-required="Date is required"
+                       id="CreateEventDate" name="ReleaseDate" type="date" value="1/11/1989" />
             </div>
         </div>
 
@@ -73,7 +76,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EndSignUpDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Date, "Event Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
+
+                <input class="datefield" data-val="true" data-val-required="Date is required"
+                       id="CreateFinalDate" name="ReleaseDate" type="date" value="1/11/1989" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndSignUpDate, "Final date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EndSignUpDate, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EndSignUpDate, "", new { @class = "text-danger" })
@@ -81,7 +95,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MaxUsers, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MaxUsers, "Maximum number of people", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.MaxUsers, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MaxUsers, "", new { @class = "text-danger" })
@@ -89,7 +103,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Budget, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Budget, "Budget", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
@@ -97,7 +111,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Address, "Location*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
@@ -121,7 +135,7 @@
 
     <script>
         $('#buttonUpload').click(function () {
-            $('#imageLabel');
+            $('#imageLabel').click();
         })
     </script>
 }

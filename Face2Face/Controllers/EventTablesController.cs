@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Face2Face.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using System.Web.Security;
 
 namespace Face2Face.Controllers
 {
@@ -58,8 +61,10 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,UserID,Name,Photo,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable)
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Photo,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable)
         {
+            eventTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
+            
             if (ModelState.IsValid)
             {
                 db.EventTable.Add(eventTable);
