@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="12.875" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="10.5" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="9.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="15" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />

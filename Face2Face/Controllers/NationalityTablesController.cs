@@ -66,6 +66,7 @@ namespace Face2Face.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             NationalityTable nationalityTable = db.NationalityTable.Find(id);
+
             if (nationalityTable == null)
             {
                 return HttpNotFound();

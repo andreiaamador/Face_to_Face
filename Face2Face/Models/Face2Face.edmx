@@ -593,7 +593,7 @@
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_UserProfile_AspNetUsers" FromRole="UserProfile" ToRole="AspNetUsers" />
           <NavigationProperty Name="EventTable" Relationship="Self.FK_EventTable_UserProfile" FromRole="UserProfile" ToRole="EventTable" />
           <NavigationProperty Name="ReviewTable" Relationship="Self.FK_ReviewTable_UserProfile" FromRole="UserProfile" ToRole="ReviewTable" />
-          <NavigationProperty Name="LanguagesTable" Relationship="Self.FluentLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
+          <NavigationProperty Name="FluentLanguage" Relationship="Self.FluentLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
           <NavigationProperty Name="LanguagesTable1" Relationship="Self.InterestedLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
           <NavigationProperty Name="LanguagesTable2" Relationship="Self.NativeLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
           <NavigationProperty Name="EventTable1" Relationship="Self.ParticipantsTable" FromRole="UserProfile" ToRole="EventTable" />

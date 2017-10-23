@@ -19,7 +19,7 @@ namespace Face2Face.Models
         {
             this.EventTable = new HashSet<EventTable>();
             this.ReviewTable = new HashSet<ReviewTable>();
-            this.LanguagesTable = new HashSet<LanguagesTable>();
+            this.FluentLanguage = new HashSet<LanguagesTable>();
             this.LanguagesTable1 = new HashSet<LanguagesTable>();
             this.LanguagesTable2 = new HashSet<LanguagesTable>();
             this.EventTable1 = new HashSet<EventTable>();
@@ -37,7 +37,7 @@ namespace Face2Face.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReviewTable> ReviewTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LanguagesTable> LanguagesTable { get; set; }
+        public virtual ICollection<LanguagesTable> FluentLanguage { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LanguagesTable> LanguagesTable1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
