@@ -69,10 +69,6 @@ namespace Face2Face
                 ClientId = "38656113977-d9i1473b6hp6itk8j9piv5cjukirnc1i.apps.googleusercontent.com",
                 ClientSecret = "S_kxBXZDkVZQfUhs8_UJITiH"
             });
-<<<<<<< HEAD
-=======
-            }
->>>>>>> bcd4d349501572066a607fb0071c23c34c021eaa
 <<<<
         }
     }

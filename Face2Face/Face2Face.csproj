@@ -19,11 +19,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-<<<<<<< HEAD
-    <IISExpressSSLPort>44307</IISExpressSSLPort>
-=======
     <IISExpressSSLPort>44338</IISExpressSSLPort>
->>>>>>> bcd4d349501572066a607fb0071c23c34c021eaa
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -393,11 +389,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54621</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-<<<<<<< HEAD
-          <IISUrl>https://localhost:44307/</IISUrl>
-=======
           <IISUrl>https://localhost:44338/</IISUrl>
->>>>>>> bcd4d349501572066a607fb0071c23c34c021eaa
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
