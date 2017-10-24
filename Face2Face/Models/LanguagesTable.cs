@@ -25,6 +25,7 @@ namespace Face2Face.Models
     
         public int LanguageID { get; set; }
         public string Language { get; set; }
+        public string C_2LetterCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventTable> EventTable { get; set; }

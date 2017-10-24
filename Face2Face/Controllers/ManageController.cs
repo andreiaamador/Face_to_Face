@@ -72,7 +72,7 @@ namespace Face2Face.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
             };
-            return View(model);
+            return View(); // changeProfile
         }
 
         //

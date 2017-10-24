@@ -1,4 +1,5 @@
-﻿@model Face2Face.Models.IndexViewModel
+﻿@model Face2Face.Models.ChangeProfile
+
 @{
     ViewBag.Title = "Manage";
 }
@@ -8,50 +9,87 @@
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <h4>Change your account settings</h4>
-    <hr />
+    <hr /> 
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Name) </th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Age) </th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Photo) </th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Nacionality) </th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.PhoneNumber) </th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Email) </th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.NativeLanguage) </th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FluentLanguage) </th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.InterestedLanguage) </th>
+        </tr>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Photo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nacionality)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NativeLanguage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FluentLanguage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InterestedLanguage)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "ChangeProfile");
+                  
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+
     <dl class="dl-horizontal">
         <dt>Password:</dt>
         <dd>
             [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
+                @*@Html.ActionLink("Change your password", "ChangePassword")*@
             ]
         </dd>
-     
-        @Html.ActionLink("Edit", "EditUserProfile", "ChangeProfile")
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-        
-
-        
-
-
-
-
-
-
-
-
-
-
+        </dl>
+      @Html.ActionLink("Edit", "EditUserProfile", "ChangeProfile")
 
 
        <!-- <dt>External Logins:</dt>
@@ -114,5 +152,4 @@
                     }
                 }*@
         <!--</dd>  -->
-    </dl>
 </div>

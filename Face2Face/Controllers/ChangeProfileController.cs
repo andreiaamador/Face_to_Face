@@ -14,41 +14,6 @@ namespace Face2Face.Controllers
 
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
-       /* // GET:Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UserProfile/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Nationality, Name, Age, Photo")] UserProfile userProfile)
-        {
-            if (ModelState.IsValid)
-            {
-                db.UserProfile.Add(userProfile);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(userProfile);
-        }
-
-        // POST: User/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Email,PhoneNumber")] AspNetUsers user)
-        {
-            if (ModelState.IsValid)
-            {
-                db.AspNetUsers.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(user);
-        } */
-
-
         // GET: ChangeProfile
         public ActionResult Index()
         {
@@ -69,20 +34,16 @@ namespace Face2Face.Controllers
         // POST : Edit1
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUserProfile([Bind(Include = "Nationality, Name, Age, Photo")] UserProfile userProfile)
+        public ActionResult EditUserProfile([Bind(Include = "Name, Age, Photo,Nationality, PhoneNumber, Email, NativeLanguage, FluentLanguage, InterestedLanguage")] ChangeProfile changeProfile)
         {
             if (ModelState.IsValid)
             {
 
-                
-
-
-
-
+                db.Entry(changeProfile).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(userProfile);
+            return View(changeProfile);
         }
 
 
