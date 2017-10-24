@@ -15,6 +15,8 @@ namespace Face2Face.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private Face2FaceEntities1 db = new Face2FaceEntities1();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -156,7 +158,12 @@ namespace Face2Face.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+                    var userProfile = new UserProfile();
+                    userProfile.UserID = user.Id;
+                    db.UserProfile.Add(userProfile);
+                    db.SaveChanges();
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
