@@ -14,7 +14,8 @@ namespace Face2Face.Models
     
     public partial class NationalityTable
     {
-        public string NationalityID { get; set; }
+        public int NationalityID { get; set; }
+        public string CountryCode { get; set; }
         public string Nationality { get; set; }
     }
 }

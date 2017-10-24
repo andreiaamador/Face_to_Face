@@ -6,93 +6,117 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>EventTable</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Summary)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Summary)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndSignUpDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndSignUpDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxUsers)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MaxUsers)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Budget)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Budget)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LanguagesTable.Language)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LanguagesTable.Language)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserProfile.Nationality)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserProfile.Nationality)
-        </dd>
-
-    </dl>
-</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Create New", "Create")
 </p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Summary)
+        </th>
+    </tr>
+
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
+        @Html.ActionLink("Details", "Details", new { id = Model.EventID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.EventID })
+    </td>
+    </tr>
+    }
+
+</table>
+
+        <div>
+                <h4>EventTable</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Photo)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Photo)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Date)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Summary)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Summary)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EndSignUpDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.EndSignUpDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.MaxUsers)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.MaxUsers)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Budget)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Budget)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.LanguagesTable.Language)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.LanguagesTable.Language)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserProfile.Nationality)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.UserProfile.Nationality)
+                    </dd>
+
+                </dl>
+            </div>
+            
+        @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
+        @Html.ActionLink("Back to List", "Index")
+        </p>

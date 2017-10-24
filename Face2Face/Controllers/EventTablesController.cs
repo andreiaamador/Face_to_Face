@@ -7,12 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Face2Face.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Face2Face.Controllers
 {
     public class EventTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
+        ReviewTable reviewTable = new ReviewTable();
 
         // GET: EventTables
         public ActionResult Index()
@@ -43,8 +45,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality");
             return View();
         }
-
-        // POST: EventTables/Create
+        
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -54,6 +55,8 @@ namespace Face2Face.Controllers
             if (ModelState.IsValid)
             {
                 db.EventTable.Add(eventTable);
+                reviewTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
+                reviewTable.EventID = eventTable.EventID;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -96,6 +99,18 @@ namespace Face2Face.Controllers
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "LanguageID", "Language", eventTable.LanguageID);
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);
             return View(eventTable);
+        }
+
+        //GET: EventTables/Add Review
+        public ActionResult AddReview([Bind(Include = "Review")] ReviewTable reviewTable)
+        {
+            if (ModelState.IsValid)
+            {
+            db.Entry(reviewTable).State = EntityState.Added;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+            }
+            return View();
         }
 
         // GET: EventTables/Delete/5
