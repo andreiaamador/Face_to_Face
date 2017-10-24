@@ -33,6 +33,11 @@ namespace Face2Face.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             EventTable eventTable = db.EventTable.Find(id);
+
+            //ReviewTable r = new ReviewTable();
+            //r.UserID = User.Identity.GetUserId();
+            //r.EventID = eventTable.EventID;
+
             if (eventTable == null)
             {
                 return HttpNotFound();
@@ -55,10 +60,9 @@ namespace Face2Face.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Photo,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable)
         {
-            eventTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
-            
             if (ModelState.IsValid)
             {
+                eventTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
                 db.EventTable.Add(eventTable);
                 db.SaveChanges();
                 return RedirectToAction("Index");

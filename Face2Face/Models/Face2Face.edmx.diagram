@@ -15,15 +15,15 @@
         <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="12" PointY="6.625" />
         <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="5.25" PointY="4.875" />
         <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
-        <AssociationConnector Association="Face2FaceModel.FK_UserProfile_AspNetUsers" />
         <AssociationConnector Association="Face2FaceModel.FK_EventTable_LanguagesTable" />
-        <AssociationConnector Association="Face2FaceModel.FK_EventTable_UserProfile" />
         <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_EventTable" />
-        <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_UserProfile" />
         <AssociationConnector Association="Face2FaceModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="12" PointY="10.25" />
+        <AssociationConnector Association="Face2FaceModel.FK_UserProfile_AspNetUsers" />
+        <AssociationConnector Association="Face2FaceModel.FK_EventTable_UserProfile" />
+        <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_UserProfile" />
         <AssociationConnector Association="Face2FaceModel.FluentLanguage" />
         <AssociationConnector Association="Face2FaceModel.InterestedLanguage" />
         <AssociationConnector Association="Face2FaceModel.NativeLanguage" />
