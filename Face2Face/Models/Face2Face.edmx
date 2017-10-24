@@ -473,6 +473,7 @@
           <EntitySet Name="NationalityTable" EntityType="Face2FaceModel.NationalityTable" />
           <EntitySet Name="ReviewTable" EntityType="Face2FaceModel.ReviewTable" />
           <EntitySet Name="sysdiagrams" EntityType="Face2FaceModel.sysdiagrams" />
+          <EntitySet Name="UserProfile" EntityType="Face2FaceModel.UserProfile" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Face2FaceModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -481,30 +482,29 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserProfile_AspNetUsers" Association="Face2FaceModel.FK_UserProfile_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
           <AssociationSet Name="FK_EventTable_LanguagesTable" Association="Face2FaceModel.FK_EventTable_LanguagesTable">
             <End Role="LanguagesTable" EntitySet="LanguagesTable" />
+            <End Role="EventTable" EntitySet="EventTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventTable_UserProfile" Association="Face2FaceModel.FK_EventTable_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="EventTable" EntitySet="EventTable" />
           </AssociationSet>
           <AssociationSet Name="FK_ReviewTable_EventTable" Association="Face2FaceModel.FK_ReviewTable_EventTable">
             <End Role="EventTable" EntitySet="EventTable" />
             <End Role="ReviewTable" EntitySet="ReviewTable" />
           </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Face2FaceModel.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <EntitySet Name="UserProfile" EntityType="Face2FaceModel.UserProfile" />
-          <AssociationSet Name="FK_UserProfile_AspNetUsers" Association="Face2FaceModel.FK_UserProfile_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="UserProfile" EntitySet="UserProfile" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EventTable_UserProfile" Association="Face2FaceModel.FK_EventTable_UserProfile">
-            <End Role="UserProfile" EntitySet="UserProfile" />
-            <End Role="EventTable" EntitySet="EventTable" />
-          </AssociationSet>
           <AssociationSet Name="FK_ReviewTable_UserProfile" Association="Face2FaceModel.FK_ReviewTable_UserProfile">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="ReviewTable" EntitySet="ReviewTable" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Face2FaceModel.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <AssociationSet Name="FluentLanguage" Association="Face2FaceModel.FluentLanguage">
             <End Role="LanguagesTable" EntitySet="LanguagesTable" />
@@ -522,7 +522,7 @@
             <End Role="EventTable" EntitySet="EventTable" />
             <End Role="UserProfile" EntitySet="UserProfile" />
           </AssociationSet>
-          </EntityContainer>
+        </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -580,8 +580,8 @@
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUserClaims" Relationship="Face2FaceModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
           <NavigationProperty Name="AspNetUserLogins" Relationship="Face2FaceModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Face2FaceModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="AspNetUsers" ToRole="UserProfile" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Face2FaceModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
         <EntityType Name="EventTable">
           <Key>
@@ -599,8 +599,8 @@
           <Property Name="Budget" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FK_EventTable_LanguagesTable" FromRole="EventTable" ToRole="LanguagesTable" />
-          <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_EventTable" FromRole="EventTable" ToRole="ReviewTable" />
           <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="EventTable" ToRole="UserProfile" />
+          <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_EventTable" FromRole="EventTable" ToRole="ReviewTable" />
           <NavigationProperty Name="UserProfile1" Relationship="Face2FaceModel.ParticipantsTable" FromRole="EventTable" ToRole="UserProfile" />
         </EntityType>
         <EntityType Name="LanguagesTable">
@@ -645,6 +645,23 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="UserProfile" ToRole="AspNetUsers" />
+          <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="UserProfile" ToRole="EventTable" />
+          <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_UserProfile" FromRole="UserProfile" ToRole="ReviewTable" />
+          <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FluentLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
+          <NavigationProperty Name="LanguagesTable1" Relationship="Face2FaceModel.InterestedLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
+          <NavigationProperty Name="LanguagesTable2" Relationship="Face2FaceModel.NativeLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
+          <NavigationProperty Name="EventTable1" Relationship="Face2FaceModel.ParticipantsTable" FromRole="UserProfile" ToRole="EventTable" />
+        </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="Face2FaceModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -673,51 +690,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EventTable_LanguagesTable">
-          <End Type="Face2FaceModel.LanguagesTable" Role="LanguagesTable" Multiplicity="0..1" />
-          <End Type="Face2FaceModel.EventTable" Role="EventTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LanguagesTable">
-              <PropertyRef Name="LanguageID" />
-            </Principal>
-            <Dependent Role="EventTable">
-              <PropertyRef Name="LanguageID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ReviewTable_EventTable">
-          <End Type="Face2FaceModel.EventTable" Role="EventTable" Multiplicity="1" />
-          <End Type="Face2FaceModel.ReviewTable" Role="ReviewTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="EventTable">
-              <PropertyRef Name="EventID" />
-            </Principal>
-            <Dependent Role="ReviewTable">
-              <PropertyRef Name="EventID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="Face2FaceModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
-          <End Type="Face2FaceModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
-        </Association>
-        <EntityType Name="UserProfile">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="Nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Age" Type="Int32" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="UserProfile" ToRole="AspNetUsers" />
-          <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="UserProfile" ToRole="EventTable" />
-          <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_UserProfile" FromRole="UserProfile" ToRole="ReviewTable" />
-          <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FluentLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
-          <NavigationProperty Name="LanguagesTable1" Relationship="Face2FaceModel.InterestedLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
-          <NavigationProperty Name="LanguagesTable2" Relationship="Face2FaceModel.NativeLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
-          <NavigationProperty Name="EventTable1" Relationship="Face2FaceModel.ParticipantsTable" FromRole="UserProfile" ToRole="EventTable" />
-        </EntityType>
         <Association Name="FK_UserProfile_AspNetUsers">
           <End Type="Face2FaceModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
           <End Type="Face2FaceModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
@@ -727,6 +699,18 @@
             </Principal>
             <Dependent Role="UserProfile">
               <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventTable_LanguagesTable">
+          <End Type="Face2FaceModel.LanguagesTable" Role="LanguagesTable" Multiplicity="0..1" />
+          <End Type="Face2FaceModel.EventTable" Role="EventTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LanguagesTable">
+              <PropertyRef Name="LanguageID" />
+            </Principal>
+            <Dependent Role="EventTable">
+              <PropertyRef Name="LanguageID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -742,6 +726,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReviewTable_EventTable">
+          <End Type="Face2FaceModel.EventTable" Role="EventTable" Multiplicity="1" />
+          <End Type="Face2FaceModel.ReviewTable" Role="ReviewTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTable">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="ReviewTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReviewTable_UserProfile">
           <End Type="Face2FaceModel.UserProfile" Role="UserProfile" Multiplicity="1" />
           <End Type="Face2FaceModel.ReviewTable" Role="ReviewTable" Multiplicity="*" />
@@ -753,6 +749,10 @@
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="Face2FaceModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+          <End Type="Face2FaceModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
         </Association>
         <Association Name="FluentLanguage">
           <End Type="Face2FaceModel.LanguagesTable" Role="LanguagesTable" Multiplicity="*" />
@@ -887,14 +887,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Face2FaceModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="UserProfile">
             <EntityTypeMapping TypeName="Face2FaceModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">
@@ -906,6 +898,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Face2FaceModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <AssociationSetMapping Name="FluentLanguage" TypeName="Face2FaceModel.FluentLanguage" StoreEntitySet="FluentLanguage">
             <EndProperty Name="UserProfile">
               <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -938,7 +938,7 @@
               <ScalarProperty Name="EventID" ColumnName="EventID" />
             </EndProperty>
           </AssociationSetMapping>
-          </EntityContainerMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

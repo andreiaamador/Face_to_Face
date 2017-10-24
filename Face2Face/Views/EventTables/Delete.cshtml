@@ -4,15 +4,14 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>Delete @Model.Name</h2>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>EventTable</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Event Name
         </dt>
 
         <dd>
@@ -20,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Photo)
+            Photo
         </dt>
 
         <dd>
@@ -28,7 +27,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            Event Date
         </dt>
 
         <dd>
@@ -36,7 +35,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Summary)
+            Summary
         </dt>
 
         <dd>
@@ -44,7 +43,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EndSignUpDate)
+            Final sign up date
         </dt>
 
         <dd>
@@ -52,7 +51,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MaxUsers)
+            Maximum number of participants
         </dt>
 
         <dd>
@@ -60,7 +59,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Budget)
+            Budget
         </dt>
 
         <dd>
@@ -68,7 +67,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Address)
+            Location
         </dt>
 
         <dd>
@@ -76,19 +75,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LanguagesTable.Language)
+            Event Language
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.LanguagesTable.Language)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserProfile.Nationality)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserProfile.Nationality)
         </dd>
 
     </dl>
