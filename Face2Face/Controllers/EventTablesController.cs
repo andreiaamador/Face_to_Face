@@ -120,17 +120,17 @@ namespace Face2Face.Controllers
         //POST: EventTables/Add Review
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddReview([Bind(Include = "EventID, UserID, Review")] ReviewTable reviewTable)
+        //public ActionResult AddReview([Bind(Include = "EventID, UserID, Review")] ReviewTable reviewTable)
+        public ActionResult AddReview(int eventID, String review)
         {
-            EventTable eventTable = new EventTable();
             if (ModelState.IsValid)
             {
-                reviewTable.EventID = eventTable.EventID;
+                reviewTable.EventID = eventID;
                 reviewTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(eventTable);
+            return View("Details");
         }
 
         // GET: EventTables/Delete/5
