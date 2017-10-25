@@ -83,4 +83,17 @@ namespace Face2Face.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
+
+    public class ChangeProfile
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public byte[] Photo { get; set; }
+        public string Nacionality { get; set; }
+        public int PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public string NativeLanguage { get; set; }
+        public string FluentLanguage { get; set; }
+        public string InterestedLanguage { get; set; }
+    }
 }

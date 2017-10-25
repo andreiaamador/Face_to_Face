@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Face2Face.Models;
+using System.Data.Entity;
 
 namespace Face2Face.Controllers
 {
@@ -333,7 +334,40 @@ namespace Face2Face.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+
+        // Adicionado para ChangeProfile (Diego)
+        private Face2FaceEntities1 db = new Face2FaceEntities1(); 
+      
+        //Change Profile
+        // GET: Edit1
+        public ActionResult EditUserProfile(int? id)
+        {
+            UserProfile userProfile = db.UserProfile.Find(id);
+            if (userProfile == null)
+            {
+                return HttpNotFound();
+            }
+            return View(userProfile);
+        }
+
+        // POST : Edit1
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUserProfile([Bind(Include = "Name, Age, Photo,Nationality, PhoneNumber, Email, NativeLanguage, FluentLanguage, InterestedLanguage")] ChangeProfile changeProfile)
+        {
+            if (ModelState.IsValid)
+            {
+
+                db.Entry(changeProfile).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(changeProfile);
+        }
+        //(Diego)
+
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
