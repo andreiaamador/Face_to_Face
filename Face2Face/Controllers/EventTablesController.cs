@@ -55,8 +55,6 @@ namespace Face2Face.Controllers
             if (ModelState.IsValid)
             {
                 db.EventTable.Add(eventTable);
-                reviewTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
-                reviewTable.EventID = eventTable.EventID;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -82,7 +80,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);
             return View(eventTable);
         }
-
+        
         // POST: EventTables/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -101,16 +99,38 @@ namespace Face2Face.Controllers
             return View(eventTable);
         }
 
-        //GET: EventTables/Add Review
-        public ActionResult AddReview([Bind(Include = "Review")] ReviewTable reviewTable)
+        //GET
+        public ActionResult AddReview(int? id)
         {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EventTable eventTable = db.EventTable.Find(id);
+            if (eventTable == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.LanguageID = new SelectList(db.LanguagesTable, "LanguageID", "Language", eventTable.LanguageID);
+            ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);
+            return View("AddReview");
+        }
+
+        //POST: EventTables/Add Review
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddReview([Bind(Include = "EventID, UserID, Review")] ReviewTable reviewTable)
+        {
+            EventTable eventTable = new EventTable();
             if (ModelState.IsValid)
             {
-            db.Entry(reviewTable).State = EntityState.Added;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                reviewTable.EventID = eventTable.EventID;
+                reviewTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View();
+            return View(eventTable);
         }
 
         // GET: EventTables/Delete/5
