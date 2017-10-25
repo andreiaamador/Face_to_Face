@@ -43,16 +43,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
-                @using (Html.BeginForm("Index", "EventTables", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {   
-                    <input type="submit" id="buttonUpload" value="Upload Image" />
-                    <label for="eventImage" id="imageLabel" style="visibility:hidden;"></label>
-                    <input type="file" name="file" id="eventImage" style="visibility:hidden;" />
+                <input type="submit" id="buttonUpload" value="Upload Image" />
+                <label for="eventImage" id="imageLabel" name="Photo" style="visibility:hidden;"></label>
+                <input type="file" id="eventImage" style="visibility:hidden;" />
                     
-                    @ViewBag.Message
-                }
+                @*@Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -121,3 +117,13 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $('#buttonUpload').click(function () {
+            $('#imageLabel').click();
+        })
+    </script>
+}

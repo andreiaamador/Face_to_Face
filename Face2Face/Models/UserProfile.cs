@@ -17,11 +17,11 @@ namespace Face2Face.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserProfile()
         {
-            this.EventTable = new HashSet<EventTable>();
             this.ReviewTable = new HashSet<ReviewTable>();
             this.LanguagesTable = new HashSet<LanguagesTable>();
             this.LanguagesTable1 = new HashSet<LanguagesTable>();
             this.LanguagesTable2 = new HashSet<LanguagesTable>();
+            this.EventTable = new HashSet<EventTable>();
             this.EventTable1 = new HashSet<EventTable>();
         }
     
@@ -33,8 +33,6 @@ namespace Face2Face.Models
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EventTable> EventTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReviewTable> ReviewTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LanguagesTable> LanguagesTable { get; set; }
@@ -42,6 +40,8 @@ namespace Face2Face.Models
         public virtual ICollection<LanguagesTable> LanguagesTable1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LanguagesTable> LanguagesTable2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EventTable> EventTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventTable> EventTable1 { get; set; }
     }

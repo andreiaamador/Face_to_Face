@@ -10,6 +10,7 @@ using Face2Face.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using System.Web.Security;
+using System.Data.SqlClient;
 
 namespace Face2Face.Controllers
 {
@@ -33,10 +34,6 @@ namespace Face2Face.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             EventTable eventTable = db.EventTable.Find(id);
-
-            //ReviewTable r = new ReviewTable();
-            //r.UserID = User.Identity.GetUserId();
-            //r.EventID = eventTable.EventID;
 
             if (eventTable == null)
             {
@@ -100,8 +97,10 @@ namespace Face2Face.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(eventTable).State = EntityState.Modified;
+                eventTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
                 db.SaveChanges();
                 return RedirectToAction("Index");
+
             }
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "LanguageID", "Language", eventTable.LanguageID);
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);

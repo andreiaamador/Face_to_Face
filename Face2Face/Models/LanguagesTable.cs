@@ -17,10 +17,10 @@ namespace Face2Face.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public LanguagesTable()
         {
-            this.EventTable = new HashSet<EventTable>();
             this.UserProfile = new HashSet<UserProfile>();
             this.UserProfile1 = new HashSet<UserProfile>();
             this.UserProfile2 = new HashSet<UserProfile>();
+            this.EventTable = new HashSet<EventTable>();
         }
     
         public int LanguageID { get; set; }
@@ -28,12 +28,12 @@ namespace Face2Face.Models
         public string C_2LetterCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EventTable> EventTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserProfile> UserProfile { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserProfile> UserProfile1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserProfile> UserProfile2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EventTable> EventTable { get; set; }
     }
 }

@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="12" />
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="5.375" />
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="3" PointY="5.5" />
-        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="12.75" PointY="5.625" />
         <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="10.5" PointY="6.375" />
         <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="2.75" PointY="0.75" />
         <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="15" PointY="6.5" />
@@ -19,14 +18,15 @@
         <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Face2FaceModel.FK_UserProfile_AspNetUsers" />
-        <AssociationConnector Association="Face2FaceModel.FK_EventTable_LanguagesTable" />
-        <AssociationConnector Association="Face2FaceModel.FK_EventTable_UserProfile" />
-        <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_EventTable" />
         <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_UserProfile" />
         <AssociationConnector Association="Face2FaceModel.AspNetUserRoles" />
         <AssociationConnector Association="Face2FaceModel.FluentLanguage" />
         <AssociationConnector Association="Face2FaceModel.InterestedLanguage" />
         <AssociationConnector Association="Face2FaceModel.NativeLanguage" />
+        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="12.75" PointY="5.625" />
+        <AssociationConnector Association="Face2FaceModel.FK_EventTable_LanguagesTable" />
+        <AssociationConnector Association="Face2FaceModel.FK_EventTable_UserProfile" />
+        <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_EventTable" />
         <AssociationConnector Association="Face2FaceModel.ParticipantsTable" />
       </Diagram>
     </edmx:Diagrams>
