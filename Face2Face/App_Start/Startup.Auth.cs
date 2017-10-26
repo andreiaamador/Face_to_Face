@@ -57,15 +57,15 @@ namespace Face2Face
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "864730110359194",
+               appSecret: "9ef57b4fbfd4859395c8fb6c1c342f43");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "38656113977-d9i1473b6hp6itk8j9piv5cjukirnc1i.apps.googleusercontent.com",
+                ClientSecret = "S_kxBXZDkVZQfUhs8_UJITiH"
+            });
         }
     }
 }
