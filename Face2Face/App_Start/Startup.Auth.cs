@@ -11,9 +11,6 @@ namespace Face2Face
 {
     public partial class Startup
     {
-        public string ClientId { get; private set; }
-        public string ClientSecret { get; private set; }
-
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -40,7 +37,7 @@ namespace Face2Face
                         user.GenerateUserIdentityAsync(manager),
                     getUserIdCallback: (id) => (id.GetUserId<int>()))
                 }
-            });
+            });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -60,15 +57,15 @@ namespace Face2Face
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-               appId: "864730110359194",
-               appSecret: "9ef57b4fbfd4859395c8fb6c1c342f43");
+            //app.UseFacebookAuthentication(
+            //   appId: "",
+            //   appSecret: "");
 
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = "38656113977-d9i1473b6hp6itk8j9piv5cjukirnc1i.apps.googleusercontent.com",
-                ClientSecret = "S_kxBXZDkVZQfUhs8_UJITiH"
-            });
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "",
+            //    ClientSecret = ""
+            //});
         }
     }
 }
