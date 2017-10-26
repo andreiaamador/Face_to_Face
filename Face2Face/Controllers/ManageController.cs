@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Face2Face.Models;
+using System.Data.Entity;
 
 namespace Face2Face.Controllers
 {
@@ -64,14 +65,28 @@ namespace Face2Face.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId<int>();
-            var model = new IndexViewModel
+            //var model = new IndexViewModel
+            //{
+            //    HasPassword = HasPassword(),
+            //    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+            //    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+            //    Logins = await UserManager.GetLoginsAsync(userId),
+            //    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+            //};
+            var model = new ChangeProfile
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+                Email = db.AspNetUsers.Find(userId).Email,
+                PhoneNumber = db.AspNetUsers.Find(userId).PhoneNumber,
+                Nationality = db.UserProfile.Find(userId).Nationality,
+                Name = db.UserProfile.Find(userId).Name,
+                Age = db.UserProfile.Find(userId).Age,
+                Photo = db.UserProfile.Find(userId).Photo,
+                NativeLanguage = db.LanguagesTable.Find(userId).Language,
+                FluentLanguage = db.LanguagesTable.Find(userId).Language,
+                InterestedLanguage = db.LanguagesTable.Find(userId).Language
             };
+
+
             return View(model);
         }
 
@@ -332,8 +347,39 @@ namespace Face2Face.Controllers
 
             base.Dispose(disposing);
         }
+        // Adicionado para ChangeProfile (Diego)
+        private Face2FaceEntities1 db = new Face2FaceEntities1();
 
-#region Helpers
+        //Change Profile
+        // GET: Edit1
+        public ActionResult EditUserProfile(int? id)
+        {
+            var userProfile = db.UserProfile.Find(id);
+            if (userProfile == null)
+            {
+                return HttpNotFound();
+            }
+            return View(userProfile);
+        }
+
+        // POST : Edit1
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUserProfile([Bind(Include = "Name, Age, Photo,Nationality, PhoneNumber, Email, NativeLanguage, FluentLanguage, InterestedLanguage")] ChangeProfile changeProfile)
+        {
+            if (ModelState.IsValid)
+            {
+
+                db.Entry(changeProfile).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View("Index");
+        }
+        //(Diego)
+
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
