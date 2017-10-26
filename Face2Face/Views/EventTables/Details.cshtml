@@ -119,14 +119,7 @@
                 </dl>
             </div>
 
-          <div>
-
-              <input id="reviewInput" type="text" name="review" />
-            
-              @Html.ActionLink("Add Review", "AddReview","EventTables", new { eventID=Model.EventID})
-
-
-          </div>
+        
             
         @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
         @Html.ActionLink("Back to List", "Index")
