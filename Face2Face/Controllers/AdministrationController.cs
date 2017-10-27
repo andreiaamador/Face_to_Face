@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Face2Face.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Admin")]
     public class AdministrationController : Controller
     {
         // GET: Administration
@@ -14,10 +14,15 @@ namespace Face2Face.Controllers
         {
             return View();
         }
-
         //Eliminar perfis
+        public ActionResult DeleteProfiles()
+        {
+            return View();
+        }
+
         // Gestao Homepage (inclui reporte de abusos)
         [Authorize(Roles = "Users")]
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();

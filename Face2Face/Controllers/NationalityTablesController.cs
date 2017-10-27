@@ -10,16 +10,19 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class NationalityTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
+        [Authorize(Users = "Sara")]
         // GET: NationalityTables
         public ActionResult Index()
         {
             return View(db.NationalityTable.ToList());
         }
 
+        [Authorize(Users = "Sara")]
         // GET: NationalityTables/Details/5
         public ActionResult Details(string id)
         {

@@ -10,7 +10,7 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

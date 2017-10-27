@@ -12,7 +12,7 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
@@ -290,7 +290,7 @@ namespace Face2Face.Controllers
         }
 
         //
-        // GET: /Account/SendCode
+        // GET: /Accou
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
