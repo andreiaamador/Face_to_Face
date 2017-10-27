@@ -13,6 +13,7 @@ using Face2Face.Models;
 namespace Face2Face.Controllers
 {
     [Authorize(Roles = "Admin")]
+    [Authorize]
     public class AccountController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();

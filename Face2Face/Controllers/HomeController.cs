@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Face2Face.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace Face2Face.Controllers
 {
@@ -17,7 +21,7 @@ namespace Face2Face.Controllers
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
+         
             return View();
         }
 

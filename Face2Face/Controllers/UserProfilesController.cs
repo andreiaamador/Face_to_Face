@@ -116,7 +116,9 @@ namespace Face2Face.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             UserProfile userProfile = db.UserProfile.Find(id);
+            AspNetUsers aspNetUser = db.AspNetUsers.Find(id);
             db.UserProfile.Remove(userProfile);
+            db.AspNetUsers.Remove(aspNetUser);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
