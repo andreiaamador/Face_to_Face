@@ -6,7 +6,7 @@
 
 <h2>Create new event</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "EventTables", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -22,14 +22,6 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.UserID, "UserID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
         <div class="form-group">
             @Html.LabelFor(model => model.Name, "Event Name*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -41,15 +33,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @using (Html.BeginForm("Index", "EventTables", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                { <input type="submit" id="buttonUpload" value="Upload Image" />
-                <label for="eventImage" id="imageLabel" style="visibility:hidden;"></label>
-                <input type="file" name="file" id="eventImage" style="visibility:hidden;" />
-
-                    @ViewBag.Message
-                }
-                @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
+                @Html.TextBox("photo", "", new { type = "file" })
+                @*<input type="file" name="photo" id="photo" /><br><br>*@
             </div>
         </div>
 
@@ -97,11 +82,19 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group locationGoogle hidden">
+            @Html.LabelFor(model => model.Address, "Location*", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label id="googleMaps">Google Maps</label>
+            </div>
+        </div>
+
+        <div class="form-group location">
             @Html.LabelFor(model => model.Address, "Location*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                <input type="button" id="GoogleMaps" value="Google Location" />
             </div>
         </div>
 
@@ -124,8 +117,13 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        $('#buttonUpload').click(function () {
-            $('#imageLabel').click();
+        //$('#buttonUpload').click(function () {
+        //    $('#imageLabel').click();
+        //})
+
+        $('#GoogleMaps').click(function () {
+            $('.location').addClass('hidden');
+            $('.locationGoogle').removeClass('hidden');
         })
     </script>
 }

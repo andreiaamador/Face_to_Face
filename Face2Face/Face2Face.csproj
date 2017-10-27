@@ -198,7 +198,6 @@
     <Compile Include="Controllers\LanguagesTablesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NationalityTablesController.cs" />
-    <Compile Include="Controllers\UploadFileController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -216,7 +215,6 @@
     <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CountryModel.cs" />
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
@@ -255,7 +253,6 @@
     <Compile Include="Models\UserProfile.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Venue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -372,7 +369,6 @@
     <Content Include="Views\UserProfiles\Index.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
-    <Content Include="Views\UploadFile\UploadFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
