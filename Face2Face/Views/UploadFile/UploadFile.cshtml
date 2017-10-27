@@ -1,21 +1,12 @@
-﻿
-@{
-    ViewBag.Title = "UploadFile";
+﻿@{
+    ViewBag.Title = "file";
 }
 
-<h2>UploadFile</h2>
-
-@using (Html.BeginForm("UploadFile", "Upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<h2>Upload file</h2>
+@using (Html.BeginForm("file", "upload", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-
-    <div>
-        @Html.TextBox("file", "", new { type = "file" }) <br />
-
-        <input type="submit" value="Upload" />
-
-        @ViewBag.Message
-
-    </div>
-
-
+    <input type="file" name="file" id="file" /><br><br>
+    <input type="submit" value="Upload file" />
+    <br><br>
+    @ViewBag.Message
 }

@@ -15,32 +15,31 @@ namespace Face2Face.Controllers
             return View();
         }
 
-        // GET
         public ActionResult UploadFile()
         {
             return View();
         }
 
-        // POST
         [HttpPost]
-        public ActionResult UploadFile (HttpPostedFileBase file)
+        public ActionResult UploadFile(HttpPostedFileBase file)
         {
-            try
-            {
-                if (file.ContentLength > 0)
+            if (file != null && file.ContentLength > 0)
+                try
                 {
-                    string fileName = Path.GetFileName(file.FileName);
-                    string path = Path.Combine(Server.MapPath("~/UploadedFiles"), fileName);
+                    string path = Path.Combine(Server.MapPath("~/UploadedFiles"),
+                    Path.GetFileName(file.FileName));
                     file.SaveAs(path);
+                    ViewBag.Message = "File uploaded successfully";
                 }
-                ViewBag.Message = "File Uploaded Successfully!!";
-                return View();
-            }
-            catch
+                catch (Exception ex)
+                {
+                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                }
+            else
             {
-                ViewBag.Message = "File upload failed!!";
-                return View();
+                ViewBag.Message = "You have not specified a file.";
             }
+            return View();
         }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using System.Web.Security;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace Face2Face.Controllers
 {
@@ -92,12 +93,32 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Photo,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable)
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable,HttpPostedFileBase photo)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(eventTable).State = EntityState.Modified;
+                //db.Entry(eventTable).State = EntityState.Modified;
                 eventTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
+
+                if (photo != null && photo.ContentLength > 0)
+                    try
+                    {
+                        string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
+                        photo.SaveAs(path);
+                        eventTable.Photo = "~/UploadedFiles/" + photo.FileName;
+                        db.Entry(eventTable).State = EntityState.Modified;
+                        db.SaveChanges();
+                        ViewBag.Message = "File uploaded successfully";
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                    }
+                else
+                {
+                    ViewBag.Message = "You have not specified a file.";
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
 
@@ -140,6 +161,11 @@ namespace Face2Face.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult UploadFile()
+        {
+            return View();
         }
     }
 }

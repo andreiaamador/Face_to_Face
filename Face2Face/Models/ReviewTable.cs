@@ -19,7 +19,7 @@ namespace Face2Face.Models
         public int Classification { get; set; }
         public string Review { get; set; }
     
-        public virtual UserProfile UserProfile { get; set; }
         public virtual EventTable EventTable { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
     }
 }
