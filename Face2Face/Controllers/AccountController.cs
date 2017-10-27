@@ -12,6 +12,7 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
+
     [Authorize]
     public class AccountController : Controller
     {

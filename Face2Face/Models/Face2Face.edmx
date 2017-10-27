@@ -74,7 +74,7 @@
           <Property Name="LanguageID" Type="int" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Photo" Type="image" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="200" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Summary" Type="nvarchar" MaxLength="1000" />
           <Property Name="EndSignUpDate" Type="date" />
@@ -592,6 +592,7 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Photo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Summary" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="EndSignUpDate" Type="DateTime" Precision="0" />
