@@ -53,7 +53,7 @@ namespace Face2Face.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -64,7 +64,7 @@ namespace Face2Face.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var userId = User.Identity.GetUserId<int>();
+
             //var model = new IndexViewModel
             //{
             //    HasPassword = HasPassword(),
@@ -73,21 +73,52 @@ namespace Face2Face.Controllers
             //    Logins = await UserManager.GetLoginsAsync(userId),
             //    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
             //};
-            var model = new ChangeProfile
-            {
-                Email = db.AspNetUsers.Find(userId).Email,
-                PhoneNumber = db.AspNetUsers.Find(userId).PhoneNumber,
-                Nationality = db.UserProfile.Find(userId).Nationality,
-                Name = db.UserProfile.Find(userId).Name,
-                Age = db.UserProfile.Find(userId).Age,
-                Photo = db.UserProfile.Find(userId).Photo,
-                NativeLanguage = db.LanguagesTable.Find(userId).Language,
-                FluentLanguage = db.LanguagesTable.Find(userId).Language,
-                InterestedLanguage = db.LanguagesTable.Find(userId).Language
-            };
+            var model = new ChangeProfile();
+
+            var userId = User.Identity.GetUserId<int>();
+            var user = db.AspNetUsers.Find(userId);
+            var userProfile = db.UserProfile.Find(userId);
+
+
+            model.Email = user.Email;
+            model.PhoneNumber = user.PhoneNumber;
+            model.Nationality = userProfile.Nationality;
+            model.Name = userProfile.Name;
+            model.Age = userProfile.Age;
+            model.Photo = userProfile.Photo;
+
+            //model.FluentLanguage = userProfile.LanguagesTable;
+            //model.InterestedLanguage = userProfile.LanguagesTable1;
+            //model.NativeLanguage = userProfile.LanguagesTable2;
 
 
             return View(model);
+        }
+
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(ChangeProfile model)
+        {
+            var userId = User.Identity.GetUserId<int>();
+            var user = db.AspNetUsers.Find(userId);
+            var userProfile = db.UserProfile.Find(userId);
+
+            userProfile.Name = model.Name;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            userProfile.Nationality = model.Nationality;
+            userProfile.Age = model.Age;
+            userProfile.Photo = model.Photo;
+
+            //userProfile.LanguagesTable = model.FluentLanguage;
+            //userProfile.LanguagesTable1 = model.InterestedLanguage;
+            //userProfile.LanguagesTable2 = model.NativeLanguage;
+
+
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
         }
 
         //

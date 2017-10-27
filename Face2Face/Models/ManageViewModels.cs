@@ -91,8 +91,8 @@ namespace Face2Face.Models
         public string Nationality { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string NativeLanguage { get; set; }
-        public string FluentLanguage { get; set; }
-        public string InterestedLanguage { get; set; }
+        public ICollection<LanguagesTable> NativeLanguage { get; set; }
+        public ICollection<LanguagesTable> FluentLanguage { get; set; }
+        public ICollection<LanguagesTable> InterestedLanguage { get; set; }
     }
 }
