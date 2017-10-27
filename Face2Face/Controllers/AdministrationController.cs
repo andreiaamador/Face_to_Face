@@ -21,7 +21,6 @@ namespace Face2Face.Controllers
         }
 
         // Gestao Homepage (inclui reporte de abusos)
-        [Authorize(Roles = "Users")]
         [AllowAnonymous]
         public ActionResult Login()
         {

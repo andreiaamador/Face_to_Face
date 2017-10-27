@@ -15,14 +15,14 @@ namespace Face2Face.Controllers
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
-        [Authorize(Users = "Sara")]
+        
         // GET: NationalityTables
         public ActionResult Index()
         {
             return View(db.NationalityTable.ToList());
         }
 
-        [Authorize(Users = "Sara")]
+        
         // GET: NationalityTables/Details/5
         public ActionResult Details(string id)
         {
