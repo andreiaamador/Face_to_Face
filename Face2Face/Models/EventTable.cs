@@ -25,7 +25,7 @@ namespace Face2Face.Models
         public Nullable<int> LanguageID { get; set; }
         public int UserID { get; set; }
         public string Name { get; set; }
-        public byte[] Photo { get; set; }
+        public string Photo { get; set; }
         public System.DateTime Date { get; set; }
         public string Summary { get; set; }
         public Nullable<System.DateTime> EndSignUpDate { get; set; }
