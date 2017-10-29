@@ -56,7 +56,7 @@
 
     <div class="row">
 
-        <div class="col-md-8" col-centered style="height: 450px; overflow: auto;">
+        <div class="col-md-8" style="height: 450px; overflow: auto;">
             <table class="table">
                 @foreach (var item in Model)
                 {
@@ -84,9 +84,10 @@
 
 
                             @{
+                                double reviews = 3.5;
                                 if (item.UserProfile.ReviewTable.Count != 0)
                                 {
-                                    int reviews = 0;
+
                                     foreach (var rev in item.UserProfile.ReviewTable)
                                     {
 
@@ -94,15 +95,23 @@
                                     }
                                     reviews = reviews / @item.UserProfile.ReviewTable.Count;
                                 }
+                            }
+                            
+                            @if (reviews != 0)
+                            {
+                                @reviews
 
-                                else
+                                int i;
+                                for (i=0 ; i < Math.Floor(reviews); i++)
                                 {
-
+                                    <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                }
+                                if (reviews > i)
+                                {
+                                    <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
 
                                 }
                             }
-                            
-                            
 
 
                         </td>
@@ -157,7 +166,6 @@
                 <input type="submit" value="Search">
             }
         </div>
-
     </div>
 
 </div>
