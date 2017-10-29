@@ -1,0 +1,23 @@
+﻿@{
+    Layout = null;
+}
+
+<style>
+    select {
+        padding-right: 5px;
+        margin: 5px;
+        border-radius: 10px;
+        width: 140px;
+        height: 25px;
+    }
+</style>
+
+
+
+<select name="Language">
+    <option>--Select--</option>
+    @foreach (var item in Model)
+    {
+        <option>@item.Language</option>
+    }
+</select>

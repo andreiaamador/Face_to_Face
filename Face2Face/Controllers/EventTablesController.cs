@@ -15,11 +15,93 @@ namespace Face2Face.Controllers
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
         // GET: EventTables
+        public ActionResult EventsList()
+        {
+            var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
+            return View(eventTable.ToList());
+        }
+
+        // POST:
+        [HttpPost]
+        public ActionResult Filter(string Location, string Date, string Language, string keyWord)
+        {
+            //List<EventTable> eventTable = new List<EventTable>();
+            string sqlQuery;
+            int languageID = 0;
+
+            if (Location != "" || Date != "" || Language != "--Select--" || keyWord != "")
+            {
+                sqlQuery = "select * from EventTable where";
+                if (Location != "")
+                {
+                    sqlQuery = string.Format("{0} {1}", sqlQuery, "lower(Address) like lower('%" + Location + "%')");
+                }
+
+                if (Language != "--Select--")
+                {
+                    foreach (var item in db.LanguagesTable)
+                    {
+                        if (item.Language == Language)
+                        {
+                            languageID = item.LanguageID;
+                            break;
+                        }
+                    }
+
+                    if (Location == "")
+                    {
+                        sqlQuery = string.Format("{0} {1}", sqlQuery, "LanguageID = " + languageID + "");
+                    }
+                    else
+                    {
+                        sqlQuery = string.Format("{0} {1}", sqlQuery, "and LanguageID = " + languageID + "");
+                    }
+                }
+
+                if (Date != "")
+                {
+                    if (Location == "" && Language == "--Select--")
+                    {
+                        sqlQuery = string.Format("{0} {1}", sqlQuery, "lower(Date) like lower('%" + Date + "%')");
+                    }
+                    else
+                    {
+                        sqlQuery = string.Format("{0} {1}", sqlQuery, "and lower(Date) like lower('%" + Date + "%')");
+                    }
+                }
+
+                if (keyWord != "")
+                {
+                    if (Location == "" && Language == "--Select--" && Date == "")
+                    {
+                        sqlQuery = string.Format("{0} {1}", sqlQuery, "lower(Name) like lower('%" + keyWord + "%') or lower(Summary) like lower('%" + keyWord + "%')");
+                    }
+                    else
+                    {
+                        sqlQuery = string.Format("{0} {1}", sqlQuery, "and lower(Name) like lower('%" + keyWord + "%') or lower(Summary) like lower('%" + keyWord + "%')");
+                    }
+                }
+
+                var eventTable=db.EventTable.SqlQuery(sqlQuery);
+
+                //ViewBag.eventTable = db.EventTable.SqlQuery(sqlQuery);
+
+                return View("EventsList", eventTable.ToList());
+            }
+            else
+            {
+                return View("EventsList", db.EventTable.ToList());
+            }
+        }
+
+
+        // GET: EventTables
         public ActionResult Index()
         {
             var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
             return View(eventTable.ToList());
         }
+
 
         // GET: EventTables/Details/5
         public ActionResult Details(int? id)
