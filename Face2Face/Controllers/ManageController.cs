@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Face2Face.Models;
 using System.Data.Entity;
+using System.Net;
 
 namespace Face2Face.Controllers
 {
@@ -86,7 +87,7 @@ namespace Face2Face.Controllers
             model.Name = userProfile.Name;
             model.Age = userProfile.Age;
             model.Photo = userProfile.Photo;
-
+            
             //model.FluentLanguage = userProfile.LanguagesTable;
             //model.InterestedLanguage = userProfile.LanguagesTable1;
             //model.NativeLanguage = userProfile.LanguagesTable2;
@@ -400,13 +401,13 @@ namespace Face2Face.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 db.Entry(changeProfile).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View("Index");
         }
+    
         //(Diego)
 
 
