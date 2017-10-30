@@ -10,7 +10,7 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -50,7 +50,7 @@ namespace Face2Face.Controllers
             }
         }
 
-        //
+        [Authorize(Roles = "User")]
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
