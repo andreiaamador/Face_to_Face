@@ -88,9 +88,9 @@ namespace Face2Face.Controllers
             model.Age = userProfile.Age;
             model.Photo = userProfile.Photo;
             
-            //model.FluentLanguage = userProfile.LanguagesTable;
-            //model.InterestedLanguage = userProfile.LanguagesTable1;
-            //model.NativeLanguage = userProfile.LanguagesTable2;
+            model.FluentLanguage = userProfile.LanguagesTable;
+            model.InterestedLanguage = userProfile.LanguagesTable1;
+            model.NativeLanguage = userProfile.LanguagesTable2;
 
 
             return View(model);

@@ -83,8 +83,15 @@ namespace Face2Face.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
+
     public class ChangeProfile
     {
+
+        public ChangeProfile() {
+            this.NativeLanguage = new HashSet<LanguagesTable>();
+            this.FluentLanguage = new HashSet<LanguagesTable>();
+            this.InterestedLanguage = new HashSet<LanguagesTable>();
+        }
         public string Name { get; set; }
         public int? Age { get; set; }
         public byte[] Photo { get; set; }
