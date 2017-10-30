@@ -6,8 +6,6 @@
 }
 
 <style>
-    img {
-    }
 
     #eventImg:hover {
         opacity: 0.8;
@@ -47,12 +45,25 @@
         padding: 10px;
     }
 
-    .event img {
-        height: 100PX;
-        width: 100PX;
+        .event img {
+            height: 100PX;
+            width: 100PX;
+            margin: 5px;
+        }
+
+    container-fluid p {
+        margin: 5px;
     }
 
-    .eve.
+    h1 {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    h2 {
+        font-size: 14px;
+        font-weight: bold;
+    }
 </style>
 
 <h2>EventsList</h2>
@@ -78,25 +89,31 @@
                         <div class="row">
 
                             <div class="col-md-3">
-
                                 <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
                                     @if (item.Photo != null)
-                                    {
-                                        <img src="~/Content/Images/avatar.png">
+                                    {                                   
+                                        <img src=@item.Photo>
                                     }
                                     else
                                     {
                                         <img src="~/Content/Images/no-photo-available.png">
                                     }
                                 </a>
-
-
                             </div>
 
-                            <div class="ccol-md-7">
-                                @item.Name <br />
-                                Location: @item.Address <br />
-                                Summary: @item.Summary
+                            <div class="col-md-9">
+                                <h1>
+                                    @item.Name <br />
+                                </h1>
+                               
+                                <p>     
+                                    Location:
+                                    @item.Address <br />
+                                </p>
+
+                                <p>
+                                    Summary: @item.Summary
+                                </p>
                             </div>
 
                         </div>
