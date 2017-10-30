@@ -103,7 +103,37 @@
 
                             <div class="col-md-9">
                                 <h1>
-                                    @item.Name <br />
+                                    @item.Name 
+                                    
+                                    @*@{
+                                        double reviews = 1.5;
+                                        if (item.ReviewTable.Count != 0)
+                                        {
+                                            foreach (var rev in item.ReviewTable)
+                                            {
+
+                                                reviews = reviews + @rev.Classification;
+                                            }
+                                            reviews = reviews / @item.ReviewTable.Count;
+                                        }
+                                    }
+
+                                    @if (reviews != 0)
+                                    {
+                                        @reviews
+
+                                        int i;
+                                        for (i = 0; i < Math.Floor(reviews); i++)
+                                        {
+                                            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                        }
+                                        if (reviews > i)
+                                        {
+                                            <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                        }
+                                    }*@
+
+                                    <br />
                                 </h1>
                                
                                 <p>     
@@ -153,10 +183,7 @@
                         </div>
 
                     </div>
-
-
                                     }
-
             </div>
 
         </div>

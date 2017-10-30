@@ -412,6 +412,7 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\LanguagesTables\selectLanguage.cshtml" />
     <Content Include="Views\EventTables\EventsList.cshtml" />
+    <Content Include="Views\UserProfiles\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

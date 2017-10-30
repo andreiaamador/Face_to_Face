@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Face2Face.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Face2Face.Controllers
 {
@@ -14,8 +15,14 @@ namespace Face2Face.Controllers
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
-        // GET: UserProfiles
-        public ActionResult Index()
+        //// GET: UserProfiles
+        //public ActionResult GetOwnProfile()
+        //{
+        //    return View("",db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
+        //}
+
+            // GET: UserProfiles
+            public ActionResult Index()
         {
             var userProfile = db.UserProfile.Include(u => u.AspNetUsers);
             return View(userProfile.ToList());
