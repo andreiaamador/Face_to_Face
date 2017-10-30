@@ -11,9 +11,6 @@ namespace Face2Face
 {
     public partial class Startup
     {
-        public string ClientId { get; private set; }
-        public string ClientSecret { get; private set; }
-
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -40,7 +37,7 @@ namespace Face2Face
                         user.GenerateUserIdentityAsync(manager),
                     getUserIdCallback: (id) => (id.GetUserId<int>()))
                 }
-            });
+            });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
