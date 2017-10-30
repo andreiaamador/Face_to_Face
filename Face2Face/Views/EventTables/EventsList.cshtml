@@ -7,8 +7,6 @@
 
 <style>
     img {
-        height: 100PX;
-        width: 100PX;
     }
 
     #eventImg:hover {
@@ -40,6 +38,21 @@
         background-color: darkgray;
         margin: 5px;
     }
+
+    .event {
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .event img {
+        height: 100PX;
+        width: 100PX;
+    }
+
+    .eve.
 </style>
 
 <h2>EventsList</h2>
@@ -57,69 +70,78 @@
     <div class="row">
 
         <div class="col-md-8" style="height: 450px; overflow: auto;">
-            <table class="table">
+            <div>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
-                                @if (item.Photo != null)
-                                {
-                                    <img src="~/Content/Images/avatar.png">
-                                }
-                                else
-                                {
-                                    <img src="~/Content/Images/no-photo-available.png">
-                                }
-                            </a>
-                        </td>
-                        <td>
-                            @item.Name
-                            <br>
-                            @item.Address
-                        </td>
+                    <div class="container-fluid event">
 
-                        <td>
-                            @item.UserProfile.Name
+                        <div class="row">
 
+                            <div class="col-md-3">
 
-                            @{
-                                double reviews = 3.5;
-                                if (item.UserProfile.ReviewTable.Count != 0)
-                                {
-
-                                    foreach (var rev in item.UserProfile.ReviewTable)
+                                <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
+                                    @if (item.Photo != null)
                                     {
-
-                                        reviews = reviews + @rev.Classification;
+                                        <img src="~/Content/Images/avatar.png">
                                     }
-                                    reviews = reviews / @item.UserProfile.ReviewTable.Count;
-                                }
-                            }
-                            
-                            @if (reviews != 0)
-                            {
-                                @reviews
+                                    else
+                                    {
+                                        <img src="~/Content/Images/no-photo-available.png">
+                                    }
+                                </a>
 
-                                int i;
-                                for (i=0 ; i < Math.Floor(reviews); i++)
+
+                            </div>
+
+                            <div class="ccol-md-7">
+                                @item.Name <br />
+                                Location: @item.Address <br />
+                                Summary: @item.Summary
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                @item.UserProfile.Name
+                                @{
+                                    double reviews = 1.5;
+                                    if (item.UserProfile.ReviewTable.Count != 0)
+                                    {
+                                        foreach (var rev in item.UserProfile.ReviewTable)
+                                        {
+
+                                            reviews = reviews + @rev.Classification;
+                                        }
+                                        reviews = reviews / @item.UserProfile.ReviewTable.Count;
+                                    }
+                                }
+
+                                @if (reviews != 0)
                                 {
-                                    <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                    @reviews
+
+                                    int i;
+                                    for (i = 0; i < Math.Floor(reviews); i++)
+                                    {
+                                        <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                    }
+                                    if (reviews > i)
+                                    {
+                                        <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                    }
                                 }
-                                if (reviews > i)
-                                {
-                                    <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                            </div>
+                        </div>
 
-                                }
-                            }
+                    </div>
 
 
-                        </td>
+                                    }
 
-                    </tr>
-                 }
+            </div>
 
-            </table>
         </div>
 
         <div id="filters" class="col-md-3">
