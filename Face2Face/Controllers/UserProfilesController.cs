@@ -10,18 +10,18 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "User")]
     public class UserProfilesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
-        [Authorize(Roles = "User")]
+        
         // GET: UserProfiles
         public ActionResult Index()
         {
             var userProfile = db.UserProfile.Include(u => u.AspNetUsers);
             return View(userProfile.ToList());
         }
-        [Authorize(Roles = "User")]
+        
         // GET: UserProfiles/Details/5
         public ActionResult Details(int? id)
         {
@@ -36,14 +36,14 @@ namespace Face2Face.Controllers
             }
             return View(userProfile);
         }
-        [Authorize(Roles = "User")]
+        
         // GET: UserProfiles/Create
         public ActionResult Create()
         {
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email");
             return View();
         }
-        [Authorize(Roles = "User")]
+        
         // POST: UserProfiles/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -61,7 +61,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email", userProfile.UserID);
             return View(userProfile);
         }
-        [Authorize(Roles = "User")]
+        
         // GET: UserProfiles/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -77,7 +77,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email", userProfile.UserID);
             return View(userProfile);
         }
-        [Authorize(Roles = "User")]
+        
         // POST: UserProfiles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -94,7 +94,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email", userProfile.UserID);
             return View(userProfile);
         }
-        [Authorize(Roles = "User")]
+       
         // GET: UserProfiles/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -109,7 +109,7 @@ namespace Face2Face.Controllers
             }
             return View(userProfile);
         }
-        [Authorize(Roles = "User")]
+        
         // POST: UserProfiles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

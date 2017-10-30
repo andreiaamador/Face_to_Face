@@ -6,7 +6,8 @@ using System.Web.Mvc;
 
 namespace Face2Face.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "User")]
     public class AdministrationController : Controller
     {
         // GET: Administration

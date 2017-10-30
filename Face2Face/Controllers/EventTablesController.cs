@@ -15,7 +15,7 @@ using System.IO;
 
 namespace Face2Face.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "User")]
     public class EventTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();

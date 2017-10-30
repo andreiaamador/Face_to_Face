@@ -10,7 +10,8 @@ using System.Xml.Linq;
 
 namespace Face2Face.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     public class HomeController : Controller
     {
         public ActionResult Index()

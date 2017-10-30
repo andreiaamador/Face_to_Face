@@ -29,9 +29,9 @@ namespace Face2Face
 
                 var user = new ApplicationUser();
                 user.UserName = "Admin";
-                user.Email = "altario13@outlook.com";
+                user.Email = "saralopesr@gmail.com";
 
-                string userPWD = "Upacademy1!";
+                string userPWD = "hau94r99";
 
                 var chkUser = UserManager.Create(user,userPWD);
 
