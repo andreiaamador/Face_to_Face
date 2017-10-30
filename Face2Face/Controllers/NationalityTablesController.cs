@@ -91,7 +91,7 @@ namespace Face2Face.Controllers
             }
             return View(nationalityTable);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: NationalityTables/Delete/5
         public ActionResult Delete(string id)
         {
@@ -106,7 +106,7 @@ namespace Face2Face.Controllers
             }
             return View(nationalityTable);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: NationalityTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
