@@ -29,7 +29,7 @@ namespace Face2Face.Models
         public string Nationality { get; set; }
         public string Name { get; set; }
         public Nullable<int> Age { get; set; }
-        public byte[] Photo { get; set; }
+        public string Photo { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
