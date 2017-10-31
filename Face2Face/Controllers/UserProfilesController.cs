@@ -15,14 +15,15 @@ namespace Face2Face.Controllers
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
-        //// GET: UserProfiles
-        //public ActionResult GetOwnProfile()
-        //{
-        //    return View("",db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
-        //}
+        // GET: UserProfiles
+        public ActionResult GetOwnProfile()
+        {
+            return View("ProfilePartial", db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
+            //return View("ProfilePartial", db.UserProfile.Find(Convert.ToInt32(13)));
+        }
 
-            // GET: UserProfiles
-            public ActionResult Index()
+        // GET: UserProfiles
+        public ActionResult Index()
         {
             var userProfile = db.UserProfile.Include(u => u.AspNetUsers);
             return View(userProfile.ToList());

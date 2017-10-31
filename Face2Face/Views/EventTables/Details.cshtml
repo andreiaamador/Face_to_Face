@@ -1,89 +1,269 @@
 ﻿@model Face2Face.Models.EventTable
 
-@{
-    ViewBag.Title = "Details";
-}
 
-<h2>Details of @Model.Name</h2>
+<style>
+    .evendDetails, .participantsDetails {
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
+        padding: 10px;
+        /*text-align: center*/
+    }
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Event Name
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+    .evendDetails img {
+        height: 150px;
+        width: 150px;
+    }
+        .participantsDetails img {
+            height: 40px;
+            width: 40px;
+        }
+</style>
+@*@{
+        ViewBag.Title = "Details";
+    }*@
 
-        <dt>
-            Photo
-        </dt>
+@*<h2>Details of @Model.Name</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Event Name
+            </dt>
 
-        <dt>
-            Event Date
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+            <dt>
+                Photo
+            </dt>
 
-        <dt>
-            Summary
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Photo)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Summary)
-        </dd>
+            <dt>
+                Event Date
+            </dt>
 
-        <dt>
-            Final sign up date
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Date)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndSignUpDate)
-        </dd>
+            <dt>
+                Summary
+            </dt>
 
-        <dt>
-            Maximum number of participants
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Summary)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.MaxUsers)
-        </dd>
+            <dt>
+                Final sign up date
+            </dt>
 
-        <dt>
-            Budget
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.EndSignUpDate)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Budget)
-        </dd>
+            <dt>
+                Maximum number of participants
+            </dt>
 
-        <dt>
-            Location
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MaxUsers)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dt>
+                Budget
+            </dt>
 
-        <dt>
-            Event Language
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Budget)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LanguagesTable.Language)
-        </dd>
+            <dt>
+                Location
+            </dt>
 
-    </dl>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                Event Language
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LanguagesTable.Language)
+            </dd>
+
+        </dl>
+    </div>*@
+
+
+
+<div class="row">
+    <div class="col-md-7 col-md-offset-1 evendDetails">
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-3">
+
+                    @{
+                        if (Model.Photo != null)
+                        {
+                            <img src=@Model.Photo>
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/no-photo-available.png">
+                        }
+                    }
+                </div>
+
+                <div class="col-md-9">
+
+                    <p>
+                        @Model.Name
+                    </p>
+                    <p>
+                        <label>Address: </label>
+                        @Model.Address;
+                    </p>
+
+                    <p>
+                        <label>Date: </label>
+                        @Model.Date
+                    </p>
+                    <p align="justify">
+                        <label>Summary: </label>
+                        @Model.Summary
+                    </p>
+
+                    <p>
+                        <label>
+                            Language:
+                        </label>
+                        @Model.LanguagesTable.Language
+                    </p>
+
+
+                    <p>
+                        <label>
+                            Max. Users:
+                        </label>
+                        @Model.MaxUsers
+                    </p>
+
+                    <p>
+                        <label>
+                            Budget:
+                        </label>
+                        @Model.Budget
+                    </p>
+
+                    @{
+                        if (String.Format("{0:MM/dd/yyyy}", Model.EndSignUpDate) != "")
+                        {
+                            <p>
+                                <label>Final sign up date: </label>
+                                @Model.EndSignUpDate
+                            </p>
+                        }
+                    }
+                </div>
+
+            </div>
+
+            @{
+                bool isPart = false;
+
+                foreach (var user in Model.UserProfile1)
+                {
+                    if (user.UserID == Model.UserID)
+                    {
+                        isPart = true;
+                        break;
+                    }
+                }
+
+                if (isPart)
+                {
+                    <input type="button" value="Don't Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
+                }
+                else
+                {
+                    <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
+                }
+
+
+            }
+
+            
+            
+        </div>
+
+    </div>
+
+    <div class="col-md-3 participantsDetails">
+
+   
+            <div class="row">
+
+                @foreach (var part in Model.UserProfile1)
+                {
+
+                    <div class="col-md-3 col-md-offset-1">
+
+                        <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID})'>
+
+                            @{
+                                if (@part.Photo == null)
+                                {
+                                    <img src=@part.Photo>
+                                }
+                                else
+                                {
+                                    <img src="~/Content/Images/no-photo-available.png">
+                                }
+                            }
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-7">
+                        @part.Name;
+
+                    </div>
+
+                  }
+
+            </div>
+     
+
+
+
+
+    </div>
+
+
 </div>
+
+
+
+
 <p>
+
+   
+    @Html.ActionLink("Go", "GoToEvent", new { id = Model.EventID }) |
+
+
     @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
-    @Html.ActionLink("Back to List", "Index")
+
+    @*@Html.ActionLink("Back to List", "Index")*@
 </p>
