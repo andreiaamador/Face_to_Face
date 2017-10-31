@@ -158,7 +158,7 @@
           <Property Name="Nationality" Type="nvarchar" MaxLength="50" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Age" Type="int" />
-          <Property Name="Photo" Type="image" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -522,7 +522,7 @@
             <End Role="EventTable" EntitySet="EventTable" />
             <End Role="UserProfile" EntitySet="UserProfile" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -653,7 +653,7 @@
           <Property Name="Nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Age" Type="Int32" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Photo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUsers" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="UserProfile" ToRole="AspNetUsers" />
           <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="UserProfile" ToRole="EventTable" />
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_UserProfile" FromRole="UserProfile" ToRole="ReviewTable" />
@@ -938,7 +938,7 @@
               <ScalarProperty Name="EventID" ColumnName="EventID" />
             </EndProperty>
           </AssociationSetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

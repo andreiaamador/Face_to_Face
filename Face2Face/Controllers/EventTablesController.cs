@@ -15,7 +15,7 @@ using System.IO;
 
 namespace Face2Face.Controllers
 {
-    [Authorize(Roles = "User")]
+    ////[Authorize(Roles = "User")]
     public class EventTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
@@ -224,7 +224,8 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);
             return View(eventTable);
         }
-        [Authorize(Roles = "Admin")]
+
+        
         // GET: EventTables/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -239,7 +240,7 @@ namespace Face2Face.Controllers
             }
             return View(eventTable);
         }
-        [Authorize(Roles = "Admin")]
+        
         // POST: EventTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

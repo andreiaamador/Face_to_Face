@@ -10,7 +10,7 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-    [Authorize(Roles = "User")]
+    //[Authorize(Roles = "User")]
     public class NationalityTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
@@ -91,7 +91,7 @@ namespace Face2Face.Controllers
             }
             return View(nationalityTable);
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         // GET: NationalityTables/Delete/5
         public ActionResult Delete(string id)
         {
@@ -106,7 +106,7 @@ namespace Face2Face.Controllers
             }
             return View(nationalityTable);
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         // POST: NationalityTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

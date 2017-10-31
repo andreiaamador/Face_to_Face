@@ -12,8 +12,8 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    //[Authorize(Roles = "User")]
+    ////[Authorize(Roles = "Admin")]
+    ////[Authorize(Roles = "User")]
     public class AccountController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
@@ -393,7 +393,7 @@ namespace Face2Face.Controllers
             return View(model);
         }
 
-        //[Authorize(Roles = "User")]
+        ////[Authorize(Roles = "User")]
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]

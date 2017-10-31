@@ -10,7 +10,7 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-    [Authorize(Roles = "User")]
+    //[Authorize(Roles = "User")]
     public class UserProfilesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
