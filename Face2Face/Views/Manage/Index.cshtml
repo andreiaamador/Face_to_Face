@@ -31,8 +31,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Photo, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
+                @Html.TextBox("photo", "", new { type = "file" })
+                @*<input type="file" name="photo" id="photo" /><br><br>*@
             </div>
         </div>
 
@@ -76,8 +76,8 @@
                 </div>
 
                 @Html.Action("selectLanguage", "Languagestables")
-                <input id="addNative" type="button" value="add"> 
-
+                <input id="addNative" type="button" value="add">
+   
             </div>
         </div>
 
@@ -157,7 +157,7 @@
 
         $("#addNative").click(function () {
 
-            $(".nativeLanguage").append("<label>ola </label>");
+            $(".nativeLanguage").append("<label>J</label>");
         });
 
     </script>

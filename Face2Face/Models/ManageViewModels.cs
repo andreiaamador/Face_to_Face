@@ -94,7 +94,7 @@ namespace Face2Face.Models
         }
         public string Name { get; set; }
         public int? Age { get; set; }
-        public byte[] Photo { get; set; }
+        public string Photo { get; set; }
         public string Nationality { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }

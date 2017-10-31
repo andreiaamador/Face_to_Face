@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using Face2Face.Models;
 using System.Data.Entity;
 using System.Net;
+using System.IO;
 
 namespace Face2Face.Controllers
 {
@@ -112,9 +113,9 @@ namespace Face2Face.Controllers
             userProfile.Age = model.Age;
             userProfile.Photo = model.Photo;
 
-            //userProfile.LanguagesTable = model.FluentLanguage;
-            //userProfile.LanguagesTable1 = model.InterestedLanguage;
-            //userProfile.LanguagesTable2 = model.NativeLanguage;
+            userProfile.LanguagesTable = model.FluentLanguage;
+            userProfile.LanguagesTable1 = model.InterestedLanguage;
+            userProfile.LanguagesTable2 = model.NativeLanguage;
 
 
             db.SaveChanges();
@@ -397,11 +398,28 @@ namespace Face2Face.Controllers
         // POST : Edit1
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditUserProfile([Bind(Include = "Name, Age, Photo,Nationality, PhoneNumber, Email, NativeLanguage, FluentLanguage, InterestedLanguage")] ChangeProfile changeProfile)
+        public ActionResult EditUserProfile([Bind(Include = "Name, Age,Nationality, PhoneNumber, Email, NativeLanguage, FluentLanguage, InterestedLanguage")] ChangeProfile changeProfile, HttpPostedFileBase photo)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(changeProfile).State = EntityState.Modified;
+                if (photo != null && photo.ContentLength > 0)
+                    try
+                    {
+                        string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
+                        photo.SaveAs(path);
+                        changeProfile.Photo = "/UploadedFiles/" + Path.GetFileName(photo.FileName);
+                        db.Entry(changeProfile).State = EntityState.Modified;
+                        db.SaveChanges();
+                        ViewBag.Message = "File uploaded successfully";
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                    }
+                else
+                {
+                    ViewBag.Message = "You have not specified a file.";
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
