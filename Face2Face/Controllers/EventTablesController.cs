@@ -136,7 +136,7 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo)
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget, Address")] EventTable eventTable, HttpPostedFileBase photo, string address)
         {
             if (ModelState.IsValid)
             {
@@ -158,6 +158,10 @@ namespace Face2Face.Controllers
                 else
                 {
                     ViewBag.Message = "You have not specified a file.";
+                }
+                if(address != null)
+                {
+                    eventTable.Address = address;
                 }
                 db.EventTable.Add(eventTable);
                 db.SaveChanges();
