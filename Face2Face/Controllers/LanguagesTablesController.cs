@@ -15,6 +15,11 @@ namespace Face2Face.Controllers
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
+        public ActionResult selectLanguage()
+        {
+            return View("selectLanguage", db.LanguagesTable.ToList());
+        }
+
         // GET: LanguagesTables
         public ActionResult Index()
         {

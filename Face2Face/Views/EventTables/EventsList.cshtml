@@ -1,0 +1,285 @@
+﻿@model IEnumerable<Face2Face.Models.EventTable>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+
+    #eventImg:hover {
+        opacity: 0.8;
+        text-decoration: none;
+    }
+
+    .fa:hover {
+        cursor: pointer;
+    }
+
+    .location:hover {
+        cursor: pointer;
+    }
+
+    #filters input {
+        margin: 5px;
+        border-radius: 10px;
+        width: 140px;
+        color: black;
+    }
+
+    #filters {
+        color: white;
+        min-width: 150px;
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
+        background-color: darkgray;
+        margin: 5px;
+    }
+
+    .event {
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
+        margin: 5px;
+        padding: 10px;
+    }
+
+        .event img {
+            height: 100PX;
+            width: 100PX;
+            margin: 5px;
+        }
+
+    container-fluid p {
+        margin: 5px;
+    }
+
+    h1 {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    h2 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+</style>
+
+<h2>EventsList</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<a Id="filtersIcon">Search Filters</a>
+<i class="fa fa-search-minus search" aria-hidden="true"></i>
+<i class="fa fa-search-plus search hidden" aria-hidden="true"></i>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-8" style="height: 450px; overflow: auto;">
+            <div>
+                @foreach (var item in Model)
+                {
+                    <div class="container-fluid event">
+
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
+                                    @if (item.Photo != null)
+                                    {                                   
+                                        <img src=@item.Photo>
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Images/no-photo-available.png">
+                                    }
+                                </a>
+                            </div>
+
+                            <div class="col-md-9">
+                                <h1>
+                                    @item.Name <br />
+                                </h1>
+                               
+                                <p>     
+                                    Location:
+                                    @item.Address <br />
+                                </p>
+
+                                <p>
+                                    Summary: @item.Summary
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                @item.UserProfile.Name
+                                @{
+                                    double reviews = 1.5;
+                                    if (item.UserProfile.ReviewTable.Count != 0)
+                                    {
+                                        foreach (var rev in item.UserProfile.ReviewTable)
+                                        {
+
+                                            reviews = reviews + @rev.Classification;
+                                        }
+                                        reviews = reviews / @item.UserProfile.ReviewTable.Count;
+                                    }
+                                }
+
+                                @if (reviews != 0)
+                                {
+                                    @reviews
+
+                                    int i;
+                                    for (i = 0; i < Math.Floor(reviews); i++)
+                                    {
+                                        <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                    }
+                                    if (reviews > i)
+                                    {
+                                        <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                                    }
+
+            </div>
+
+        </div>
+
+        <div id="filters" class="col-md-3">
+
+            @using (Html.BeginForm("Filter", "EventTables", FormMethod.Post))
+            {
+                <div class="location">
+                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                    Location:
+                    <div class="input hidden">
+                        <input type="text" name="Location">
+                    </div>
+                </div>
+
+                <div class="date">
+                    <i class="fa fa-plus-square date" aria-hidden="true"> </i>
+                    <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
+                    Date:
+                    <div class="input hidden">
+                        <input class="datefield" data-val="true" data-val-required="Date is required"
+                               id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
+                    </div>
+                </div>
+
+                <div class="language">
+                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                    Language:
+                    <div class="input hidden">
+                        @Html.Action("selectLanguage", "Languagestables")
+                    </div>
+                </div>
+
+                <div class="keyWord">
+                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                    KeyWord:
+                    <div class="input hidden">
+                        <input type="text" name="keyWord">
+                    </div>
+                </div>
+
+                <input type="submit" value="Search">
+            }
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(".search").click(function () {
+
+            if ($("#filters").hasClass("hidden")) {
+                $("#filters").removeClass("hidden");
+            }
+            else {
+                $("#filters").addClass("hidden");
+            }
+            $(".fa.search").removeClass("hidden");
+            $(this).addClass("hidden");
+        });
+
+        $(".location i").click(function () {
+
+            if ($(".location .input").hasClass("hidden")) {
+                $(".location .input").removeClass("hidden");
+            }
+            else {
+                $(".location .input").addClass("hidden");
+            }
+
+            $(".location i").removeClass("hidden");
+            $(this).addClass("hidden");
+
+            //if ($(".location i:nth-child(2)").hasClass("hidden")) {
+            //    $(".location .input").val("");
+            //}
+        });
+
+        $(".date i").click(function () {
+
+            if ($(".date .input").hasClass("hidden")) {
+                $(".date .input").removeClass("hidden");
+            }
+            else {
+                $(".date .input").addClass("hidden");
+            }
+
+            $(".date i").removeClass("hidden");
+            $(this).addClass("hidden");
+        });
+
+        $(".language i").click(function () {
+            if ($(".language .input").hasClass("hidden")) {
+                $(".language .input").removeClass("hidden");
+            }
+
+            else {
+                $(".language .input").addClass("hidden");
+            }
+
+            $(".language  i").removeClass("hidden");
+            $(this).addClass("hidden");
+        });
+
+        $(".keyWord i").click(function () {
+            if ($(".keyWord .input").hasClass("hidden")) {
+                $(".keyWord .input").removeClass("hidden");
+            }
+
+            else {
+                $(".keyWord .input").addClass("hidden");
+            }
+
+            $(".keyWord i").removeClass("hidden");
+            $(this).addClass("hidden");
+        });
+
+    </script>
+}
