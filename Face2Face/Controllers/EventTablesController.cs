@@ -36,6 +36,27 @@ namespace Face2Face.Controllers
             return View("EventsList", eventTable.ToList());
         }
 
+        public ActionResult NextEvents() {
+            int userID = Convert.ToInt32(User.Identity.GetUserId());
+
+            var eventTable = db.EventTable;
+
+            //////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////
+            List<EventTable> eventos= new List<EventTable>();
+            foreach (var evnt in eventTable)
+            {
+                foreach (var part in evnt.UserProfile1) {
+                    if (part.UserID == userID) {
+                        eventos.Add(evnt);
+                        break;
+                    }
+                }
+            }
+
+            return View("EventsList", eventos.ToList());
+        }
+
         // POST:
         [HttpPost]
         public ActionResult Filter(string Location, string Date, string Language, string keyWord)
@@ -126,10 +147,10 @@ namespace Face2Face.Controllers
             db.Entry(eventTable).State = EntityState.Modified;
             db.SaveChanges();
 
-            ViewBag.userLog = userLog;
-            ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
+            //ViewBag.userLog = userLog;
+            //ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
       
-            return View("Details", eventTable);
+            return View("EventsList", db.EventTable);
         }
 
         // GET: EventTables
@@ -151,7 +172,8 @@ namespace Face2Face.Controllers
             {
                 return HttpNotFound();
             }
-            
+
+           
             ViewBag.userLog = Convert.ToInt32(User.Identity.GetUserId());
             ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
 
@@ -322,6 +344,12 @@ namespace Face2Face.Controllers
             }
 
             return isIn;
+        }
+
+        public EventTable ArrangeEvents(EventTable eventTable) {
+
+         
+            return eventTable;
         }
     }
 }

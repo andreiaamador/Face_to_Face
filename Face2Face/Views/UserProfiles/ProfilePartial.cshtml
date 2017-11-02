@@ -3,6 +3,13 @@
 @{
     Layout = null;
 }
+<style>
+
+    .title {
+        font-size:18px;
+        font-weight: bold;
+    }
+</style>
 
 <div>
 
@@ -20,47 +27,55 @@
             <img src="~/Content/Images/avatar.png">
                 }
             }
-        </a>
 
-        <p>
-            @Model.Name
-            @{
-                double reviews = 1.5;
-                if (@Model.ReviewTable.Count != 0)
-                {
-                    foreach (var rev in @Model.ReviewTable)
+            <p>
+                <label class="title">
+
+                    @Model.Name
+                </label>
+
+                @{
+                    double reviews = 1;
+                    if (@Model.ReviewTable.Count != 0)
                     {
+                        foreach (var rev in @Model.ReviewTable)
+                        {
 
-                        reviews = reviews + @rev.Classification;
-                    }@Model.ReviewTable.Count;
+                            reviews = reviews + @rev.Classification;
+                        }@Model.ReviewTable.Count;
                 }
 
                 if (reviews != 0)
                 {
-            @reviews
+                        @reviews
 
-                    int i;
-                    for (i = 0; i < Math.Floor(reviews); i++)
-                    {
-            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
-                    }
-                    if (reviews > i)
-                    {
-            <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                        int i;
+                        for (i = 0; i < Math.Floor(reviews); i++)
+                        {
+                            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                        }
+                        if (reviews > i)
+                        {
+                            <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                        }
                     }
                 }
-            }
-        </p>
+            </p>
+        </a>
+
 
         <p>
             @Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")
         </p>
 
+
+        <p>
+            @Html.ActionLink("Next Events", "NextEvents", "EventTables")
+        </p>
                     <p>
                         @Html.ActionLink("Create new Event", "Create", "EventTables")
                     </p>
 
                 }
-
 
 </div>

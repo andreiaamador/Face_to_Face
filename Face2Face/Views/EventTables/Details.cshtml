@@ -7,7 +7,7 @@
         border-color: black;
         border-radius: 5px;
         padding: 10px;
-        margin: 5px;
+        /*margin: 5px;*/
     }
 
     .participantsDetails {
@@ -19,7 +19,12 @@
         width: 150px;
         margin: 5px;
     }
-
+    .eventDetails .title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    
     .participantsDetails img {
         height: 40px;
         width: 40px;
@@ -37,7 +42,7 @@
 </style>
 
 <div class="row">
-    <div class="col-md-7 col-md-offset-1 eventDetails">
+    <div class="col-md-9  eventDetails">
 
         <div class="container-fluid">
 
@@ -68,7 +73,7 @@
 
                 <div class="col-md-8">
 
-                    <p>
+                    <p class="title">
                         @Model.Name
                     </p>
                     <p>
@@ -128,17 +133,16 @@
                         }
                     }
                 </div>
-
             </div>
 
             @{
                 if (ViewBag.userInEvent)
                 {
-                    <input type="button" value="Don't Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
+                    <input type="button" value="Don't Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
                 }
                 else
                 {
-                    <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
+                    <input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
                 }
             }
         </div>
@@ -180,7 +184,7 @@
                                         <div class="col-md-12">
                                             <p>
                                                 <label>
-                                                    Users:
+                                                    Participants:
                                                 </label>
                                                 @parCount
                                             </p>
