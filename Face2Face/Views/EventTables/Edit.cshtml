@@ -126,9 +126,12 @@
             @Html.LabelFor(model => model.Date, "Event Date*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+<<<<<<< HEAD
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
 
+=======
                     @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
+>>>>>>> master
                 <input class="datefield" data-val="true" data-val-required="Date is required"
                        id="EditEventDate" name="releaseDate" type="date" value="1/11/1989"/>
             </div>
