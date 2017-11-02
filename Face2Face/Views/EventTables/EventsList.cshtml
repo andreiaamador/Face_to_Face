@@ -28,14 +28,14 @@
         border: solid;
         border-color: black;
         border-radius: 5px;
-        margin: 5px;
+        /*margin: 5px;*/
     }
 
     .ownProfile {
         border: solid;
         border-color: black;
         border-radius: 5px;
-        margin: 5px;
+        /*margin: 5px;*/
         padding: 10px;
         text-align: center
     }
@@ -52,6 +52,7 @@
             height: 100PX;
             width: 100PX;
             margin: 5px;
+ 
         }
 
         .event p {
@@ -72,7 +73,12 @@
         border: solid;
         border-color: black;
         border-radius: 5px;
-        margin: 5px;
+        /*margin: 5px;*/
+    }
+
+    #eventPhoto {
+        text-align: center;
+        vertical-align: middle;
     }
 </style>
 
@@ -84,19 +90,19 @@
 
 <div class="container-fluid">
 
-    <div class="row teste2">
+    <div class="row">
 
         <div class="col-md-2 ownProfile">
             @Html.Action("GetOwnProfile", "UserProfiles")
         </div>
 
-        <div class="col-md-6 eventTable" style="height: 550px; overflow: auto;">
+        <div class="col-md-8 eventTable" style="height: 550px; overflow: auto;">
             <div>
                 @foreach (var item in Model)
                 {
                     <div class="container-fluid event">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div id="eventPhoto" class="col-md-4">
                                 <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
                                     
                                     @{
@@ -106,14 +112,14 @@
                                         }
                                         else
                                         {
-                                            <img src="~/Content/Images/avatar.png">
+                                            <img src="~/Content/Images/no-photo-available.png">
                                         }
                                     }
                                    
                                 </a>
                             </div>
 
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <p class="title">
                                     @item.Name
                                     <label class="review">

@@ -26,17 +26,15 @@ namespace Face2Face.Controllers
             return View(eventTable.ToList());
         }
 
-
-        public ActionResult MyEvents()
+        public ActionResult MyOwnEvents()
         {
             int userID = Convert.ToInt32(User.Identity.GetUserId());
-            //int userID = 13;
-            string sqlQuery = string.Format("{0}{1}", "select * from EventTable where UserID=", userID);
 
+            string sqlQuery = string.Format("{0}{1}", "select * from EventTable where UserID=", userID);
             var eventTable = db.EventTable.SqlQuery(sqlQuery);
+
             return View("EventsList", eventTable.ToList());
         }
-
 
         // POST:
         [HttpPost]
@@ -112,22 +110,26 @@ namespace Face2Face.Controllers
 
         public ActionResult GoToEvent(int id)
         {
-        
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
             var eventTable = db.EventTable.Find(id);
-            UserProfile Profile = db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId()));
+            UserProfile Profile = db.UserProfile.Find(userLog);
 
-            if (eventTable.UserProfile1.Contains(Profile)) {
+            if (eventTable.UserProfile1.Contains(Profile))
+            {
                 eventTable.UserProfile1.Remove(Profile);
             }
-            else{
-eventTable.UserProfile1.Add(Profile);
+            else
+            {
+                eventTable.UserProfile1.Add(Profile);
             }
 
-            
-            
             db.Entry(eventTable).State = EntityState.Modified;
             db.SaveChanges();
-            return View("Details",eventTable); 
+
+            ViewBag.userLog = userLog;
+            ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
+      
+            return View("Details", eventTable);
         }
 
         // GET: EventTables
@@ -149,6 +151,10 @@ eventTable.UserProfile1.Add(Profile);
             {
                 return HttpNotFound();
             }
+            
+            ViewBag.userLog = Convert.ToInt32(User.Identity.GetUserId());
+            ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
+
             return View(eventTable);
         }
 
@@ -300,6 +306,22 @@ eventTable.UserProfile1.Add(Profile);
         public ActionResult UploadFile()
         {
             return View();
+        }
+
+
+        public bool IsThisUserInEvent(ICollection<UserProfile> users, int userLog) {
+
+            bool isIn = false;
+            foreach (var user in users)
+            {
+                if (user.UserID == userLog)
+                {
+                    isIn = true;
+                    break;
+                }
+            }
+
+            return isIn;
         }
     }
 }

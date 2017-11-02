@@ -2,117 +2,57 @@
 
 
 <style>
-    .evendDetails, .participantsDetails {
+    .eventDetails {
         border: solid;
         border-color: black;
         border-radius: 5px;
         padding: 10px;
-        /*text-align: center*/
+        margin: 5px;
     }
 
+    .participantsDetails {
+        padding: 10px;
+    }
 
-    .evendDetails img {
+    .eventDetails img {
         height: 150px;
         width: 150px;
+        margin: 5px;
     }
-        .participantsDetails img {
-            height: 40px;
-            width: 40px;
-        }
+
+    .participantsDetails img {
+        height: 40px;
+        width: 40px;
+    }
+
+    #totalUsers {
+        text-align: right;
+        margin: 5px;
+    }
+
+    #eventPhoto {
+        text-align: center;
+        vertical-align: middle;
+    }
 </style>
-@*@{
-        ViewBag.Title = "Details";
-    }*@
-
-@*<h2>Details of @Model.Name</h2>
-
-    <div>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                Event Name
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-
-            <dt>
-                Photo
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Photo)
-            </dd>
-
-            <dt>
-                Event Date
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Date)
-            </dd>
-
-            <dt>
-                Summary
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Summary)
-            </dd>
-
-            <dt>
-                Final sign up date
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.EndSignUpDate)
-            </dd>
-
-            <dt>
-                Maximum number of participants
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.MaxUsers)
-            </dd>
-
-            <dt>
-                Budget
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Budget)
-            </dd>
-
-            <dt>
-                Location
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Address)
-            </dd>
-
-            <dt>
-                Event Language
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.LanguagesTable.Language)
-            </dd>
-
-        </dl>
-    </div>*@
-
-
 
 <div class="row">
-    <div class="col-md-7 col-md-offset-1 evendDetails">
+    <div class="col-md-7 col-md-offset-1 eventDetails">
 
         <div class="container-fluid">
+
+            @if (ViewBag.userLog == Model.UserID)
+            {
+                <p align="right">
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = Model.EventID })
+                </p>
+            }
+
             <div class="row">
 
-                <div class="col-md-3">
+
+                <div id="eventPhoto" class="col-md-4">
 
                     @{
                         if (Model.Photo != null)
@@ -126,7 +66,7 @@
                     }
                 </div>
 
-                <div class="col-md-9">
+                <div class="col-md-8">
 
                     <p>
                         @Model.Name
@@ -140,10 +80,15 @@
                         <label>Date: </label>
                         @Model.Date
                     </p>
-                    <p align="justify">
-                        <label>Summary: </label>
-                        @Model.Summary
-                    </p>
+
+                    @if (@Model.Summary != null)
+                    {
+                        <p align="justify">
+                            <label>Summary: </label>
+                            @Model.Summary
+                        </p>
+
+                    }
 
                     <p>
                         <label>
@@ -152,20 +97,26 @@
                         @Model.LanguagesTable.Language
                     </p>
 
+                    @if (@Model.MaxUsers != null)
+                    {
+                        <p>
+                            <label>
+                                Max. Users:
+                            </label>
+                            @Model.MaxUsers
+                        </p>
+                    }
 
-                    <p>
-                        <label>
-                            Max. Users:
-                        </label>
-                        @Model.MaxUsers
-                    </p>
+                    @if (@Model.Budget != null)
+                    {
+                        <p>
+                            <label>
+                                Budget:
+                            </label>
+                            @Model.Budget
+                        </p>
 
-                    <p>
-                        <label>
-                            Budget:
-                        </label>
-                        @Model.Budget
-                    </p>
+                    }
 
                     @{
                         if (String.Format("{0:MM/dd/yyyy}", Model.EndSignUpDate) != "")
@@ -181,18 +132,7 @@
             </div>
 
             @{
-                bool isPart = false;
-
-                foreach (var user in Model.UserProfile1)
-                {
-                    if (user.UserID == Model.UserID)
-                    {
-                        isPart = true;
-                        break;
-                    }
-                }
-
-                if (isPart)
+                if (ViewBag.userInEvent)
                 {
                     <input type="button" value="Don't Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
                 }
@@ -200,70 +140,57 @@
                 {
                     <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
                 }
-
-
             }
-
-            
-            
         </div>
 
     </div>
 
     <div class="col-md-3 participantsDetails">
+        @{
+            int parCount = Model.UserProfile1.Count;
 
-   
-            <div class="row">
-
-                @foreach (var part in Model.UserProfile1)
+            if (parCount != 0)
+            {
+                foreach (var part in Model.UserProfile1)
                 {
+                    <div class="row">
 
-                    <div class="col-md-3 col-md-offset-1">
-
-                        <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID})'>
-
-                            @{
-                                if (@part.Photo == null)
-                                {
-                                    <img src=@part.Photo>
+                        <div class="col-md-3 col-md-offset-1">
+                            <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
+                                @{
+                                    if (@part.Photo == null)
+                                    {
+                                        <img src=@part.Photo>
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Images/no-photo-available.png">
+                                    }
                                 }
-                                else
-                                {
-                                    <img src="~/Content/Images/no-photo-available.png">
-                                }
-                            }
-                        </a>
+                            </a>
+                        </div>
 
+                        <div class="col-md-7">
+                            @part.Name
+                        </div>
                     </div>
+                                    }
 
-                    <div class="col-md-7">
-                        @part.Name;
+                                    <div id="totalUsers" class="row">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <label>
+                                                    Users:
+                                                </label>
+                                                @parCount
+                                            </p>
 
-                    </div>
-
-                  }
-
-            </div>
-     
-
-
-
+                                        </div>
+                                    </div>
+                                    }
+        }
 
     </div>
 
-
 </div>
 
-
-
-
-<p>
-
-   
-    @Html.ActionLink("Go", "GoToEvent", new { id = Model.EventID }) |
-
-
-    @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
-
-    @*@Html.ActionLink("Back to List", "Index")*@
-</p>
