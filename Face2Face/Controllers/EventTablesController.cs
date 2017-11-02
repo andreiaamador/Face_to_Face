@@ -193,9 +193,13 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
 
         public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
 
+=======
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string Address)
+>>>>>>> master
         {
             if (ModelState.IsValid)
             {
@@ -222,9 +226,13 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
+<<<<<<< HEAD
              
                     eventTable.Address = Address;
             
+=======
+                eventTable.Address = Address;
+>>>>>>> master
                 db.EventTable.Add(eventTable);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -257,8 +265,12 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
         public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
 
+=======
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable,HttpPostedFileBase photo, string Address)
+>>>>>>> master
         {
             if (ModelState.IsValid)
             {
@@ -283,6 +295,7 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
+<<<<<<< HEAD
 
                 eventTable.Date = Convert.ToDateTime(releaseDate);
                 eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
@@ -291,8 +304,12 @@ namespace Face2Face.Controllers
           
                     eventTable.Address = Address;
       
+=======
+                
+                eventTable.Address = Address;
 
                 db.Entry(eventTable).State = EntityState.Modified;
+>>>>>>> master
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
