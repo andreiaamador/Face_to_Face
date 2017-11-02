@@ -162,7 +162,7 @@
                 @*@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })*@
                 <input type="text" name="Address" id="Address" />
-                <input type="button" id="GoogleMaps" value="Google Location" />
+                @*<input type="button" id="GoogleMaps" value="Google Location" />*@
             </div>
         </div>
 
@@ -298,6 +298,7 @@
                 infowindow.open(map, marker);
 
                 $('#Address').val(address);
+                $('#pac-input').val("");
 
             });
 
@@ -330,13 +331,7 @@
             });
         }
 
-
-        $('#GoogleMaps').click(function () {
-            $('#pac-input').val("");
-
-            google.maps.event.trigger(map, 'resize')
-        })
-
+        google.maps.event.trigger(map, 'resize')
 </script>
 
 }

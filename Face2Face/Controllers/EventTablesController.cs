@@ -36,18 +36,21 @@ namespace Face2Face.Controllers
             return View("EventsList", eventTable.ToList());
         }
 
-        public ActionResult NextEvents() {
+        public ActionResult NextEvents()
+        {
             int userID = Convert.ToInt32(User.Identity.GetUserId());
 
             var eventTable = db.EventTable;
 
             //////////////////////////////////////////////////////////
             //////////////////////////////////////////////////////////
-            List<EventTable> eventos= new List<EventTable>();
+            List<EventTable> eventos = new List<EventTable>();
             foreach (var evnt in eventTable)
             {
-                foreach (var part in evnt.UserProfile1) {
-                    if (part.UserID == userID) {
+                foreach (var part in evnt.UserProfile1)
+                {
+                    if (part.UserID == userID)
+                    {
                         eventos.Add(evnt);
                         break;
                     }
@@ -149,7 +152,7 @@ namespace Face2Face.Controllers
 
             //ViewBag.userLog = userLog;
             //ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
-      
+
             return View("EventsList", db.EventTable);
         }
 
@@ -173,7 +176,7 @@ namespace Face2Face.Controllers
                 return HttpNotFound();
             }
 
-           
+
             ViewBag.userLog = Convert.ToInt32(User.Identity.GetUserId());
             ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
 
@@ -193,13 +196,9 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-<<<<<<< HEAD
 
         public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
 
-=======
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string Address)
->>>>>>> master
         {
             if (ModelState.IsValid)
             {
@@ -226,13 +225,8 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
-<<<<<<< HEAD
-             
-                    eventTable.Address = Address;
-            
-=======
+
                 eventTable.Address = Address;
->>>>>>> master
                 db.EventTable.Add(eventTable);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -265,12 +259,9 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-<<<<<<< HEAD
+
         public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
 
-=======
-        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable,HttpPostedFileBase photo, string Address)
->>>>>>> master
         {
             if (ModelState.IsValid)
             {
@@ -295,21 +286,18 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
-<<<<<<< HEAD
+
 
                 eventTable.Date = Convert.ToDateTime(releaseDate);
                 eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
 
-                db.Entry(eventTable).State = EntityState.Modified;
-          
-                    eventTable.Address = Address;
-      
-=======
-                
+
+
                 eventTable.Address = Address;
 
                 db.Entry(eventTable).State = EntityState.Modified;
->>>>>>> master
+
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -359,7 +347,8 @@ namespace Face2Face.Controllers
         }
 
 
-        public bool IsThisUserInEvent(ICollection<UserProfile> users, int userLog) {
+        public bool IsThisUserInEvent(ICollection<UserProfile> users, int userLog)
+        {
 
             bool isIn = false;
             foreach (var user in users)
@@ -374,9 +363,10 @@ namespace Face2Face.Controllers
             return isIn;
         }
 
-        public EventTable ArrangeEvents(EventTable eventTable) {
+        public EventTable ArrangeEvents(EventTable eventTable)
+        {
 
-         
+
             return eventTable;
         }
     }
