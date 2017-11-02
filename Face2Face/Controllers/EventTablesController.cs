@@ -291,6 +291,8 @@ namespace Face2Face.Controllers
           
                     eventTable.Address = Address;
       
+
+                db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
