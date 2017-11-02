@@ -91,6 +91,7 @@ namespace Face2Face.Models
             this.NativeLanguage = new HashSet<LanguagesTable>();
             this.FluentLanguage = new HashSet<LanguagesTable>();
             this.InterestedLanguage = new HashSet<LanguagesTable>();
+         
         }
         public string Name { get; set; }
         public int? Age { get; set; }
@@ -101,5 +102,7 @@ namespace Face2Face.Models
         public ICollection<LanguagesTable> NativeLanguage { get; set; }
         public ICollection<LanguagesTable> FluentLanguage { get; set; }
         public ICollection<LanguagesTable> InterestedLanguage { get; set; }
+
+     
     }
 }

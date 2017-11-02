@@ -13,6 +13,7 @@ using System.IO;
 
 namespace Face2Face.Controllers
 {
+    
     [Authorize]
     public class ManageController : Controller
     {
@@ -75,6 +76,7 @@ namespace Face2Face.Controllers
             //    Logins = await UserManager.GetLoginsAsync(userId),
             //    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
             //};
+
             var model = new ChangeProfile();
 
             var userId = User.Identity.GetUserId<int>();
@@ -105,7 +107,8 @@ namespace Face2Face.Controllers
             var userId = User.Identity.GetUserId<int>();
             var user = db.AspNetUsers.Find(userId);
             var userProfile = db.UserProfile.Find(userId);
-
+               
+           
             userProfile.Name = model.Name;
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
@@ -116,6 +119,8 @@ namespace Face2Face.Controllers
             userProfile.LanguagesTable = model.FluentLanguage;
             userProfile.LanguagesTable1 = model.InterestedLanguage;
             userProfile.LanguagesTable2 = model.NativeLanguage;
+
+            
 
 
             db.SaveChanges();
