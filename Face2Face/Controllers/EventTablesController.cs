@@ -193,8 +193,11 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
         public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate)
+=======
         public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget, Address")] EventTable eventTable, HttpPostedFileBase photo, string address)
+>>>>>>> master
         {
             if (ModelState.IsValid)
             {
