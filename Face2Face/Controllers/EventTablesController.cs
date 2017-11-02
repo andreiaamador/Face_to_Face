@@ -136,7 +136,7 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget, Address")] EventTable eventTable, HttpPostedFileBase photo, string address)
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string Address)
         {
             if (ModelState.IsValid)
             {
@@ -159,10 +159,7 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
-                if(address != null)
-                {
-                    eventTable.Address = address;
-                }
+                eventTable.Address = Address;
                 db.EventTable.Add(eventTable);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -195,7 +192,7 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable,HttpPostedFileBase photo, string address)
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable,HttpPostedFileBase photo, string Address)
         {
             if (ModelState.IsValid)
             {
@@ -219,11 +216,10 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
-                if (address != null)
-                {
-                    eventTable.Address = address;
-                }
+                
+                eventTable.Address = Address;
 
+                db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
