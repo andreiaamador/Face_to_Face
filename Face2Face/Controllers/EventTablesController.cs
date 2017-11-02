@@ -194,6 +194,7 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate)
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget, Address")] EventTable eventTable, HttpPostedFileBase photo, string address)
         {
             if (ModelState.IsValid)
             {
@@ -219,6 +220,10 @@ namespace Face2Face.Controllers
                 else
                 {
                     ViewBag.Message = "You have not specified a file.";
+                }
+                if(address != null)
+                {
+                    eventTable.Address = address;
                 }
                 db.EventTable.Add(eventTable);
                 db.SaveChanges();
@@ -253,6 +258,7 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate)
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable,HttpPostedFileBase photo, string address)
         {
             if (ModelState.IsValid)
             {
@@ -282,6 +288,10 @@ namespace Face2Face.Controllers
                 eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
 
                 db.Entry(eventTable).State = EntityState.Modified;
+                if (address != null)
+                {
+                    eventTable.Address = address;
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
