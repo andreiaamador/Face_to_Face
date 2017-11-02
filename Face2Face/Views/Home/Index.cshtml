@@ -22,9 +22,23 @@
 
     @*public class ManageController : Controller
     {}*@
-    <div class="col-md-4">
+    @*<div class="col-md-4">
         <h2></h2>
         <p></p>
         <p><a class="" href=""></a></p>
     </div>
+</div>*@
+
+<div style="width:auto; background-color:aqua>
+    @if (Request.IsAuthenticated)
+{
+    <strong>@Html.Encode(User.Identity.Name)</strong>
+    @Html.ActionLink("Log Out", "Logout", "User")
+}
+    else
+{
+        @Html.ActionLink("Register", "Register", "User")
+        <span> | </span>
+        @Html.ActionLink("Log In", "Login", "User")
+    }
 </div>
