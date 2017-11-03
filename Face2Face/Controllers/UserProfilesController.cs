@@ -18,8 +18,9 @@ namespace Face2Face.Controllers
         // GET: UserProfiles
         public ActionResult GetOwnProfile()
         {
+            int userLog= Convert.ToInt32(User.Identity.GetUserId());
+            ViewBag.Reviews = 3;
             return View("ProfilePartial", db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
-            //return View("ProfilePartial", db.UserProfile.Find(Convert.ToInt32(13)));
         }
 
         // GET: UserProfiles

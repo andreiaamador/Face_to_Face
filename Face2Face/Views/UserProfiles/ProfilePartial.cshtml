@@ -37,23 +37,14 @@
 
             <p>
                 <label class="title">
-
                     @Model.Name
                 </label>
-
+                <br />
                 @{
-                    double reviews = 1;
-                    if (@Model.ReviewTable.Count != 0)
+                    double reviews = ViewBag.Reviews;
+
+                    if (reviews != 0)
                     {
-                        foreach (var rev in @Model.ReviewTable)
-                        {
-
-                            reviews = reviews + @rev.Classification;
-                        }@Model.ReviewTable.Count;
-                }
-
-                if (reviews != 0)
-                {
                         @reviews
 
                         int i;
