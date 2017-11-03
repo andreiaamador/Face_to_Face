@@ -176,11 +176,31 @@ namespace Face2Face.Controllers
                 return HttpNotFound();
             }
 
-
             ViewBag.userLog = Convert.ToInt32(User.Identity.GetUserId());
             ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
 
             return View(eventTable);
+        }
+
+        [HttpPost]
+        public ActionResult AddReviews(int eventID, int classification, string review)
+        {
+            if (ModelState.IsValid)
+            {
+                ReviewTable reviewTable = new ReviewTable
+                {
+                    EventID = eventID,
+                    UserID = Convert.ToInt32(User.Identity.GetUserId()),
+
+                    Classification = classification,
+                    Review = review
+                };
+
+                db.Entry(reviewTable).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("Details", db.EventTable.Find(eventID));
+            }
+            return View("EventList", db.EventTable);
         }
 
         // GET: EventTables/Create
@@ -228,6 +248,7 @@ namespace Face2Face.Controllers
 
                 eventTable.Address = Address;
                 db.EventTable.Add(eventTable);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -236,7 +257,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);
             return View(eventTable);
         }
-
+        
         // GET: EventTables/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -287,17 +308,11 @@ namespace Face2Face.Controllers
                     ViewBag.Message = "You have not specified a file.";
                 }
 
-
                 eventTable.Date = Convert.ToDateTime(releaseDate);
                 eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
-
-
-
                 eventTable.Address = Address;
 
                 db.Entry(eventTable).State = EntityState.Modified;
-
-
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
