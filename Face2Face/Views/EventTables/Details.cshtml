@@ -1,7 +1,7 @@
 ﻿@model Face2Face.Models.EventTable
 
 <style>
-    .eventDetails {
+    .eventDetails .reviews{
         border: solid;
         border-color: black;
         border-radius: 5px;
@@ -142,7 +142,11 @@
                 else
                 {
                     <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
+                    <input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
                 }
+
+                <input type="button" value="Add a Review" id="AddReview"/>
+
             }
         </div>
 
@@ -177,23 +181,99 @@
                             @part.Name
                         </div>
                     </div>
-                                    }
+                }
 
-                                    <div id="totalUsers" class="row">
-                                        <div class="col-md-12">
-                                            <p>
-                                                <label>
-                                                    Participants:
-                                                </label>
-                                                @parCount
-                                            </p>
+                        <div id="totalUsers" class="row">
+                            <div class="col-md-12">
+                                <p>
+                                    <label>
+                                        Participants:
+                                    </label>
+                                    @parCount
+                                </p>
 
-                                        </div>
-                                    </div>
-                                    }
+                            </div>
+                        </div>
+            }
         }
 
     </div>
 
 </div>
 
+<div class="row">
+    <div class="col-md-10 reviews">
+        <h3>Reviews to @Model.Name</h3>
+        @{
+            if (Model.ReviewTable.Count() == 0)
+            {
+                <span>There are no Reviews to this event.</span>
+            }
+            else
+            {
+                    foreach (var review in Model.ReviewTable)
+                    {
+                        <label>Name</label>
+                        @review.UserProfile.Name
+                        <br />
+                        <br />
+
+                        <label>Classification</label>
+                        @review.Classification
+
+                        <br />
+                        <br />
+
+                        <label>Review</label>
+                        @review.Review
+                    }
+            }
+        }
+
+        <div class="addReviewForm">
+            @using (Html.BeginForm("AddReviews", "EventTables", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.EventID)
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Classification</label>
+                        <div class="col-md-10">
+                            <input type="number" name="classification" id="eventClassification" max="5" min="0" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Review</label>
+                        <div class="col-md-10">
+                            <input type="text" name="review" id="eventReview" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+
+    $('.addReviewForm').hide();
+
+    $('#AddReview').click(function () {
+        $('.addReviewForm').show();
+    })
+</script>
+}
