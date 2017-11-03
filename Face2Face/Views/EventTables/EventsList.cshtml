@@ -22,20 +22,19 @@
     }
 
     #filters {
-        /*color: white;
-        background-color: darkgray;*/
-        min-width: 150px;
         border: solid;
         border-color: black;
         border-radius: 5px;
+        padding: 10px;
+        /*margin: 5px;*/
+    }
+
+    #filters1 {
+        padding: 10px;
         /*margin: 5px;*/
     }
 
     .ownProfile {
-        border: solid;
-        border-color: black;
-        border-radius: 5px;
-        /*margin: 5px;*/
         padding: 10px;
         text-align: center
     }
@@ -52,7 +51,6 @@
             height: 100PX;
             width: 100PX;
             margin: 5px;
- 
         }
 
         .event p {
@@ -69,16 +67,20 @@
             font-weight: bold;
         }
 
-    .eventTable{
-        border: solid;
+    .eventTable {
+        /*border: solid;
         border-color: black;
-        border-radius: 5px;
-        /*margin: 5px;*/
+        border-radius: 10px;*/
+        padding: 10px;
     }
 
     #eventPhoto {
         text-align: center;
         vertical-align: middle;
+    }
+    #btn {
+        text-align: center;
+        padding: 10px;
     }
 </style>
 
@@ -96,26 +98,27 @@
             @Html.Action("GetOwnProfile", "UserProfiles")
         </div>
 
-        <div class="col-md-8 eventTable" style="height: 550px; overflow: auto;">
-            <div>
+        <div class="col-md-7 eventTable">
+
+            <div style="height: 550px; overflow: auto;">
                 @foreach (var item in Model)
-                {
+                    {
                     <div class="container-fluid event">
                         <div class="row">
                             <div id="eventPhoto" class="col-md-4">
                                 <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
-                                    
+
                                     @{
-                                        if (item.Photo != null)
-                                        {
-                                            <img src=@item.Photo>
-                                        }
-                                        else
-                                        {
-                                            <img src="~/Content/Images/no-photo-available.png">
-                                        }
+                                            if (item.Photo != null)
+                                            {
+                                        <img src=@item.Photo>
+                                            }
+                                            else
+                                            {
+                                        <img src="~/Content/Images/no-photo-available.png">
+                                            }
                                     }
-                                   
+
                                 </a>
                             </div>
 
@@ -125,32 +128,32 @@
                                     <label class="review">
 
                                         @{
-                                            double eventReviews = 3.5;
-                                            if (item.ReviewTable.Count != 0)
-                                            {
-                                                foreach (var rev in item.ReviewTable)
+                                                double eventReviews = 3.5;
+                                                if (item.ReviewTable.Count != 0)
                                                 {
-                                                    eventReviews = eventReviews + @rev.Classification;
+                                                    foreach (var rev in item.ReviewTable)
+                                                    {
+                                                        eventReviews = eventReviews + @rev.Classification;
+                                                    }
+                                                    eventReviews = eventReviews / @item.ReviewTable.Count;
                                                 }
-                                                eventReviews = eventReviews / @item.ReviewTable.Count;
-                                            }
                                         }
 
                                         @if (eventReviews != 0)
-                                        {
-                                            int i;
-                                            for (i = 0; i < Math.Floor(eventReviews); i++)
                                             {
-                                                <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
-                                            }
-                                            if (eventReviews > i)
-                                            {
-                                                <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
-                                            }
+                                                int i;
+                                                for (i = 0; i < Math.Floor(eventReviews); i++)
+                                                {
+                                            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                                }
+                                                if (eventReviews > i)
+                                                {
+                                            <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                                }
 
                                             @eventReviews
 
-                                        }
+                                            }
                                     </label>
                                 </p>
 
@@ -163,7 +166,7 @@
 
                                 <p>
                                     <label>
-                                       Date:
+                                        Date:
                                     </label>
                                     @item.Date;
 
@@ -189,82 +192,92 @@
                                         @item.UserProfile.Name
                                     </a>
 
-                                    double reviews = 0;
-                                    if (item.UserProfile.ReviewTable.Count != 0)
-                                    {
-                                        foreach (var rev in item.UserProfile.ReviewTable)
+                                        double reviews = 0;
+                                        if (item.UserProfile.ReviewTable.Count != 0)
                                         {
-                                            reviews = reviews + @rev.Classification;
+                                            foreach (var rev in item.UserProfile.ReviewTable)
+                                            {
+                                                reviews = reviews + @rev.Classification;
+                                            }
+                                            reviews = reviews / @item.UserProfile.ReviewTable.Count;
                                         }
-                                        reviews = reviews / @item.UserProfile.ReviewTable.Count;
-                                    }
                                 }
 
                                 @if (reviews != 0)
-                                {
-                                    int i;
-                                    for (i = 0; i < Math.Floor(reviews); i++)
                                     {
-                                        <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
-                                    }
-                                    if (reviews > i)
-                                    {
-                                        <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
-                                    } 
-                                    
+                                        int i;
+                                        for (i = 0; i < Math.Floor(reviews); i++)
+                                        {
+                                    <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                        }
+                                        if (reviews > i)
+                                        {
+                                    <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                        }
+
                                     @reviews
-                                }
+                                    }
 
                             </div>
                         </div>
                     </div>
-                 }
+                                        }
             </div>
+
+
         </div>
 
-        <div id="filters" class="col-md-2 col-centered">
+        <div id="filters1" class="col-md-3">
 
-            @using (Html.BeginForm("Filter", "EventTables", FormMethod.Post))
+            <div id="filters">
+                @using (Html.BeginForm("Filter", "EventTables", FormMethod.Post))
             {
-                <div class="location">
-                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                    Location:
-                    <div class="input hidden">
-                        <input type="text" name="Location">
+                    <div class="location">
+                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                        Location:
+                        <div class="input hidden">
+                            <input type="text" name="Location">
+                        </div>
                     </div>
-                </div>
 
-                <div class="date">
-                    <i class="fa fa-plus-square date" aria-hidden="true"> </i>
-                    <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
-                    Date:
-                    <div class="input hidden">
-                        <input class="datefield" data-val="true" data-val-required="Date is required"
-                               id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
+                    <div class="date">
+                        <i class="fa fa-plus-square date" aria-hidden="true"> </i>
+                        <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
+                        Date:
+                        <div class="input hidden">
+                            <input class="datefield" data-val="true" data-val-required="Date is required"
+                                   id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="language">
-                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                    Language:
-                    <div class="input hidden">
-                        @Html.Action("selectLanguage", "Languagestables")
+                    <div class="language">
+                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                        Language:
+                        <div class="input hidden">
+                            @Html.Action("selectLanguage", "Languagestables")
+                        </div>
                     </div>
-                </div>
 
-                <div class="keyWord">
-                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                    KeyWord:
-                    <div class="input hidden">
-                        <input type="text" name="keyWord">
+                    <div class="keyWord">
+                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                        KeyWord:
+                        <div class="input hidden">
+                            <input type="text" name="keyWord">
+                        </div>
                     </div>
-                </div>
 
-                <input type="submit" value="Search">
-            }
+                    <div id="btn">
+
+                        <input type="submit" value="Search">
+                    </div>
+                   
+                }
+            </div>
+
+
         </div>
 
     </div>

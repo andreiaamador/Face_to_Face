@@ -176,10 +176,8 @@ namespace Face2Face.Controllers
                 return HttpNotFound();
             }
 
-
             ViewBag.userLog = Convert.ToInt32(User.Identity.GetUserId());
-            ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
-
+            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
             return View(eventTable);
         }
 
@@ -346,22 +344,6 @@ namespace Face2Face.Controllers
             return View();
         }
 
-
-        public bool IsThisUserInEvent(ICollection<UserProfile> users, int userLog)
-        {
-
-            bool isIn = false;
-            foreach (var user in users)
-            {
-                if (user.UserID == userLog)
-                {
-                    isIn = true;
-                    break;
-                }
-            }
-
-            return isIn;
-        }
 
         public EventTable ArrangeEvents(EventTable eventTable)
         {

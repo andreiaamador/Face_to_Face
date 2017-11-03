@@ -12,7 +12,7 @@
 
     #map {
         height: 500px;
-        width:500px;
+        width: 500px;
     }
 
     #description {
@@ -54,7 +54,7 @@
         padding: 5px 11px;
     }
 
-    .pac-controls label {
+        .pac-controls label {
             font-family: Roboto;
             font-size: 13px;
             font-weight: 300;
@@ -71,7 +71,7 @@
         width: 400px;
     }
 
-    #pac-input:focus {
+        #pac-input:focus {
             border-color: #4d90fe;
         }
 
@@ -79,6 +79,11 @@
         margin-left: 170px;
     }
 
+    .Photo {
+        height: 200px;
+        width: 200px;
+        margin-bottom: 5px;
+    }
 </style>
 
 @using (Html.BeginForm("Edit", "EventTables", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -110,23 +115,39 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("photo", "", new { type = "file" })
+
                 @*<input type="file" name="photo" id="photo" />*@
+
+                @{
+                    if (Model.Photo != null)
+                    {
+                <img class="Photo" src=@Model.Photo>
+                    }
+                    else
+                    {
+                <img class="Photo" src="~/Content/Images/no-photo-available.png">
+                    }
+                }
+                <div id="newPhoto">
+
+                    @Html.TextBox("photo", "", new { type = "file" })
+                    <input id="newFile" name="myFile" type="file">
+                </div>
+
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group releaseDate">
             @Html.LabelFor(model => model.Date, "Event Date*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
 
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
-
-
-                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
 
                 <input class="datefield" data-val="true" data-val-required="Date is required"
-                       id="EditEventDate" name="releaseDate" type="date" value="1/11/1989"/>
+                       name="releaseDate" type="date" />
+                <label id="lbl" class="hidden">@String.Format("{0:yyyy-MM-dd}", @Model.Date)</label>
             </div>
         </div>
 
@@ -138,13 +159,14 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group endSignUpDate">
             @Html.LabelFor(model => model.EndSignUpDate, "Final Date for Signing up", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.EndSignUpDate, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.EndSignUpDate, "", new { @class = "text-danger" })*@
                 <input class="datefield" data-val="true" data-val-required="Date is required"
-                       id="EditFinalDate" name="endSignUpDate" type="date" value="1/11/1989" />
+                       name="endSignUpDate" type="date"/>
+                <label id="lbl" class="hidden">@String.Format("{0:yyyy-MM-dd}", @Model.EndSignUpDate)</label>
             </div>
         </div>
 
@@ -168,8 +190,9 @@
             @Html.LabelFor(model => model.Address, "Location*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })*@
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })*@
                 <input type="text" name="Address" id="Address" />
+                <label id="lbl" class="hidden">@Model.Address</label>
                 @*<input type="button" id="GoogleMaps" value="Google Location" />*@
             </div>
         </div>
@@ -227,7 +250,7 @@
 
         <span>* Required Fields</span>
     </div>
-}
+                    }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -237,11 +260,10 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-       
-         // This example requires the Places library. Include the libraries=places
-         // parameter when you first load the API. For example:
-         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-         
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+        // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 51.509865, lng: -0.118092 },
@@ -277,7 +299,6 @@
                     // User entered the name of a Place that was not suggested and
                     // pressed the Enter key, or the Place Details request failed.
                     window.alert("No details available for input: '" + place.name + "'");
-
                     return;
                 }
                 // If the place has a geometry, then present it on a map.
@@ -329,14 +350,17 @@
                 });
 
             $('#pac-input').change(function () {
-
                 $('#Address').show();
                 $('#Address').val($('#pac-input').val());
-
-
             });
         }
 
-        google.maps.event.trigger(map, 'resize')
+        $("#newPhoto").change(function () {
+            $(".Photo").attr("src", $("#newFile").val());
+        });
+
+        $(".releaseDate .datefield").val($(".releaseDate #lbl").text());
+        $(".endSignUpDate .datefield").val($(".endSignUpDate #lbl").text());
+        $(".location input").val($(".location #lbl").text());
     </script>
 }

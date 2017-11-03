@@ -1,6 +1,5 @@
 ﻿@model Face2Face.Models.EventTable
 
-
 <style>
     .eventDetails {
         border: solid;
@@ -19,11 +18,11 @@
         width: 150px;
         margin: 5px;
     }
+
     .eventDetails .title {
         font-size: 20px;
         font-weight: bold;
     }
-    
     
     .participantsDetails img {
         height: 40px;
@@ -138,11 +137,11 @@
             @{
                 if (ViewBag.userInEvent)
                 {
-                    <input type="button" value="Don't Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
+                    <input type="button" value="Don't go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
                 }
                 else
                 {
-                    <input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
+                    <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
                 }
             }
         </div>
