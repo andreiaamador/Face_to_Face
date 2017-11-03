@@ -10,10 +10,11 @@ using Face2Face.Models;
 using System.Data.Entity;
 using System.Net;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Face2Face.Controllers
 {
-    
+
     [Authorize]
     public class ManageController : Controller
     {
@@ -36,9 +37,9 @@ namespace Face2Face.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -90,11 +91,20 @@ namespace Face2Face.Controllers
             model.Name = userProfile.Name;
             model.Age = userProfile.Age;
             model.Photo = userProfile.Photo;
-            
+
             model.FluentLanguage = userProfile.LanguagesTable;
             model.InterestedLanguage = userProfile.LanguagesTable1;
             model.NativeLanguage = userProfile.LanguagesTable2;
 
+
+
+            List<string> availableLanguages = new List<string>();
+            foreach (var item in db.LanguagesTable)
+            {
+                var Languages = item.Language;
+                availableLanguages.Add(Languages);
+            }
+            model.ListLanguages = availableLanguages;
 
             return View(model);
         }
@@ -107,8 +117,8 @@ namespace Face2Face.Controllers
             var userId = User.Identity.GetUserId<int>();
             var user = db.AspNetUsers.Find(userId);
             var userProfile = db.UserProfile.Find(userId);
-               
-           
+
+
             userProfile.Name = model.Name;
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
@@ -120,7 +130,7 @@ namespace Face2Face.Controllers
             userProfile.LanguagesTable1 = model.InterestedLanguage;
             userProfile.LanguagesTable2 = model.NativeLanguage;
 
-            
+
 
 
             db.SaveChanges();
@@ -393,6 +403,7 @@ namespace Face2Face.Controllers
         public ActionResult EditUserProfile(int? id)
         {
             var userProfile = db.UserProfile.Find(id);
+
             if (userProfile == null)
             {
                 return HttpNotFound();
@@ -430,7 +441,7 @@ namespace Face2Face.Controllers
             }
             return View("Index");
         }
-    
+
         //(Diego)
 
 
@@ -485,6 +496,6 @@ namespace Face2Face.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
