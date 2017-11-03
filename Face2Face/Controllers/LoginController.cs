@@ -22,20 +22,20 @@ namespace Face2Face.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult LogIn(Models.Registration user)
-        {
-            if (IsValid(user.Email, user.Password))
-            {
-                FormsAuthentication.SetAuthCookie(user.Email, false);
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ModelState.AddModelError("", "Login details are wrong.");
-            }
-            return View(user);
-        }
+        //[HttpPost]
+        //public ActionResult LogIn(Models.Registration user)
+        //{
+        //    if (IsValid(user.Email, user.Password))
+        //    {C:\Users\altar22\Documents\GitHub\Face_to_Face\Face2Face\Controllers\EventTablesController.cs;
+        //        FormsAuthentication.SetAuthCookie(user.Email, false);
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    else
+        //    {
+        //        ModelState.AddModelError("", "Login details are wrong.");
+        //    }
+        //    return View(user);
+        //}
 
         private bool IsValid(string email, string password)
         {
@@ -48,14 +48,14 @@ namespace Face2Face.Controllers
             return View();
         }
 
-        [HttpPost]
-        public Action
+        //[HttpPost]
+        //public Action
 
-        // GET: Login/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        //// GET: Login/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
 
         // GET: Login/Create
         public ActionResult Create()

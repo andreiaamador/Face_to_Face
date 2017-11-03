@@ -1,44 +1,76 @@
-﻿@{
+﻿@model Face2Face.Models.RegisterViewModel
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
     <h1>Face2Face</h1>
-    <p class="lead">Queres aprender uma nova língua fora da sala de aula?</p>
+    <p class="lead">Do you want to learn a new language outside a classroom?</p>
+    @*Queres aprender uma nova língua fora da sala de aula?*@
     <p><a href="" class=""></a></p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2> Uma maneira de combinares encontros em todos as linguas!</h2>
+        <h2> A way to combine meetings in every language!</h2>
+        @*Uma maneira de combinares encontros em todos as linguas!*@
         <p>
-            O Face2Face é uma plataforma que te permite aprender, aperfeiçoar ou adquirir vocabulário numa nova língua.
-            Uma nova maneira de aprender que também te permite conviver com pessoas de outras nacionalidades, da mesma nacionalidade que tu e que partilham os mesmos gostos.
+            Face2Face is a plataform that allows you to learn, improve and get more vocabulary in a new language.
+            A way to learn but also allows you to meet people from others nationalities and who share the same insterests than you.
         </p>
+            @*O Face2Face é uma plataforma que te permite aprender, aperfeiçoar ou adquirir vocabulário numa nova língua.
+            Uma nova maneira de aprender que também te permite conviver com pessoas de outras nacionalidades, da mesma nacionalidade que tu e que partilham os mesmos gostos.*@
         <p><a class="" href=""></a></p>
     </div>
+    <div style="">
+        @if (Request.IsAuthenticated)
+        {
+            <strong>@Html.Encode(User.Identity.Name)</strong>
+            @Html.ActionLink("Log Out", "Logout", "User")
+        }
+        else
+        {
+            @Html.ActionLink("Register", "Register", "User")
+            <span> | </span>
+            @Html.ActionLink("Log In", "Login", "User")
+        }
+        <div class="row">
+            <div class="col-md-4">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+            <div class="row">
+                <div class="col-md-4">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                </div>
+             
+             <div class="row">
+                    <div class="col-md-4">
+                        <input type="submit" class="btn btn-default" value="Save" />
+                    </div>
+                </div>
 
+                @*<button onclick="myFunction()">Save</button>
+                <script>
+                    function myFunction() {
+                        var x = ;
+                        db.SaveChanges();
+                    }
+                </script>*@
+
+                </div>
+           
+        </div>
+    </div>
     @*@Html.Partial("AuthorPartial")*@
 
     @*public class ManageController : Controller
-    {}*@
+        {}*@
     @*<div class="col-md-4">
-        <h2></h2>
-        <p></p>
-        <p><a class="" href=""></a></p>
-    </div>
-</div>*@
-
-<div style="width:auto; background-color:aqua>
-    @if (Request.IsAuthenticated)
-{
-    <strong>@Html.Encode(User.Identity.Name)</strong>
-    @Html.ActionLink("Log Out", "Logout", "User")
-}
-    else
-{
-        @Html.ActionLink("Register", "Register", "User")
-        <span> | </span>
-        @Html.ActionLink("Log In", "Login", "User")
-    }
-</div>
+                <h2></h2>
+                <p></p>
+                <p><a class="" href=""></a></p>
+            </div>
+        </div>*@
