@@ -372,7 +372,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">Review</label>
                                     <div class="col-md-10">
-                                        <input id="textReview" type="text" name="review" id="eventReview" />
+                                        <input id="textReview" type="text" name="review" />
                                     </div>
                                 </div>
                             </div>
@@ -388,6 +388,10 @@
 
             </div>
 
+        </div>
+
+        <div id="ChatViewPartial">
+            @Html.Action("ChatView", "EventTables", new { id = Model.EventID })
         </div>
     </div>
 

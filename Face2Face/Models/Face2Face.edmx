@@ -66,6 +66,15 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="ChatTable">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ChatEntry" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="EventTable">
           <Key>
             <PropertyRef Name="EventID" />
@@ -160,6 +169,30 @@
           <Property Name="Age" Type="int" />
           <Property Name="Photo" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <Association Name="FK_ChatTable_EventTable">
+          <End Role="EventTable" Type="Self.EventTable" Multiplicity="1" />
+          <End Role="ChatTable" Type="Self.ChatTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTable">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="ChatTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatTable_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="ChatTable" Type="Self.ChatTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ChatTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -414,6 +447,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChatTable" EntityType="Self.ChatTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventTable" EntityType="Self.EventTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FluentLanguage" EntityType="Self.FluentLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InterestedLanguage" EntityType="Self.InterestedLanguage" Schema="dbo" store:Type="Tables" />
@@ -424,6 +458,14 @@
           <EntitySet Name="ReviewTable" EntityType="Self.ReviewTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ChatTable_EventTable" Association="Self.FK_ChatTable_EventTable">
+            <End Role="EventTable" EntitySet="EventTable" />
+            <End Role="ChatTable" EntitySet="ChatTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatTable_UserProfile" Association="Self.FK_ChatTable_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ChatTable" EntitySet="ChatTable" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -540,6 +582,7 @@
           <EntitySet Name="AspNetUserClaims" EntityType="Face2FaceModel.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="Face2FaceModel.AspNetUserLogins" />
           <EntitySet Name="AspNetUsers" EntityType="Face2FaceModel.AspNetUsers" />
+          <EntitySet Name="ChatTable" EntityType="Face2FaceModel.ChatTable" />
           <EntitySet Name="EventTable" EntityType="Face2FaceModel.EventTable" />
           <EntitySet Name="LanguagesTable" EntityType="Face2FaceModel.LanguagesTable" />
           <EntitySet Name="NationalityTable" EntityType="Face2FaceModel.NationalityTable" />
@@ -557,6 +600,14 @@
           <AssociationSet Name="FK_UserProfile_AspNetUsers" Association="Face2FaceModel.FK_UserProfile_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatTable_EventTable" Association="Face2FaceModel.FK_ChatTable_EventTable">
+            <End Role="EventTable" EntitySet="EventTable" />
+            <End Role="ChatTable" EntitySet="ChatTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatTable_UserProfile" Association="Face2FaceModel.FK_ChatTable_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ChatTable" EntitySet="ChatTable" />
           </AssociationSet>
           <AssociationSet Name="FK_EventTable_LanguagesTable" Association="Face2FaceModel.FK_EventTable_LanguagesTable">
             <End Role="LanguagesTable" EntitySet="LanguagesTable" />
@@ -666,6 +717,17 @@
           <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="AspNetUsers" ToRole="UserProfile" />
           <NavigationProperty Name="AspNetRoles" Relationship="Face2FaceModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
+        <EntityType Name="ChatTable">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ChatEntry" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_ChatTable_EventTable" FromRole="ChatTable" ToRole="EventTable" />
+          <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_ChatTable_UserProfile" FromRole="ChatTable" ToRole="UserProfile" />
+        </EntityType>
         <EntityType Name="EventTable">
           <Key>
             <PropertyRef Name="EventID" />
@@ -681,6 +743,7 @@
           <Property Name="MaxUsers" Type="Int32" />
           <Property Name="Budget" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ChatTable" Relationship="Face2FaceModel.FK_ChatTable_EventTable" FromRole="EventTable" ToRole="ChatTable" />
           <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FK_EventTable_LanguagesTable" FromRole="EventTable" ToRole="LanguagesTable" />
           <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="EventTable" ToRole="UserProfile" />
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_EventTable" FromRole="EventTable" ToRole="ReviewTable" />
@@ -738,6 +801,7 @@
           <Property Name="Age" Type="Int32" />
           <Property Name="Photo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUsers" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="UserProfile" ToRole="AspNetUsers" />
+          <NavigationProperty Name="ChatTable" Relationship="Face2FaceModel.FK_ChatTable_UserProfile" FromRole="UserProfile" ToRole="ChatTable" />
           <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="UserProfile" ToRole="EventTable" />
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_UserProfile" FromRole="UserProfile" ToRole="ReviewTable" />
           <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FluentLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
@@ -781,6 +845,30 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatTable_EventTable">
+          <End Type="Face2FaceModel.EventTable" Role="EventTable" Multiplicity="1" />
+          <End Type="Face2FaceModel.ChatTable" Role="ChatTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTable">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="ChatTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatTable_UserProfile">
+          <End Type="Face2FaceModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="Face2FaceModel.ChatTable" Role="ChatTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ChatTable">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -936,6 +1024,15 @@
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChatTable">
+            <EntityTypeMapping TypeName="Face2FaceModel.ChatTable">
+              <MappingFragment StoreEntitySet="ChatTable">
+                <ScalarProperty Name="ChatEntry" ColumnName="ChatEntry" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
