@@ -203,6 +203,28 @@ namespace Face2Face.Controllers
             return View("EventList", db.EventTable);
         }
 
+        [HttpPost]
+        public ActionResult ChatView(int eventID, string message)
+        {
+            if (ModelState.IsValid)
+            {
+                ChatTable chatTable = new ChatTable
+                {
+                    EventID = eventID,
+                    UserID = Convert.ToInt32(User.Identity.GetUserId()),
+                    ChatEntry = message,
+                };
+
+                db.Entry(chatTable).State = EntityState.Added;
+                db.SaveChanges();
+                return RedirectToAction("Details", db.EventTable.Find(eventID));
+            }
+            else
+            {
+                return View("EventList", db.EventTable);
+            }
+        }
+        
         // GET: EventTables/Create
         public ActionResult Create()
         {

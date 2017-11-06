@@ -30,6 +30,7 @@ namespace Face2Face.Models
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<ChatTable> ChatTable { get; set; }
         public virtual DbSet<EventTable> EventTable { get; set; }
         public virtual DbSet<LanguagesTable> LanguagesTable { get; set; }
         public virtual DbSet<NationalityTable> NationalityTable { get; set; }
