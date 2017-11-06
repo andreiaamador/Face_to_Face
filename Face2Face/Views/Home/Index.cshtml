@@ -31,37 +31,46 @@
         }
         else
         {
-            @Html.ActionLink("Register", "Register", "User")
-            <span> | </span>
-            @Html.ActionLink("Log In", "Login", "User")
+            @*@Html.ActionLink("Register", "Register", "User")
+                <span> | </span>
+                @Html.ActionLink("Log In", "Login", "User")*@
         }
+
+       @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+       {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
         <div class="row">
             <div class="col-md-4">
-                @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
+            </div>
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            <br><br/>
+
             <div class="row">
                 <div class="col-md-4">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
-                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
                 </div>
-             
-             <div class="row">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+                <br><br />
+
+                <div class="row">
                     <div class="col-md-4">
-                        <input type="submit" class="btn btn-default" value="Save" />
+                    </div>
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-4 control-label" })
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    <br><br />
+
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <input type="submit" class="btn btn-default" value="Sign Up" />
                     </div>
                 </div>
-                </div>
-           
-        </div>
-    </div>
-    @*@Html.Partial("AuthorPartial")*@
-
-    @*public class ManageController : Controller
-        {}*@
-    @*<div class="col-md-4">
-                <h2></h2>
-                <p></p>
-                <p><a class="" href=""></a></p>
             </div>
-        </div>*@
+        </div>
+       }
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
