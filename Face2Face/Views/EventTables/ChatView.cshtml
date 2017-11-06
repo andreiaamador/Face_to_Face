@@ -1,7 +1,7 @@
 ﻿@model Face2Face.Models.EventTable
 
 <fieldset>
-    @using (Ajax.BeginForm("ChatView", "EventTables", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ChatViewPartial" }))
+    @using (Ajax.BeginForm("ChatView", "EventTables", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "ChatView" }))
     {
         <div class="container">
             <input type="text" id="message" name="message" />
@@ -32,8 +32,8 @@
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
             // Get the user name and store it to prepend to messages.
-            //$('#displayname').val(prompt('Enter your name:', ''));
-            $('#displayname').val(@ViewBag.user);
+            $('#displayname').val(prompt('Enter your name:', ''))
+           @*$('#displayname').val(@ViewBag.user);*@
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
