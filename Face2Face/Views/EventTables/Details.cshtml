@@ -372,7 +372,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-2">Review</label>
                                     <div class="col-md-10">
-                                        <input id="textReview" type="text" name="review" id="eventReview" />
+                                        <input id="textReview" type="text" name="review" />
                                     </div>
                                 </div>
                             </div>
@@ -388,6 +388,10 @@
 
             </div>
 
+        </div>
+
+        <div id="ChatViewPartial">
+            @Html.Action("ChatView", "EventTables", new { id = Model.EventID })
         </div>
     </div>
 
@@ -444,13 +448,6 @@
                 $("#lbsRev").val(3);
             }
 
-<div id="ChatViewPartial">
-    @{ Html.RenderPartial("ChatView", Model);}
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-<script>
             if ($(this).hasClass("4")) {
                 $(".1").addClass("fa-star");
                 $(".2").addClass("fa-star");

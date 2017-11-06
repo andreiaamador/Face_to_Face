@@ -220,7 +220,8 @@ namespace Face2Face.Controllers
                         Classification = classification,
                         Review = review
                     };
-                db.ReviewTable.Add(reviewTable);
+
+                    db.ReviewTable.Add(reviewTable);
                     db.Entry(reviewTable).State = EntityState.Added;
                     db.SaveChanges();
                 //}
@@ -274,21 +275,35 @@ namespace Face2Face.Controllers
             return View("Details", db.EventTable.Find(eventID));
         }
 
+        //GET
+        public ActionResult ChatView(int? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            return View("ChatView");
+        }
+
         [HttpPost]
-        public ActionResult ChatView(int eventID, string message)
+        public ActionResult ChatView(int id, string message)
         {
             if (ModelState.IsValid)
             {
+                int userLog = Convert.ToInt32(User.Identity.GetUserId());
                 ChatTable chatTable = new ChatTable
                 {
-                    EventID = eventID,
-                    UserID = Convert.ToInt32(User.Identity.GetUserId()),
+                    EventID = id,
+                    UserID = userLog,
                     ChatEntry = message,
                 };
 
+                db.ChatTable.Add(chatTable);
                 db.Entry(chatTable).State = EntityState.Added;
                 db.SaveChanges();
-                return RedirectToAction("Details", db.EventTable.Find(eventID));
+
+                ViewBag.user = userLog;
+                return RedirectToAction("ChatView", db.ChatTable);
             }
             else
             {

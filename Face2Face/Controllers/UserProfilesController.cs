@@ -186,7 +186,7 @@ namespace Face2Face.Controllers
         public async Task<double> GetProfileClassificationAsync(int? id)
         {
             ObjectParameter x = new ObjectParameter("x", typeof(double));
-            db.sp_ProfileClassification(id,  x);
+            db.sp_ProfileClassification(13,  x);
             var y = x.Value;
 
 
