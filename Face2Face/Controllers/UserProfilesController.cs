@@ -156,7 +156,6 @@ namespace Face2Face.Controllers
         public async Task<double?> GetProfileClassificationAsync(int? id)
         {
             ObjectParameter x = new ObjectParameter("x", typeof(double));
-<<<<<<< HEAD
             db.sp_ProfileClassification(id,  x);
 
             if (!x.Value.Equals(System.DBNull.Value)) {
@@ -166,36 +165,6 @@ namespace Face2Face.Controllers
             else {
                 return null;
             }
-=======
-            db.sp_ProfileClassification(13,  x);
-            var y = x.Value;
-
-
-            return Convert.ToDouble(x.Value);
-
-            //double classification = 0;
-            //int count = 0;
-
-            //foreach (var evenT in db.EventTable)
-            //{
-            //    if (evenT.UserID == id)
-            //    {
-            //        foreach (var review in evenT.ReviewTable)
-            //        {
-            //            classification = classification + review.Classification;
-            //            count++;
-            //        }
-            //    }
-            //}
-            //if (count != 0)
-            //{
-            //    return (double)classification / count;
-            //}
-            //else
-            //{
-            //    return (double)0;
-            //}
->>>>>>> origin/Andreia
         }
     }
 }
