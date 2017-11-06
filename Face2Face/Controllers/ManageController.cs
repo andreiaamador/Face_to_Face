@@ -11,6 +11,10 @@ using System.Data.Entity;
 using System.Net;
 using System.IO;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace Face2Face.Controllers
 {
@@ -83,33 +87,30 @@ namespace Face2Face.Controllers
             var userId = User.Identity.GetUserId<int>();
             var user = db.AspNetUsers.Find(userId);
             var userProfile = db.UserProfile.Find(userId);
-
-
+            
             model.Email = user.Email;
             model.PhoneNumber = user.PhoneNumber;
             model.Nationality = userProfile.Nationality;
             model.Name = userProfile.Name;
             model.Age = userProfile.Age;
             model.Photo = userProfile.Photo;
-
             model.FluentLanguage = userProfile.LanguagesTable;
             model.InterestedLanguage = userProfile.LanguagesTable1;
             model.NativeLanguage = userProfile.LanguagesTable2;
 
 
-
+            string json = "[";
             List<string> availableLanguages = new List<string>();
             foreach (var item in db.LanguagesTable)
             {
-                var Languages = item.Language;
-                availableLanguages.Add(Languages);
+                json = json+ "," + item.Language ;
             }
-            model.ListLanguages = availableLanguages;
-
+            json = json + "]";
+            model.ListLanguages = json;
             return View(model);
         }
 
-        // POST: /Manage/ChangePassword
+        // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(ChangeProfile model)
@@ -125,22 +126,18 @@ namespace Face2Face.Controllers
             userProfile.Nationality = model.Nationality;
             userProfile.Age = model.Age;
             userProfile.Photo = model.Photo;
-
             userProfile.LanguagesTable = model.FluentLanguage;
             userProfile.LanguagesTable1 = model.InterestedLanguage;
             userProfile.LanguagesTable2 = model.NativeLanguage;
 
 
-
-
             db.SaveChanges();
             return RedirectToAction("Index");
-
         }
 
-        //
-        // POST: /Manage/RemoveLogin
-        [HttpPost]
+//
+// POST: /Manage/RemoveLogin
+[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {

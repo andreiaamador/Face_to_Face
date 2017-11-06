@@ -102,9 +102,6 @@ namespace Face2Face.Models
         public ICollection<LanguagesTable> NativeLanguage { get; set; }
         public ICollection<LanguagesTable> FluentLanguage { get; set; }
         public ICollection<LanguagesTable> InterestedLanguage { get; set; }
-
-        public List<string> ListLanguages { get; set; }
-
-     
+        public string ListLanguages { get; set; }
     }
 }

@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/Content/jquery.tagit.css" />
 }
-
 <h4>Change your account settings</h4>
 
 @using (Html.BeginForm())
@@ -17,7 +16,6 @@
 
     <div class="form-horizontal">
         <div class="form-group">
-            @*@Html.DisplayNameFor(model => model.Name)*@
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
@@ -50,7 +48,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PhoneNumber, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
@@ -65,104 +63,49 @@
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
-
-
         <div class="form-group">
-
-            @Html.LabelFor(model => model.NativeLanguage, htmlAttributes: new { @class = "control-label col-md-2" })
-
-
+            @Html.LabelFor(model => model.NativeLanguage,"Native Languages", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10 ">
-                @*<div class="nativeLanguage">
-                        @foreach (var native in Model.NativeLanguage)
-                        {
-                            <label>@native.Language</label>
-                        }
-                    </div>*@
-
-
-                @*@{
-                    List<string> availableLanguages = new List<string>();
-                    foreach (var item in Model.ListLanguages)
-                    {
-
-                        availableLanguages.Add(@item);
-                    }
-                }*@
-
-                <ul id="teste">
+                <input  class = "hidden" type="text" id="listLanguages" value=@Model.ListLanguages>
+                <ul id="nativeLanguages">
                     @foreach (var item in Model.NativeLanguage)
                     {
                         <li>@item.Language</li>
-
+                    } 
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FluentLanguage, "Fluent Languages", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input class="hidden" type="text" id="listLanguages" value=@Model.ListLanguages>
+                <ul id="fluentLanguages">
+                    @foreach (var item in Model.FluentLanguage)
+                    {
+                        <li>@item.Language</li>
                     }
                 </ul>
-
-                @*@Html.Action("selectLanguage", "Languagestables")
-                    <input id="addNative" type="button" value="add">*@
-
             </div>
         </div>
-
-
-        @*@foreach (var native in Model.NativeLanguage)
-                {
-                    <div class="col-md-10">
-                        @Html.EditorFor(modelItem => native.Language, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                }
-            </div>*@
-
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.FluentLanguage, htmlAttributes: new { @class = "control-label col-md-2" })
-
-                @foreach (var fluent in Model.FluentLanguage)
-                {
-                    <div class="col-md-10">
-                        @Html.EditorFor(modelItem => fluent.Language, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                }
-            </div>*@
-
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.InterestedLanguage, htmlAttributes: new { @class = "control-label col-md-2" })
-
-                @foreach (var interested in Model.InterestedLanguage)
-                {
-                    <div class="col-md-10">
-                        @Html.EditorFor(modelItem => interested.Language, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                }
-            </div>*@
-
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.FluentLanguage, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.FluentLanguage, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.FluentLanguage, "", new { @class = "text-danger" })
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.InterestedLanguage, "Interested Languages", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input class="hidden" type="text" id="listLanguages" value=@Model.ListLanguages>
+                <ul id="interestedLanguages">
+                    @foreach (var item in Model.InterestedLanguage)
+                    {
+                        <li>@item.Language</li>
+                    }
+                </ul>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.InterestedLanguage, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.InterestedLanguage, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.InterestedLanguage, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
+        </div>
     </div>
-
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" id="btnSave" value="Save" class="btn btn-default" />
         </div>
     </div>
-
-                    }
-
-
+}
 <dl class="dl-horizontal">
     <dt>Password:</dt>
     <dd>
@@ -172,33 +115,23 @@
     </dd>
 </dl>
 
-
-
-@*<tr>@Html.ActionLink("Edit", "EditUserProfile", "Manage")</tr>*@
-
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/tag-it.min.js"></script>
-
     <script type="text/javascript">
         $(document).ready(function () {
-
-            
-
-
-        @*$("#teste").tagit({
-            availableTags: @Model.ListLanguages
-
-        });*@
-
-
-        $("#teste").tagit({
-            availableTags: ["c++", "java", "php", "javascript", "ruby", "python", "c"]
-
+            $("#nativeLanguages").tagit({
+                availableTags: $("#listLanguages").val().split(",")
+            })
+            $("#fluentLanguages").tagit({
+                availableTags: $("#listLanguages").val().split(",")
+            })
+            $("#interestedLanguages").tagit({
+                availableTags: $("#listLanguages").val().split(",")
+            }) 
         });
-
+        //https://msdn.microsoft.com/en-us/library/ms233812.aspx
+      
     </script>
 }
