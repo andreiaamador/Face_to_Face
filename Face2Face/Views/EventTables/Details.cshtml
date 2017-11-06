@@ -1,17 +1,19 @@
 ﻿@model Face2Face.Models.EventTable
 
-
 <style>
-    .eventDetails .reviews{
+    .eventDetails, .reviews {
         border: solid;
         border-color: black;
         border-radius: 5px;
         padding: 10px;
-        /*margin: 5px;*/
+        margin-bottom: 5px;
     }
 
     .participantsDetails {
         padding: 10px;
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
     }
 
     .eventDetails img {
@@ -19,32 +21,110 @@
         width: 150px;
         margin: 5px;
     }
+
     .eventDetails .title {
         font-size: 20px;
         font-weight: bold;
     }
-    
-    
-    .participantsDetails img {
+
+    .participantsDetails img, .reviews img {
         height: 40px;
         width: 40px;
     }
+
+    .reviews a {
+        /*//color: black;*/
+    }
+
+        .reviews a:hover {
+            opacity: 0.8;
+            text-decoration: none;
+        }
+
+    .photoReview {
+        text-align: center;
+        vertical-align: middle;
+    }
+
 
     #totalUsers {
         text-align: right;
         margin: 5px;
     }
 
+
     #eventPhoto {
         text-align: center;
         vertical-align: middle;
     }
+
+    input {
+        margin: 2px;
+        border-radius: 10px;
+    }
+
+    .fa:hover {
+        cursor: pointer;
+    }
+
+    #textReview {
+        min-width: 400px;
+    }
 </style>
 
 <div class="row">
-    <div class="col-md-9  eventDetails">
 
-        <div class="container-fluid">
+    <div class="col-md-3">
+
+        <div class="participantsDetails">
+            @{   int parCount = Model.UserProfile1.Count;
+
+                <div id="totalUsers" class="row">
+                    <div class="col-md-12">
+                        <p>
+                            <label>
+                                Participants:
+                            </label>
+                            @parCount
+                        </p>
+                    </div>
+                </div>
+
+                if (parCount != 0)
+                {
+                    foreach (var part in Model.UserProfile1)
+                    {
+                        <div class="row">
+
+                            <div class="col-md-3 col-md-offset-1">
+                                <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
+                                    @{
+                                        if (@part.Photo == null)
+                                        {
+                                            <img src=@part.Photo>
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Content/Images/no-photo-available.png">
+                                        }
+                                    }
+                                </a>
+                            </div>
+
+                            <div class="col-md-7">
+                                @part.Name
+                            </div>
+                        </div>
+                                            }
+                                        }
+            }
+        </div>
+
+    </div>
+
+    <div class="col-md-9 eventDetails1">
+
+        <div class="container-fluid eventDetails">
 
             @if (ViewBag.userLog == Model.UserID)
             {
@@ -56,17 +136,16 @@
 
             <div class="row">
 
-
                 <div id="eventPhoto" class="col-md-4">
 
                     @{
                         if (Model.Photo != null)
                         {
-                            <img src=@Model.Photo>
+                    <img src=@Model.Photo>
                         }
                         else
                         {
-                            <img src="~/Content/Images/no-photo-available.png">
+                    <img src="~/Content/Images/no-photo-available.png">
                         }
                     }
                 </div>
@@ -75,6 +154,38 @@
 
                     <p class="title">
                         @Model.Name
+
+                        @{
+                            if (Model.ReviewTable.Count != 0)
+                            {
+
+                                double eventClassification = 0;
+                                int count = 0;
+
+                                foreach (var rev in Model.ReviewTable)
+                                {
+                                    eventClassification = eventClassification + @rev.Classification;
+                                    count++;
+                                }
+
+                                eventClassification = eventClassification / count;
+
+                                if (eventClassification != 0)
+                                {
+                                    int i = 0;
+                                    for (i = 0; i < Math.Floor(eventClassification); i++)
+                                    {
+                                        <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                    }
+
+                                    if (eventClassification > i)
+                                    {
+                                        <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                    }
+                                    @eventClassification
+                                }
+                            }
+                        }
                     </p>
                     <p>
                         <label>Address: </label>
@@ -92,7 +203,6 @@
                             <label>Summary: </label>
                             @Model.Summary
                         </p>
-
                     }
 
                     <p>
@@ -135,136 +245,204 @@
                 </div>
             </div>
 
-            @{
-                if (ViewBag.userInEvent)
-                {
-                    <input type="button" value="Don't Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
-                }
-                else
-                {
-                    <input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
-                }
-
-                <input type="button" value="Add a Review" id="AddReview"/>
-
-            }
-        </div>
-
-    </div>
-
-    <div class="col-md-3 participantsDetails">
-        @{
-            int parCount = Model.UserProfile1.Count;
-
-            if (parCount != 0)
-            {
-                foreach (var part in Model.UserProfile1)
-                {
-                    <div class="row">
-
-                        <div class="col-md-3 col-md-offset-1">
-                            <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
-                                @{
-                                    if (@part.Photo == null)
-                                    {
-                                        <img src=@part.Photo>
-                                    }
-                                    else
-                                    {
-                                        <img src="~/Content/Images/no-photo-available.png">
-                                    }
-                                }
-                            </a>
-                        </div>
-
-                        <div class="col-md-7">
-                            @part.Name
-                        </div>
-                    </div>
-                }
-
-                        <div id="totalUsers" class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    <label>
-                                        Participants:
-                                    </label>
-                                    @parCount
-                                </p>
-
-                            </div>
-                        </div>
-            }
-        }
-
-    </div>
-
-</div>
-
-<div class="row">
-    <div class="col-md-10 reviews">
-        <h3>Reviews to @Model.Name</h3>
-        @{
-            if (Model.ReviewTable.Count() == 0)
-            {
-                <span>There are no Reviews to this event.</span>
-            }
-            else
-            {
-                    foreach (var review in Model.ReviewTable)
+            <div align="right">
+                @{
+                    if (ViewBag.userInEvent)
                     {
-                        <label>Name</label>
-                        @review.UserProfile.Name
-                        <br />
-                        <br />
-
-                        <label>Classification</label>
-                        @review.Classification
-
-                        <br />
-                        <br />
-
-                        <label>Review</label>
-                        @review.Review
+                        if (!ViewBag.isOnReviews)
+                        {
+                            <input type="button" value="Add a Review" id="AddReview" />
+                        }
+                        <input type="button" value="Don't go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
                     }
-            }
-        }
+                    else
+                    {
+                        <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
+                        @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
+                    }
+                }
+            </div>
 
-        <div class="addReviewForm">
-            @using (Html.BeginForm("AddReviews", "EventTables", FormMethod.Post))
-            {
-                @Html.AntiForgeryToken()
+        </div>
 
-                <div class="form-horizontal">
-                    <hr />
+        <div class="container-fluid reviews">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <h4>Reviews to @Model.Name</h4>
+                    @{
+                        if (Model.ReviewTable.Count() == 0)
+                        {
+                            <span>There are no Reviews to this event.</span>
+                        }
+                        else
+                        {
+                            foreach (var review in Model.ReviewTable)
+                            {
+                                <div class="row">
+                                    <div class="col-md-2 photoReview">
+                                        <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = @review.UserProfile.UserID })'>
+                                            @{
+                                                if (review.UserProfile.Photo != null)
+                                                {
+                                                    <img src=@review.UserProfile.Photo>
 
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.EventID)
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/Content/Images/avatar.png">
+                                                }
+                                                <br />
+                                                @review.UserProfile.Name
+                                            }
+                                        </a>
+                                    </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Classification</label>
-                        <div class="col-md-10">
-                            <input type="number" name="classification" id="eventClassification" max="5" min="0" />
-                        </div>
-                    </div>
+                                    <div class="col-md-10">
+                                        @{
+                                            <div>
+                                                @{
+                                                    int rev = Convert.ToInt16(@review.Classification);
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">Review</label>
-                        <div class="col-md-10">
-                            <input type="text" name="review" id="eventReview" />
-                        </div>
+                                                    if (rev != 0)
+                                                    {
+                                                        int i;
+                                                        for (i = 0; i < rev; i++)
+                                                        {
+                                                            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                                        }
+                                                        if (rev > i)
+                                                        {
+                                                            <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                                        }
+                                                        @rev
+                                                    }
+                                                }
+                                            </div>
+
+                                            <div>
+                                                <p align="justify">
+                                                    @review.Review
+                                                </p>
+                                            </div>
+
+                                            <div>
+
+
+                                                @{
+
+                                                    if (@review.UserID == @ViewBag.userLog)
+                                                    {
+                                                        @Html.ActionLink("Remove", "RemoveReviews", new { eventID = @review.EventID, userID = @review.UserID })
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                                        }
+                                                    }
+                    }
+
+                    <div class="addReviewForm hidden">
+                        @using (Html.BeginForm("AddReviews", "EventTables", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <hr />
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.EventID)
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Classification</label>
+                                    <div class="col-md-10">
+                                        @*<label name="eventID" value="6"> @Model.EventID</label>*@
+                                        <i class="fa fa-star starRev 1" aria-hidden="true" style="color:yellow"></i>
+                                        <i class="fa fa-star-o starRev 2" aria-hidden="true" style="color:yellow"></i>
+                                        <i class="fa fa-star-o starRev 3" aria-hidden="true" style="color:yellow"></i>
+                                        <i class="fa fa-star-o starRev 4" aria-hidden="true" style="color:yellow"></i>
+                                        <i class="fa fa-star-o starRev 5" aria-hidden="true" style="color:yellow"></i>
+                                        @*<spann id="lbsRev" name="classification">1</spann>*@
+                                        <input id="lbsRev" class="hidden" type="number" name="classification" max="5" min="0" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Review</label>
+                                    <div class="col-md-10">
+                                        <input id="textReview" type="text" name="review" id="eventReview" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Save" class="btn btn-default" />
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Save" class="btn btn-default" />
-                    </div>
-                </div>
-            }
+            </div>
+
         </div>
     </div>
+
 </div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $('#AddReview').click(function () {
+
+            if ($('.addReviewForm').hasClass("hidden")) {
+                $('.addReviewForm').removeClass("hidden");
+            }
+            else {
+                $('.addReviewForm').addClass("hidden");
+            }
+
+        })
+
+        $(".starRev").click(function () {
+
+            $(".starRev").removeClass("fa-star-o");
+            $(".starRev").removeClass("fa-star");
+
+            if ($(this).hasClass("1")) {
+                $(".1").addClass("fa-star");
+                $(".2").addClass("fa-star-o");
+                $(".3").addClass("fa-star-o");
+                $(".4").addClass("fa-star-o");
+                $(".5").addClass("fa-star-o");
+                $("#lbsRev").text(1);
+                $("#lbsRev").val(1);
+            }
+
+            if ($(this).hasClass("2")) {
+                $(".1").addClass("fa-star");
+                $(".2").addClass("fa-star");
+                $(".3").addClass("fa-star-o");
+                $(".4").addClass("fa-star-o");
+                $(".5").addClass("fa-star-o");
+                $("#lbsRev").text(2);
+                $("#lbsRev").val(2);
+            }
+
+            if ($(this).hasClass("3")) {
+                $(".1").addClass("fa-star");
+                $(".2").addClass("fa-star");
+                $(".3").addClass("fa-star");
+                $(".4").addClass("fa-star-o");
+                $(".5").addClass("fa-star-o");
+                $("#lbsRev").text(3);
+                $("#lbsRev").val(3);
+            }
 
 <div id="ChatViewPartial">
     @{ Html.RenderPartial("ChatView", Model);}
@@ -273,11 +451,22 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 <script>
+            if ($(this).hasClass("4")) {
+                $(".1").addClass("fa-star");
+                $(".2").addClass("fa-star");
+                $(".3").addClass("fa-star");
+                $(".4").addClass("fa-star");
+                $(".5").addClass("fa-star-o");
+                $("#lbsRev").text(4);
+                $("#lbsRev").val(4);
+            }
 
-    $('.addReviewForm').hide();
+            if ($(this).hasClass("5")) {
+                $(".starRev").addClass("fa-star");
+                $("#lbsRev").text(5);
+                $("#lbsRev").val(5);
+            }
 
-    $('#AddReview').click(function () {
-        $('.addReviewForm').show();
-    })
-</script>
+        });
+    </script>
 }
