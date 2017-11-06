@@ -276,6 +276,12 @@
     <Compile Include="Models\ReviewTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
@@ -413,6 +419,7 @@
     <Content Include="Views\EventTables\EventsList.cshtml" />
     <Content Include="Views\UserProfiles\ProfilePartial.cshtml" />
     <Content Include="Views\EventTables\GoToEvent.cshtml" />
+    <Content Include="Views\UserProfiles\ClassificationPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

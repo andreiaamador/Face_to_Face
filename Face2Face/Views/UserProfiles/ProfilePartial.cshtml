@@ -4,9 +4,8 @@
     Layout = null;
 }
 <style>
-
     .title {
-        font-size:18px;
+        font-size: 18px;
         font-weight: bold;
     }
 
@@ -14,7 +13,7 @@
         border: solid;
         border-color: black;
         border-radius: 5px;
-        padding:10px;
+        padding: 10px;
     }
 </style>
 
@@ -27,11 +26,11 @@
                 if (Model.Photo != null)
                 {
                     <img src=@Model.Photo>
-                  
+
                 }
                 else
                 {
-            <img src="~/Content/Images/avatar.png">
+                    <img src="~/Content/Images/avatar.png">
                 }
             }
 
@@ -39,28 +38,13 @@
                 <label class="title">
                     @Model.Name
                 </label>
+
                 <br />
                 @{
-                    double reviews = ViewBag.Reviews;
-
-                    if (reviews != 0)
-                    {
-                        @reviews
-
-                        int i;
-                        for (i = 0; i < Math.Floor(reviews); i++)
-                        {
-                            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
-                        }
-                        if (reviews > i)
-                        {
-                            <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
-                        }
-                    }
+                    @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = Model.UserID })
                 }
             </p>
         </a>
-
 
         <p>
             @Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")
@@ -70,10 +54,10 @@
         <p>
             @Html.ActionLink("Next Events", "NextEvents", "EventTables")
         </p>
-                    <p>
-                        @Html.ActionLink("Create new Event", "Create", "EventTables")
-                    </p>
+        <p>
+            @Html.ActionLink("Create new Event", "Create", "EventTables")
+        </p>
 
-                }
+                    }
 
 </div>

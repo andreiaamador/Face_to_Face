@@ -8,20 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using Face2Face.Models;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
     public class UserProfilesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
-
-        // GET: UserProfiles
-        public ActionResult GetOwnProfile()
-        {
-            int userLog= Convert.ToInt32(User.Identity.GetUserId());
-            ViewBag.Reviews = 3;
-            return View("ProfilePartial", db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
-        }
 
         // GET: UserProfiles
         public ActionResult Index()
@@ -138,6 +132,88 @@ namespace Face2Face.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public async Task<ActionResult> GetProfileClassificationAsync(int? id)
+        {
+            DbHelper helper = new DbHelper();
+            var classification = await helper.GetProfileClassificationAsync(id);
+            return View("ClassificationPartial", classification);
+        }
+
+        // GET: UserProfiles
+        public ActionResult GetOwnProfile()
+        {
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            ViewBag.profileClassification = GetProfileClassification(userLog);
+            return View("ProfilePartial", db.UserProfile.Find(userLog));
+        }
+
+        public double GetProfileClassification(int? id)
+        {
+
+            double classification = 0;
+            int count = 0;
+
+            foreach (var evenT in db.EventTable)
+            {
+                if (evenT.UserID == id)
+                {
+                    foreach (var review in evenT.ReviewTable)
+                    {
+                        classification = classification + review.Classification;
+                        count++;
+                    }
+                }
+            }
+            if (count != 0)
+            {
+                return (double)classification / count;
+            }
+            else
+            {
+                return (double)0;
+            }
+        }
+
+
+    }
+
+    public class DbHelper
+    {
+        private Face2FaceEntities1 db = new Face2FaceEntities1();
+
+        public async Task<double> GetProfileClassificationAsync(int? id)
+        {
+            ObjectParameter x = new ObjectParameter("x", typeof(double));
+            db.sp_ProfileClassification(id,  x);
+            var y = x.Value;
+
+
+            return Convert.ToDouble(x.Value);
+
+            //double classification = 0;
+            //int count = 0;
+
+            //foreach (var evenT in db.EventTable)
+            //{
+            //    if (evenT.UserID == id)
+            //    {
+            //        foreach (var review in evenT.ReviewTable)
+            //        {
+            //            classification = classification + review.Classification;
+            //            count++;
+            //        }
+            //    }
+            //}
+            //if (count != 0)
+            //{
+            //    return (double)classification / count;
+            //}
+            //else
+            //{
+            //    return (double)0;
+            //}
         }
     }
 }
