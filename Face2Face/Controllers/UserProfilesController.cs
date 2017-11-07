@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Face2Face.Models;
+using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
@@ -129,6 +132,39 @@ namespace Face2Face.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public async Task<ActionResult> GetProfileClassificationAsync(int? id)
+        {
+            DbHelper helper = new DbHelper();
+            var classification = await helper.GetProfileClassificationAsync(id);
+            return View("ClassificationPartial", classification);
+        }
+
+        // GET: UserProfiles
+        public ActionResult GetOwnProfile()
+        {
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            return View("ProfilePartial", db.UserProfile.Find(userLog));
+        }
+    }
+
+    public class DbHelper
+    {
+        private Face2FaceEntities1 db = new Face2FaceEntities1();
+
+        public async Task<double?> GetProfileClassificationAsync(int? id)
+        {
+            ObjectParameter x = new ObjectParameter("x", typeof(double));
+            db.sp_ProfileClassification(id,  x);
+
+            if (!x.Value.Equals(System.DBNull.Value)) {
+                return Convert.ToDouble(x.Value);
+            }
+
+            else {
+                return null;
+            }
         }
     }
 }

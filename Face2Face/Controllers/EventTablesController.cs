@@ -26,6 +26,40 @@ namespace Face2Face.Controllers
             return View(eventTable.ToList());
         }
 
+        public ActionResult MyOwnEvents()
+        {
+            int userID = Convert.ToInt32(User.Identity.GetUserId());
+
+            string sqlQuery = string.Format("{0}{1}", "select * from EventTable where UserID=", userID);
+            var eventTable = db.EventTable.SqlQuery(sqlQuery);
+
+            return View("EventsList", eventTable.ToList());
+        }
+
+        public ActionResult NextEvents()
+        {
+            int userID = Convert.ToInt32(User.Identity.GetUserId());
+
+            var eventTable = db.EventTable;
+
+            //////////////////////////////////////////////////////////
+            //////////////////////////////////////////////////////////
+            List<EventTable> eventos = new List<EventTable>();
+            foreach (var evnt in eventTable)
+            {
+                foreach (var part in evnt.UserProfile1)
+                {
+                    if (part.UserID == userID)
+                    {
+                        eventos.Add(evnt);
+                        break;
+                    }
+                }
+            }
+
+            return View("EventsList", eventos.ToList());
+        }
+
         // POST:
         [HttpPost]
         public ActionResult Filter(string Location, string Date, string Language, string keyWord)
@@ -87,9 +121,7 @@ namespace Face2Face.Controllers
                     }
                 }
 
-                var eventTable=db.EventTable.SqlQuery(sqlQuery);
-
-                //ViewBag.eventTable = db.EventTable.SqlQuery(sqlQuery);
+                var eventTable = db.EventTable.SqlQuery(sqlQuery);
 
                 return View("EventsList", eventTable.ToList());
             }
@@ -99,6 +131,41 @@ namespace Face2Face.Controllers
             }
         }
 
+        public ActionResult GoToEvent(int id)
+        {
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            var eventTable = db.EventTable.Find(id);
+            UserProfile Profile = db.UserProfile.Find(userLog);
+
+            if (eventTable.UserProfile1.Contains(Profile))
+            {
+                eventTable.UserProfile1.Remove(Profile);
+            }
+            else
+            {
+                eventTable.UserProfile1.Add(Profile);
+            }
+
+            ViewBag.userLog = userLog;
+            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
+
+            if (db.ReviewTable.Find(id, userLog) != null)
+            {
+                ViewBag.isOnReviews = true;
+            }
+            else
+            {
+                ViewBag.isOnReviews = false;
+            }
+
+            db.Entry(eventTable).State = EntityState.Modified;
+            db.SaveChanges();
+
+            //ViewBag.userLog = userLog;
+            //ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
+
+            return View("Details", eventTable);
+        }
 
         // GET: EventTables
         public ActionResult Index()
@@ -106,7 +173,6 @@ namespace Face2Face.Controllers
             var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
             return View(eventTable.ToList());
         }
-
 
         // GET: EventTables/Details/5
         public ActionResult Details(int? id)
@@ -120,8 +186,93 @@ namespace Face2Face.Controllers
             {
                 return HttpNotFound();
             }
+
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            ViewBag.userLog = userLog;
+            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
+
+            if (db.ReviewTable.Find(id, userLog) != null)
+            {
+                ViewBag.isOnReviews = true;
+            }
+            else
+            {
+                ViewBag.isOnReviews = false;
+            }
             return View(eventTable);
         }
+
+        [HttpPost]
+        public ActionResult AddReviews(int eventID, int classification, string review)
+        {
+            if (ModelState.IsValid)
+            {
+
+                int userLog = Convert.ToInt32(User.Identity.GetUserId());
+
+                //if (!db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog)))
+                //{
+                    ReviewTable reviewTable = new ReviewTable
+                    {
+                        EventID = eventID,
+                        UserID = userLog,
+                        Classification = classification,
+                        Review = review
+                    };
+                db.ReviewTable.Add(reviewTable);
+                    db.Entry(reviewTable).State = EntityState.Added;
+                    db.SaveChanges();
+                //}
+
+                ViewBag.userLog = userLog;
+                ViewBag.userInEvent = db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog));
+
+                if (db.ReviewTable.Find(eventID, userLog) != null)
+                {
+                    ViewBag.isOnReviews = true;
+                }
+                else
+                {
+                    ViewBag.isOnReviews = false;
+                }
+
+            }
+            return View("Details", db.EventTable.Find(eventID));
+        }
+
+
+        public ActionResult RemoveReviews(int eventID, int userID)
+        {
+            if (ModelState.IsValid)
+            {
+
+                int userLog = Convert.ToInt32(User.Identity.GetUserId());
+
+                //if (!db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog)))
+                //{
+                
+                var reviewTable= db.ReviewTable.Find(eventID, userID);
+                db.ReviewTable.Remove(reviewTable);
+                db.Entry(reviewTable).State = EntityState.Deleted;
+                db.SaveChanges();
+                //}
+
+                ViewBag.userLog = userLog;
+                ViewBag.userInEvent = db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog));
+
+                if (db.ReviewTable.Find(eventID, userLog) != null)
+                {
+                    ViewBag.isOnReviews = true;
+                }
+                else
+                {
+                    ViewBag.isOnReviews = false;
+                }
+
+            }
+            return View("Details", db.EventTable.Find(eventID));
+        }
+
 
         // GET: EventTables/Create
         public ActionResult Create()
@@ -136,7 +287,9 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo)
+
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
+
         {
             if (ModelState.IsValid)
             {
@@ -147,6 +300,10 @@ namespace Face2Face.Controllers
                         string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
                         photo.SaveAs(path);
                         eventTable.Photo = "/UploadedFiles/" + Path.GetFileName(photo.FileName);
+                        eventTable.Date = Convert.ToDateTime(releaseDate);
+                        eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+
+
                         db.Entry(eventTable).State = EntityState.Modified;
                         db.SaveChanges();
                         ViewBag.Message = "File uploaded successfully";
@@ -159,7 +316,10 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
+
+                eventTable.Address = Address;
                 db.EventTable.Add(eventTable);
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -191,7 +351,9 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable,HttpPostedFileBase photo)
+
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
+
         {
             if (ModelState.IsValid)
             {
@@ -203,6 +365,7 @@ namespace Face2Face.Controllers
                         string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
                         photo.SaveAs(path);
                         eventTable.Photo = "/UploadedFiles/" + Path.GetFileName(photo.FileName);
+
                         db.Entry(eventTable).State = EntityState.Modified;
                         db.SaveChanges();
                         ViewBag.Message = "File uploaded successfully";
@@ -215,7 +378,12 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
-                
+
+                eventTable.Date = Convert.ToDateTime(releaseDate);
+                eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+                eventTable.Address = Address;
+
+                db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -262,6 +430,33 @@ namespace Face2Face.Controllers
         public ActionResult UploadFile()
         {
             return View();
+        }
+
+        public EventTable ArrangeEvents(EventTable eventTable)
+        {
+            return eventTable;
+        }
+
+        public double GetEventClassification(int? id)
+        {
+
+            var reviewTable = db.EventTable.Find(id).ReviewTable;
+            double eventReviews = 0;
+            int count = 0;
+            if (reviewTable.Count != 0)
+            {
+                foreach (var rev in reviewTable)
+                {
+                    eventReviews = eventReviews + rev.Classification;
+                    count++;
+                }
+                return (double)eventReviews / count;
+            }
+
+            else
+            {
+                return (double)0;
+            }
         }
     }
 }
