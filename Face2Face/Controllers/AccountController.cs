@@ -370,7 +370,7 @@ namespace Face2Face.Controllers
             {
 
                 /////////////////////////////////////////////////
-                return RedirectToAction("Index", "Manage");
+                //return RedirectToAction("Index", "Manage");
 
                 return RedirectToAction("EventsList", "EventTables");
             }
