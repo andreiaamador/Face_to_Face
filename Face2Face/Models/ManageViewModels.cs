@@ -83,4 +83,25 @@ namespace Face2Face.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
+
+    public class ChangeProfile
+    {
+
+        public ChangeProfile() {
+            this.NativeLanguage = new HashSet<LanguagesTable>();
+            this.FluentLanguage = new HashSet<LanguagesTable>();
+            this.InterestedLanguage = new HashSet<LanguagesTable>();
+         
+        }
+        public string Name { get; set; }
+        public int? Age { get; set; }
+        public string Photo { get; set; }
+        public string Nationality { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
+        public ICollection<LanguagesTable> NativeLanguage { get; set; }
+        public ICollection<LanguagesTable> FluentLanguage { get; set; }
+        public ICollection<LanguagesTable> InterestedLanguage { get; set; }
+        public string ListLanguages { get; set; }
+    }
 }

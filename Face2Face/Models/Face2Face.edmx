@@ -69,7 +69,6 @@
         <EntityType Name="ChatTable">
           <Key>
             <PropertyRef Name="EventID" />
-            <PropertyRef Name="UserID" />
           </Key>
           <Property Name="EventID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
@@ -171,7 +170,7 @@
         </EntityType>
         <Association Name="FK_ChatTable_EventTable">
           <End Role="EventTable" Type="Self.EventTable" Multiplicity="1" />
-          <End Role="ChatTable" Type="Self.ChatTable" Multiplicity="*" />
+          <End Role="ChatTable" Type="Self.ChatTable" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="EventTable">
               <PropertyRef Name="EventID" />
@@ -720,7 +719,6 @@
         <EntityType Name="ChatTable">
           <Key>
             <PropertyRef Name="EventID" />
-            <PropertyRef Name="UserID" />
           </Key>
           <Property Name="EventID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
@@ -851,7 +849,7 @@
         </Association>
         <Association Name="FK_ChatTable_EventTable">
           <End Type="Face2FaceModel.EventTable" Role="EventTable" Multiplicity="1" />
-          <End Type="Face2FaceModel.ChatTable" Role="ChatTable" Multiplicity="*" />
+          <End Type="Face2FaceModel.ChatTable" Role="ChatTable" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="EventTable">
               <PropertyRef Name="EventID" />

@@ -7,9 +7,18 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Face2Face.Models;
+using System.Data.Entity;
+using System.Net;
+using System.IO;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
 
 namespace Face2Face.Controllers
 {
+
     [Authorize]
     public class ManageController : Controller
     {
@@ -32,9 +41,9 @@ namespace Face2Face.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -52,7 +61,7 @@ namespace Face2Face.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -63,21 +72,73 @@ namespace Face2Face.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
+
+            //var model = new IndexViewModel
+            //{
+            //    HasPassword = HasPassword(),
+            //    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+            //    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+            //    Logins = await UserManager.GetLoginsAsync(userId),
+            //    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+            //};
+
+            var model = new ChangeProfile();
+
             var userId = User.Identity.GetUserId<int>();
-            var model = new IndexViewModel
+            var user = db.AspNetUsers.Find(userId);
+            var userProfile = db.UserProfile.Find(userId);
+            
+            model.Email = user.Email;
+            model.PhoneNumber = user.PhoneNumber;
+            model.Nationality = userProfile.Nationality;
+            model.Name = userProfile.Name;
+            model.Age = userProfile.Age;
+            model.Photo = userProfile.Photo;
+            model.FluentLanguage = userProfile.LanguagesTable;
+            model.InterestedLanguage = userProfile.LanguagesTable1;
+            model.NativeLanguage = userProfile.LanguagesTable2;
+
+
+            string json = "[";
+            List<string> availableLanguages = new List<string>();
+            foreach (var item in db.LanguagesTable)
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
-            };
+                json = json+ "," + item.Language ;
+            }
+            json = json + "]";
+            model.ListLanguages = json;
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemoveLogin
+        // POST: /Manage/Index
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(ChangeProfile model, string fluentLanguages)
+        {
+            var userId = User.Identity.GetUserId<int>();
+            var user = db.AspNetUsers.Find(userId);
+            var userProfile = db.UserProfile.Find(userId);
+
+
+
+            userProfile.Name = model.Name;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            userProfile.Nationality = model.Nationality;
+            userProfile.Age = model.Age;
+            userProfile.Photo = model.Photo;
+            userProfile.LanguagesTable = model.FluentLanguage;
+            userProfile.LanguagesTable1 = model.InterestedLanguage;
+            userProfile.LanguagesTable2 = model.NativeLanguage;
+
+
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+//
+// POST: /Manage/RemoveLogin
+[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
@@ -332,8 +393,57 @@ namespace Face2Face.Controllers
 
             base.Dispose(disposing);
         }
+        // Adicionado para ChangeProfile (Diego)
+        private Face2FaceEntities1 db = new Face2FaceEntities1();
 
-#region Helpers
+        //Change Profile
+        // GET: Edit1
+        public ActionResult EditUserProfile(int? id)
+        {
+            var userProfile = db.UserProfile.Find(id);
+
+            if (userProfile == null)
+            {
+                return HttpNotFound();
+            }
+            return View(userProfile);
+        }
+
+        // POST : Edit1
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditUserProfile([Bind(Include = "Name, Age,Nationality, PhoneNumber, Email, NativeLanguage, FluentLanguage, InterestedLanguage")] ChangeProfile changeProfile, HttpPostedFileBase photo)
+        {
+            if (ModelState.IsValid)
+            {
+                if (photo != null && photo.ContentLength > 0)
+                    try
+                    {
+                        string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
+                        photo.SaveAs(path);
+                        changeProfile.Photo = "/UploadedFiles/" + Path.GetFileName(photo.FileName);
+                        db.Entry(changeProfile).State = EntityState.Modified;
+                        db.SaveChanges();
+                        ViewBag.Message = "File uploaded successfully";
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                    }
+                else
+                {
+                    ViewBag.Message = "You have not specified a file.";
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View("Index");
+        }
+
+        //(Diego)
+
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +494,6 @@ namespace Face2Face.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
