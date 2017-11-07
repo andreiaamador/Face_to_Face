@@ -231,7 +231,6 @@
     <Compile Include="Controllers\EventTablesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LanguagesTablesController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NationalityTablesController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
@@ -476,8 +475,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Login\" />
     <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\Login\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
