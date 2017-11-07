@@ -66,6 +66,15 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="ChatTable">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ChatEntry" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
         <EntityType Name="EventTable">
           <Key>
             <PropertyRef Name="EventID" />
@@ -160,6 +169,30 @@
           <Property Name="Age" Type="int" />
           <Property Name="Photo" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <Association Name="FK_ChatTable_EventTable">
+          <End Role="EventTable" Type="Self.EventTable" Multiplicity="1" />
+          <End Role="ChatTable" Type="Self.ChatTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTable">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="ChatTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatTable_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="ChatTable" Type="Self.ChatTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ChatTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -372,6 +405,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ProfileClassification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="int" Mode="In" />
+          <Parameter Name="X" Type="float" Mode="InOut" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Face2FaceModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -379,6 +447,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChatTable" EntityType="Self.ChatTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventTable" EntityType="Self.EventTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FluentLanguage" EntityType="Self.FluentLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InterestedLanguage" EntityType="Self.InterestedLanguage" Schema="dbo" store:Type="Tables" />
@@ -389,6 +458,14 @@
           <EntitySet Name="ReviewTable" EntityType="Self.ReviewTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ChatTable_EventTable" Association="Self.FK_ChatTable_EventTable">
+            <End Role="EventTable" EntitySet="EventTable" />
+            <End Role="ChatTable" EntitySet="ChatTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatTable_UserProfile" Association="Self.FK_ChatTable_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ChatTable" EntitySet="ChatTable" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -463,11 +540,49 @@
     <edmx:ConceptualModels>
       <Schema Namespace="Face2FaceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="Face2FaceEntities1" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="ProfileClassification" ReturnType="Collection(Double)">
+          <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(Face2FaceModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(Face2FaceModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="sp_ProfileClassification">
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+            <Parameter Name="X" Mode="InOut" Type="Double" />
+          </FunctionImport>
           <EntitySet Name="C__MigrationHistory" EntityType="Face2FaceModel.C__MigrationHistory" />
           <EntitySet Name="AspNetRoles" EntityType="Face2FaceModel.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Face2FaceModel.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="Face2FaceModel.AspNetUserLogins" />
           <EntitySet Name="AspNetUsers" EntityType="Face2FaceModel.AspNetUsers" />
+          <EntitySet Name="ChatTable" EntityType="Face2FaceModel.ChatTable" />
           <EntitySet Name="EventTable" EntityType="Face2FaceModel.EventTable" />
           <EntitySet Name="LanguagesTable" EntityType="Face2FaceModel.LanguagesTable" />
           <EntitySet Name="NationalityTable" EntityType="Face2FaceModel.NationalityTable" />
@@ -485,6 +600,14 @@
           <AssociationSet Name="FK_UserProfile_AspNetUsers" Association="Face2FaceModel.FK_UserProfile_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="UserProfile" EntitySet="UserProfile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatTable_EventTable" Association="Face2FaceModel.FK_ChatTable_EventTable">
+            <End Role="EventTable" EntitySet="EventTable" />
+            <End Role="ChatTable" EntitySet="ChatTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatTable_UserProfile" Association="Face2FaceModel.FK_ChatTable_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ChatTable" EntitySet="ChatTable" />
           </AssociationSet>
           <AssociationSet Name="FK_EventTable_LanguagesTable" Association="Face2FaceModel.FK_EventTable_LanguagesTable">
             <End Role="LanguagesTable" EntitySet="LanguagesTable" />
@@ -523,6 +646,17 @@
             <End Role="UserProfile" EntitySet="UserProfile" />
           </AssociationSet>
           </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -583,6 +717,17 @@
           <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="AspNetUsers" ToRole="UserProfile" />
           <NavigationProperty Name="AspNetRoles" Relationship="Face2FaceModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
+        <EntityType Name="ChatTable">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ChatEntry" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_ChatTable_EventTable" FromRole="ChatTable" ToRole="EventTable" />
+          <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_ChatTable_UserProfile" FromRole="ChatTable" ToRole="UserProfile" />
+        </EntityType>
         <EntityType Name="EventTable">
           <Key>
             <PropertyRef Name="EventID" />
@@ -598,6 +743,7 @@
           <Property Name="MaxUsers" Type="Int32" />
           <Property Name="Budget" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ChatTable" Relationship="Face2FaceModel.FK_ChatTable_EventTable" FromRole="EventTable" ToRole="ChatTable" />
           <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FK_EventTable_LanguagesTable" FromRole="EventTable" ToRole="LanguagesTable" />
           <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="EventTable" ToRole="UserProfile" />
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_EventTable" FromRole="EventTable" ToRole="ReviewTable" />
@@ -655,6 +801,7 @@
           <Property Name="Age" Type="Int32" />
           <Property Name="Photo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUsers" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="UserProfile" ToRole="AspNetUsers" />
+          <NavigationProperty Name="ChatTable" Relationship="Face2FaceModel.FK_ChatTable_UserProfile" FromRole="UserProfile" ToRole="ChatTable" />
           <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="UserProfile" ToRole="EventTable" />
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_UserProfile" FromRole="UserProfile" ToRole="ReviewTable" />
           <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FluentLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
@@ -698,6 +845,30 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatTable_EventTable">
+          <End Type="Face2FaceModel.EventTable" Role="EventTable" Multiplicity="1" />
+          <End Type="Face2FaceModel.ChatTable" Role="ChatTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventTable">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="ChatTable">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatTable_UserProfile">
+          <End Type="Face2FaceModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="Face2FaceModel.ChatTable" Role="ChatTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ChatTable">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -776,6 +947,31 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Face2FaceModelStoreContainer" CdmEntityContainer="Face2FaceEntities1">
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Face2FaceModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Face2FaceModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Face2FaceModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Face2FaceModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Face2FaceModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Face2FaceModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Face2FaceModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Face2FaceModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Face2FaceModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_ProfileClassification" FunctionName="Face2FaceModel.Store.sp_ProfileClassification" />
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="Face2FaceModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">
@@ -828,6 +1024,15 @@
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChatTable">
+            <EntityTypeMapping TypeName="Face2FaceModel.ChatTable">
+              <MappingFragment StoreEntitySet="ChatTable">
+                <ScalarProperty Name="ChatEntry" ColumnName="ChatEntry" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,61 @@
+﻿@model Face2Face.Models.UserProfile
+
+@{
+    Layout = null;
+}
+<style>
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .profile {
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
+        padding: 10px;
+    }
+</style>
+
+<div class="profile">
+
+    @if (Model != null)
+    {
+        <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = @Model.UserID})'>
+            @{
+                if (Model.Photo != null)
+                {
+                    <img src=@Model.Photo>
+
+                }
+                else
+                {
+                    <img src="~/Content/Images/avatar.png">
+                }
+            }
+
+            <p>
+                <label class="title">
+                    @Model.Name
+                </label>
+
+                <br />
+                @{
+                    @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = Model.UserID })
+                }
+            </p>
+        </a>
+
+        <p>
+            @Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")
+        </p>
+
+
+        <p>
+            @Html.ActionLink("Next Events", "NextEvents", "EventTables")
+        </p>
+        <p>
+            @Html.ActionLink("Create new Event", "Create", "EventTables")
+        </p>
+                    }
+</div>

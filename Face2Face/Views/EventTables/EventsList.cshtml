@@ -1,12 +1,6 @@
 ﻿@model IEnumerable<Face2Face.Models.EventTable>
 
-
-@{
-    ViewBag.Title = "Index";
-}
-
 <style>
-
     #eventImg:hover {
         opacity: 0.8;
         text-decoration: none;
@@ -28,13 +22,21 @@
     }
 
     #filters {
-        color: white;
-        min-width: 150px;
         border: solid;
         border-color: black;
         border-radius: 5px;
-        background-color: darkgray;
-        margin: 5px;
+        padding: 10px;
+        /*margin: 5px;*/
+    }
+
+    #filters1 {
+        padding: 10px;
+        /*margin: 5px;*/
+    }
+
+    .ownProfile {
+        padding: 10px;
+        text-align: center
     }
 
     .event {
@@ -51,26 +53,39 @@
             margin: 5px;
         }
 
-    container-fluid p {
-        margin: 5px;
+        .event p {
+            margin: 0px;
+        }
+
+        .event .title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .event .review {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+    .eventTable {
+        /*border: solid;
+        border-color: black;
+        border-radius: 10px;*/
+        padding: 10px;
     }
 
-    h1 {
-        font-size: 18px;
-        font-weight: bold;
+    #eventPhoto {
+        text-align: center;
+        vertical-align: middle;
     }
 
-    h2 {
-        font-size: 14px;
-        font-weight: bold;
+    #btn {
+        text-align: center;
+        padding: 10px;
     }
 </style>
 
-<h2>EventsList</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@*<h2>EventsList</h2>*@
 
 <a Id="filtersIcon">Search Filters</a>
 <i class="fa fa-search-minus search" aria-hidden="true"></i>
@@ -80,139 +95,168 @@
 
     <div class="row">
 
-        <div class="col-md-8" style="height: 450px; overflow: auto;">
-            <div>
+        <div class="col-md-2 ownProfile">
+            @Html.Action("GetOwnProfile", "UserProfiles")
+        </div>
+
+        <div class="col-md-7 eventTable">
+
+            <div style="height: 550px; overflow: auto;">
                 @foreach (var item in Model)
                 {
                     <div class="container-fluid event">
-
                         <div class="row">
-
-                            <div class="col-md-3">
+                            <div id="eventPhoto" class="col-md-4">
                                 <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
-                                    @if (item.Photo != null)
-                                    {                                   
-                                        <img src=@item.Photo>
-                                    }
-                                    else
-                                    {
-                                        <img src="~/Content/Images/no-photo-available.png">
+
+                                    @{
+                                        if (item.Photo != null)
+                                        {
+                                            <img src=@item.Photo>
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Content/Images/no-photo-available.png">
+                                        }
                                     }
                                 </a>
                             </div>
 
-                            <div class="col-md-9">
-                                <h1>
-                                    @item.Name <br />
-                                </h1>
-                               
-                                <p>     
-                                    Location:
-                                    @item.Address <br />
+                            <div class="col-md-8">
+                                <p class="title">
+                                    @item.Name
+
+                                    <label class="review">
+                                        @{                                       
+
+                                            if (item.ReviewTable.Count != 0)
+                                            {
+
+                                                double eventClassification = 0;
+                                                int count = 0;
+
+                                                foreach (var rev in item.ReviewTable)
+                                                {
+                                                    eventClassification = eventClassification + @rev.Classification;
+                                                    count++;
+                                                }
+
+                                                eventClassification = eventClassification / count;
+
+                                                if (eventClassification != 0)
+                                                {
+                                                    int i = 0;
+                                                    for (i = 0; i < Math.Floor(eventClassification); i++)
+                                                    {
+                                                        <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                                    }
+
+                                                    if (eventClassification > i)
+                                                    {
+                                                        <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                                    }
+                                                    @eventClassification
+                                                }
+                                            }
+                                        }
+                                    </label>
                                 </p>
 
                                 <p>
-                                    Summary: @item.Summary
+                                    <label>
+                                        Location:
+                                    </label>
+                                    @item.Address
                                 </p>
-                            </div>
 
-                        </div>
+                                <p>
+                                    <label>
+                                        Date:
+                                    </label>
+                                    @item.Date;
 
-                        <div class="row">
-                            <div class="col-md-12">
+                                <p align="justify">
+                                    <label>
+                                        Summary:
+                                    </label>
+                                    @item.Summary
+                                </p>
 
-                                @item.UserProfile.Name
-                                @{
-                                    double reviews = 1.5;
-                                    if (item.UserProfile.ReviewTable.Count != 0)
-                                    {
-                                        foreach (var rev in item.UserProfile.ReviewTable)
-                                        {
+                                <p>
+                                    <label>
+                                        Language:
+                                    </label>
+                                    @item.LanguagesTable.Language
+                                </p>
 
-                                            reviews = reviews + @rev.Classification;
-                                        }
-                                        reviews = reviews / @item.UserProfile.ReviewTable.Count;
-                                    }
-                                }
+                                created by
 
-                                @if (reviews != 0)
-                                {
-                                    @reviews
+                                <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = item.UserProfile.UserID})'>
+                                    @item.UserProfile.Name
+                                </a>
 
-                                    int i;
-                                    for (i = 0; i < Math.Floor(reviews); i++)
-                                    {
-                                        <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
-                                    }
-                                    if (reviews > i)
-                                    {
-                                        <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
-                                    }
-                                }
+                                @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = item.UserProfile.UserID })
                             </div>
                         </div>
-
                     </div>
-
-
-                                    }
-
+                                            }
             </div>
-
         </div>
 
-        <div id="filters" class="col-md-3">
+        <div id="filters1" class="col-md-3">
 
-            @using (Html.BeginForm("Filter", "EventTables", FormMethod.Post))
-            {
-                <div class="location">
-                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                    Location:
-                    <div class="input hidden">
-                        <input type="text" name="Location">
+            <div id="filters">
+                @using (Html.BeginForm("Filter", "EventTables", FormMethod.Post))
+                {
+                    <div class="location">
+                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                        Location:
+                        <div class="input hidden">
+                            <input type="text" name="Location">
+                        </div>
                     </div>
-                </div>
 
-                <div class="date">
-                    <i class="fa fa-plus-square date" aria-hidden="true"> </i>
-                    <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
-                    Date:
-                    <div class="input hidden">
-                        <input class="datefield" data-val="true" data-val-required="Date is required"
-                               id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
+                    <div class="date">
+                        <i class="fa fa-plus-square date" aria-hidden="true"> </i>
+                        <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
+                        Date:
+                        <div class="input hidden">
+                            <input class="datefield" data-val="true" data-val-required="Date is required"
+                                   id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="language">
-                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                    Language:
-                    <div class="input hidden">
-                        @Html.Action("selectLanguage", "Languagestables")
+                    <div class="language">
+                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                        Language:
+                        <div class="input hidden">
+                            @Html.Action("selectLanguage", "Languagestables")
+                        </div>
                     </div>
-                </div>
 
-                <div class="keyWord">
-                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                    KeyWord:
-                    <div class="input hidden">
-                        <input type="text" name="keyWord">
+                    <div class="keyWord">
+                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                        KeyWord:
+                        <div class="input hidden">
+                            <input type="text" name="keyWord">
+                        </div>
                     </div>
-                </div>
 
-                <input type="submit" value="Search">
-            }
+                    <div id="btn">
+                        <input type="submit" value="Search">
+                    </div>
+                }
+            </div>
         </div>
     </div>
-
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-
         $(".search").click(function () {
 
             if ($("#filters").hasClass("hidden")) {
@@ -236,10 +280,6 @@
 
             $(".location i").removeClass("hidden");
             $(this).addClass("hidden");
-
-            //if ($(".location i:nth-child(2)").hasClass("hidden")) {
-            //    $(".location .input").val("");
-            //}
         });
 
         $(".date i").click(function () {
