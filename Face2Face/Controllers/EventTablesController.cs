@@ -302,7 +302,7 @@ namespace Face2Face.Controllers
                 db.Entry(chatTable).State = EntityState.Added;
                 db.SaveChanges();
 
-                ViewBag.user = userLog;
+                ViewBag.user = db.UserProfile.Find(userLog).Name;
                 return RedirectToAction("ChatView", db.ChatTable);
             }
             else
