@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using System.Web.Script.Serialization;
 
 namespace Face2Face.Controllers
 {
@@ -98,15 +99,17 @@ namespace Face2Face.Controllers
             model.InterestedLanguage = userProfile.LanguagesTable1;
             model.NativeLanguage = userProfile.LanguagesTable2;
 
+            ViewBag.LanguageID = new SelectList(db.LanguagesTable, "Language", "Language", userProfile.Nationality); //(Diego)
 
             string json = "[";
             List<string> availableLanguages = new List<string>();
             foreach (var item in db.LanguagesTable)
             {
-                json = json+ "," + item.Language ;
+                json = json + "," + item.Language;
             }
             json = json + "]";
             model.ListLanguages = json;
+
             return View(model);
         }
 
@@ -115,6 +118,7 @@ namespace Face2Face.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(ChangeProfile model, string fluentLanguages)
         {
+            ViewBag.LanguageID = new SelectList(db.LanguagesTable, "Language", "Language"); //(Diego)
             var userId = User.Identity.GetUserId<int>();
             var user = db.AspNetUsers.Find(userId);
             var userProfile = db.UserProfile.Find(userId);
@@ -123,7 +127,7 @@ namespace Face2Face.Controllers
 
             userProfile.Name = model.Name;
             user.Email = model.Email;
-            user.PhoneNumber = model.PhoneNumber;
+            user.PhoneNumber = model.PhoneNumber; 
             userProfile.Nationality = model.Nationality;
             userProfile.Age = model.Age;
             userProfile.Photo = model.Photo;
@@ -132,8 +136,11 @@ namespace Face2Face.Controllers
             userProfile.LanguagesTable2 = model.NativeLanguage;
 
 
+        
             db.SaveChanges();
+           
             return RedirectToAction("Index");
+           
         }
 
 //
