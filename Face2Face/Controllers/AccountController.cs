@@ -82,7 +82,8 @@ namespace Face2Face.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    //return RedirectToLocal(returnUrl);
+                    return RedirectToAction("EventsList", "EventTables");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -162,6 +163,7 @@ namespace Face2Face.Controllers
 
                     var userProfile = new UserProfile();
                     userProfile.UserID = user.Id;
+                    userProfile.Name =user.Email.Split('@')[0];
                     db.UserProfile.Add(userProfile);
                     db.SaveChanges();
 
@@ -171,7 +173,8 @@ namespace Face2Face.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("Index", "Home");
+                    return RedirectToAction("EventsList", "EventTables");
                 }
                 AddErrors(result);
             }
@@ -341,7 +344,8 @@ namespace Face2Face.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    //return RedirectToLocal(returnUrl);
+                    return RedirectToAction("EventsList", "EventTables");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -364,7 +368,11 @@ namespace Face2Face.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+
+                /////////////////////////////////////////////////
                 return RedirectToAction("Index", "Manage");
+
+                return RedirectToAction("EventsList", "EventTables");
             }
 
             if (ModelState.IsValid)
@@ -383,7 +391,15 @@ namespace Face2Face.Controllers
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+
+                        var userProfile = new UserProfile();
+                        userProfile.UserID = user.Id;
+                        userProfile.Name = user.Email.Split('@')[0];
+                        db.UserProfile.Add(userProfile);
+                        db.SaveChanges();
+
+                        return RedirectToAction("EventsList", "EventTables");
+                        //return RedirectToLocal(returnUrl);
                     }
                 }
                 AddErrors(result);
