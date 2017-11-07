@@ -79,10 +79,11 @@
             @Html.LabelFor(model => model.FluentLanguage, "Fluent Languages", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input class="hidden" type="text" id="listLanguages" value=@Model.ListLanguages>
-                <ul id="fluentLanguages">
+                <ul id="fluentLanguages" name="fluentLanguages">
                     @foreach (var item in Model.FluentLanguage)
                     {
-                        <li>@item.Language</li>
+                        @*<li>@item.Language</li*@>
+                        @item.Language
                     }
                 </ul>
             </div>
@@ -131,7 +132,15 @@
                 availableTags: $("#listLanguages").val().split(",")
             }) 
         });
-        //https://msdn.microsoft.com/en-us/library/ms233812.aspx
-      
+
+
+        
+    </script>
+
+    <script>
+        $("#fluentLanguages").change(function () {
+            console.log("asdasd")
+        });
+
     </script>
 }

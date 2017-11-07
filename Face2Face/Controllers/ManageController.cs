@@ -113,11 +113,12 @@ namespace Face2Face.Controllers
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(ChangeProfile model)
+        public ActionResult Index(ChangeProfile model, string fluentLanguages)
         {
             var userId = User.Identity.GetUserId<int>();
             var user = db.AspNetUsers.Find(userId);
             var userProfile = db.UserProfile.Find(userId);
+
 
 
             userProfile.Name = model.Name;
