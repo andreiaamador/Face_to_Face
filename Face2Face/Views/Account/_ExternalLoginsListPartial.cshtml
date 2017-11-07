@@ -1,11 +1,39 @@
 ﻿@model Face2Face.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
 
-<h4>Use another service to log in.</h4>
+<style>
+
+    .btn {
+    border-radius:10px;
+    height: 35px;
+    margin: 5px;
+    
+    }
+    .fa-facebook-square {
+        background-color:#1B42AB;
+        color: white;
+        font-size: 19px;
+    }
+
+
+    .fa-google {
+        font-size: 19px;
+        color:palevioletred;
+    }
+
+    #socialLoginList {
+        text-align: center;
+    }
+
+</style>
+
 <hr />
+<h4>Use another service to log in.</h4>
+
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-    if (loginProviders.Count() == 0) {
+    if (loginProviders.Count() == 0)
+    {
         <div>
             <p>
                 There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
@@ -13,14 +41,32 @@
             </p>
         </div>
     }
-    else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
+    else
+    {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }))
+        {
             @Html.AntiForgeryToken()
             <div id="socialLoginList">
                 <p>
-                    @foreach (AuthenticationDescription p in loginProviders) {
-                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+
+                    @for (int i = 0; i < loginProviders.Count(); i++)
+                    {
+
+                        var p = loginProviders.ElementAt(i);
+                        if (i == 0)
+                        {
+                            <button type="submit" class="fa fa-google btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"> @p.AuthenticationType</button>
+                        }
+
+                        else
+                        {
+                            <button type="submit" class="fa fa-facebook-square btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account"> @p.AuthenticationType</button>
+                        }
                     }
+                    @*@foreach (AuthenticationDescription p in loginProviders)
+                        {
+                                <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                        }*@
                 </p>
             </div>
         }

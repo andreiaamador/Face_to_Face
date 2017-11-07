@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using Microsoft.AspNet.Identity;
 
 namespace Face2Face.Controllers
 {
@@ -14,7 +15,15 @@ namespace Face2Face.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+
+            if (User.Identity.GetUserId() == null)
+            {
+                return View();
+            }
+            else {
+                return RedirectToAction("EventsList", "EventTables");
+            }
+            
         }
 
         public ActionResult About()

@@ -3,19 +3,23 @@
 }
 
 @{
-    double reviews = Math.Round(Convert.ToDouble(@Model.ToString()),1);
 
-    if (reviews != 0)
+    if (@Model != null)
     {
-        int i;
-        for (i = 0; i < Math.Floor(reviews); i++)
+        double reviews = Math.Round(Convert.ToDouble(@Model.ToString()), 1);
+
+        if (reviews != 0)
         {
+            int i;
+            for (i = 0; i < Math.Floor(reviews); i++)
+            {
             <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
-        }
-        if (reviews > i)
-        {
+            }
+            if (reviews > i)
+            {
             <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
-        }
+            }
         @reviews
+            }
+        }
     }
-}

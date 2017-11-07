@@ -145,75 +145,26 @@ namespace Face2Face.Controllers
         public ActionResult GetOwnProfile()
         {
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
-            ViewBag.profileClassification = GetProfileClassification(userLog);
             return View("ProfilePartial", db.UserProfile.Find(userLog));
         }
-
-        public double GetProfileClassification(int? id)
-        {
-
-            double classification = 0;
-            int count = 0;
-
-            foreach (var evenT in db.EventTable)
-            {
-                if (evenT.UserID == id)
-                {
-                    foreach (var review in evenT.ReviewTable)
-                    {
-                        classification = classification + review.Classification;
-                        count++;
-                    }
-                }
-            }
-            if (count != 0)
-            {
-                return (double)classification / count;
-            }
-            else
-            {
-                return (double)0;
-            }
-        }
-
-
     }
 
     public class DbHelper
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
-        public async Task<double> GetProfileClassificationAsync(int? id)
+        public async Task<double?> GetProfileClassificationAsync(int? id)
         {
             ObjectParameter x = new ObjectParameter("x", typeof(double));
-            db.sp_ProfileClassification(13,  x);
-            var y = x.Value;
+            db.sp_ProfileClassification(id,  x);
 
+            if (!x.Value.Equals(System.DBNull.Value)) {
+                return Convert.ToDouble(x.Value);
+            }
 
-            return Convert.ToDouble(x.Value);
-
-            //double classification = 0;
-            //int count = 0;
-
-            //foreach (var evenT in db.EventTable)
-            //{
-            //    if (evenT.UserID == id)
-            //    {
-            //        foreach (var review in evenT.ReviewTable)
-            //        {
-            //            classification = classification + review.Classification;
-            //            count++;
-            //        }
-            //    }
-            //}
-            //if (count != 0)
-            //{
-            //    return (double)classification / count;
-            //}
-            //else
-            //{
-            //    return (double)0;
-            //}
+            else {
+                return null;
+            }
         }
     }
 }

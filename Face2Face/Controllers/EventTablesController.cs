@@ -158,7 +158,6 @@ namespace Face2Face.Controllers
                 ViewBag.isOnReviews = false;
             }
 
-
             db.Entry(eventTable).State = EntityState.Modified;
             db.SaveChanges();
 
