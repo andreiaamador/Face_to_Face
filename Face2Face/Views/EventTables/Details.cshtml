@@ -257,7 +257,7 @@
                     }
                     else
                     {
-                        <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
+                        <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
                         @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
                     }
                 }
@@ -391,8 +391,9 @@
         </div>
 
         <div id="ChatViewPartial">
-            @Html.Action("ChatView", "EventTables", new { id = Model.EventID })
+            @{Html.RenderPartial("_ChatView", Model); }
         </div>
+
     </div>
 
 </div>
