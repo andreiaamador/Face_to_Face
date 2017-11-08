@@ -32,9 +32,9 @@ namespace Face2Face.Models
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<ChatTable> ChatTable { get; set; }
         public virtual DbSet<EventTable> EventTable { get; set; }
         public virtual DbSet<LanguagesTable> LanguagesTable { get; set; }
+        public virtual DbSet<MessageTable> MessageTable { get; set; }
         public virtual DbSet<NationalityTable> NationalityTable { get; set; }
         public virtual DbSet<ReviewTable> ReviewTable { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
@@ -159,6 +159,15 @@ namespace Face2Face.Models
                 new ObjectParameter("userID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ProfileClassification", userIDParameter, x);
+        }
+    
+        public virtual int sp_getLanguageID(string language, ObjectParameter languageID)
+        {
+            var languageParameter = language != null ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_getLanguageID", languageParameter, languageID);
         }
     }
 }

@@ -141,11 +141,11 @@
                     @{
                         if (Model.Photo != null)
                         {
-                    <img src=@Model.Photo>
+                            <img src=@Model.Photo>
                         }
                         else
                         {
-                    <img src="~/Content/Images/no-photo-available.png">
+                            <img src="~/Content/Images/no-photo-available.png">
                         }
                     }
                 </div>
@@ -247,18 +247,22 @@
 
             <div align="right">
                 @{
-                    if (ViewBag.userInEvent)
+
+                    if (Model.UserID != ViewBag.userLog)
                     {
-                        if (!ViewBag.isOnReviews)
+                        if (ViewBag.userInEvent)
                         {
-                            <input type="button" value="Add a Review" id="AddReview" />
+                            if (!ViewBag.isOnReviews)
+                            {
+                                <input type="button" value="Add a Review" id="AddReview" />
+                            }
+                            <input type="button" value="Don't go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
                         }
-                        <input type="button" value="Don't go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
-                    }
-                    else
-                    {
-                        <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
-                        @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
+                        else
+                        {
+                            <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
+                            @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
+                        }
                     }
                 }
             </div>

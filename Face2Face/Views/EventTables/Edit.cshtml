@@ -80,9 +80,20 @@
     }
 
     .Photo {
-        height: 200px;
-        width: 200px;
+        height: 150px;
+        width: 150px;
         margin-bottom: 5px;
+    }
+
+    #newPhoto {
+        height: 150px;
+        width: 150px;
+        background-image: url('');
+        background-size: cover;
+        background-position: center;
+        background-size: 150px 150px;
+        background-repeat: no-repeat;
+        margin: 5px;
     }
 </style>
 
@@ -115,25 +126,21 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-
-                @*<input type="file" name="photo" id="photo" />*@
-
-                @{
-                    if (Model.Photo != null)
-                    {
-                <img class="Photo" src=@Model.Photo>
+                <div id="oldPhoto">
+                    @{
+                        if (Model.Photo != null)
+                        {
+                            <img class="Photo" src=@Model.Photo>
+                        }
+                        else
+                        {
+                            <img class="Photo" src="~/Content/Images/no-photo-available.png">
+                        }
                     }
-                    else
-                    {
-                <img class="Photo" src="~/Content/Images/no-photo-available.png">
-                    }
-                }
-                <div id="newPhoto">
-
-                    @Html.TextBox("photo", "", new { type = "file" })
-                    <input id="newFile" name="myFile" type="file">
                 </div>
-
+                @*@Html.TextBox("photo", "", new { type = "file" })*@
+                <div class="hidden" id='newPhoto'></div>
+                <input id="newFile" name="photo" type="file">
             </div>
         </div>
 
@@ -142,7 +149,7 @@
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
 
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
 
                 <input class="datefield" data-val="true" data-val-required="Date is required"
@@ -165,7 +172,7 @@
                 @*@Html.EditorFor(model => model.EndSignUpDate, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.EndSignUpDate, "", new { @class = "text-danger" })*@
                 <input class="datefield" data-val="true" data-val-required="Date is required"
-                       name="endSignUpDate" type="date"/>
+                       name="endSignUpDate" type="date" />
                 <label id="lbl" class="hidden">@String.Format("{0:yyyy-MM-dd}", @Model.EndSignUpDate)</label>
             </div>
         </div>
@@ -250,7 +257,7 @@
 
         <span>* Required Fields</span>
     </div>
-                    }
+                        }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -260,6 +267,27 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+
+
+        document.getElementById('newFile').addEventListener('change', readURL, true);
+        function readURL() {
+            var file = document.getElementById("newFile").files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                document.getElementById('newPhoto').style.backgroundImage = "url(" + reader.result + ")";
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+                $("#oldPhoto").addClass("hidden")
+                $("#newPhoto").removeClass("hidden")
+            } else {
+            }
+        }
+
+        $(".releaseDate .datefield").val($(".releaseDate #lbl").text());
+        $(".endSignUpDate .datefield").val($(".endSignUpDate #lbl").text());
+        $(".location input").val($(".location #lbl").text());
+
         // This example requires the Places library. Include the libraries=places
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
@@ -355,12 +383,5 @@
             });
         }
 
-        $("#newPhoto").change(function () {
-            $(".Photo").attr("src", $("#newFile").val());
-        });
-
-        $(".releaseDate .datefield").val($(".releaseDate #lbl").text());
-        $(".endSignUpDate .datefield").val($(".endSignUpDate #lbl").text());
-        $(".location input").val($(".location #lbl").text());
     </script>
 }

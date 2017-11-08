@@ -17,6 +17,7 @@ namespace Face2Face.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public EventTable()
         {
+            this.MessageTable = new HashSet<MessageTable>();
             this.ReviewTable = new HashSet<ReviewTable>();
             this.UserProfile1 = new HashSet<UserProfile>();
         }
@@ -33,9 +34,10 @@ namespace Face2Face.Models
         public Nullable<decimal> Budget { get; set; }
         public string Address { get; set; }
     
-        public virtual ChatTable ChatTable { get; set; }
         public virtual LanguagesTable LanguagesTable { get; set; }
         public virtual UserProfile UserProfile { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MessageTable> MessageTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReviewTable> ReviewTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

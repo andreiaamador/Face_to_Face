@@ -284,33 +284,34 @@ namespace Face2Face.Controllers
             return View("ChatView");
         }
 
-        [HttpPost]
-        public ActionResult ChatView(int id, string message)
-        {
-            if (ModelState.IsValid)
-            {
-                int userLog = Convert.ToInt32(User.Identity.GetUserId());
-                ChatTable chatTable = new ChatTable
-                {
-                    EventID = id,
-                    UserID = userLog,
-                    ChatEntry = message,
-                };
+        //[HttpPost]
+        //public ActionResult ChatView(int id, string message)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        int userLog = Convert.ToInt32(User.Identity.GetUserId());
+        //        ChatTable chatTable = new ChatTable
+        //        {
+        //            EventID = id,
+        //            UserID = userLog,
+        //            ChatEntry = message,
+        //        };
 
-                db.ChatTable.Add(chatTable);
-                db.Entry(chatTable).State = EntityState.Added;
-                db.SaveChanges();
+        //        db.ChatTable.Add(chatTable);
+        //        db.Entry(chatTable).State = EntityState.Added;
+        //        db.SaveChanges();
 
-                ViewBag.user = userLog;
-                return RedirectToAction("ChatView", db.ChatTable);
-            }
-            else
-            {
-                return View("EventList", db.EventTable);
-            }
-        }
+        //        ViewBag.user = userLog;
+        //        return RedirectToAction("ChatView", db.ChatTable);
+        //    }
+        //    else
+        //    {
+        //        return View("EventList", db.EventTable);
+        //    }
+        //}
         
         // GET: EventTables/Create
+
         public ActionResult Create()
         {
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "LanguageID", "Language");
@@ -325,7 +326,6 @@ namespace Face2Face.Controllers
         [ValidateAntiForgeryToken]
 
         public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
-
         {
             if (ModelState.IsValid)
             {
@@ -339,7 +339,6 @@ namespace Face2Face.Controllers
                         eventTable.Date = Convert.ToDateTime(releaseDate);
                         eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
 
-
                         db.Entry(eventTable).State = EntityState.Modified;
                         db.SaveChanges();
                         ViewBag.Message = "File uploaded successfully";
@@ -352,8 +351,9 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
-
                 eventTable.Address = Address;
+
+                eventTable.UserProfile1.Add(db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
                 db.EventTable.Add(eventTable);
 
                 db.SaveChanges();

@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using System.Web.Script.Serialization;
+using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
@@ -116,36 +117,73 @@ namespace Face2Face.Controllers
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(ChangeProfile model, string Fluents, string Natives, string Interests)
+        public ActionResult Index(ChangeProfile model, HttpPostedFileBase photo, string Fluents, string Natives, string Interests)
         {
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "Language", "Language"); //(Diego)
             var userId = User.Identity.GetUserId<int>();
             var user = db.AspNetUsers.Find(userId);
             var userProfile = db.UserProfile.Find(userId);
 
-
-
             userProfile.Name = model.Name;
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber; 
             userProfile.Nationality = model.Nationality;
             userProfile.Age = model.Age;
-            userProfile.Photo = model.Photo;
-            userProfile.LanguagesTable = model.FluentLanguage;
-            userProfile.LanguagesTable1 = model.InterestedLanguage;
-            userProfile.LanguagesTable2 = model.NativeLanguage;
+
+            //userProfile.Photo = model.Photo;
+
+            if (photo != null && photo.ContentLength > 0)
+                try
+                {
+                    string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
+                    photo.SaveAs(path);
+                    userProfile.Photo = "/UploadedFiles/" + Path.GetFileName(photo.FileName);
+                    db.Entry(userProfile).State = EntityState.Modified;
+                    db.SaveChanges();
+                    ViewBag.Message = "File uploaded successfully";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                }
+            else
+            {
+                ViewBag.Message = "You have not specified a file.";
+            }
 
 
-        
+            ObjectParameter l = new ObjectParameter("LanguageID", typeof(int));
+
+            userProfile.LanguagesTable.Clear();
+            string[] fluents = Fluents.Split(',');
+            foreach (var langStr in fluents)
+            {
+                db.sp_getLanguageID(langStr, l);      
+                userProfile.LanguagesTable.Add(db.LanguagesTable.Find(l.Value));
+            }
+
+            userProfile.LanguagesTable1.Clear();
+            string[] interests = Interests.Split(',');
+            foreach (var langStr in interests)
+            {
+                db.sp_getLanguageID(langStr, l);
+                userProfile.LanguagesTable1.Add(db.LanguagesTable.Find(l.Value));
+            }
+
+            userProfile.LanguagesTable2.Clear();
+            string[] natives = Natives.Split(',');
+            foreach (var langStr in natives)
+            {
+                db.sp_getLanguageID(langStr, l);
+                userProfile.LanguagesTable2.Add(db.LanguagesTable.Find(l.Value));
+            }
+
             db.SaveChanges();
-           
-            return RedirectToAction("Index");
-           
+            return RedirectToAction("EventsList", "EventTables");
         }
 
-//
-// POST: /Manage/RemoveLogin
-[HttpPost]
+        // POST: /Manage/RemoveLogin
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
@@ -213,7 +251,6 @@ namespace Face2Face.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]

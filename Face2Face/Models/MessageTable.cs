@@ -12,11 +12,12 @@ namespace Face2Face.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ChatTable
+    public partial class MessageTable
     {
+        public int MessageID { get; set; }
         public int EventID { get; set; }
         public int UserID { get; set; }
-        public string ChatEntry { get; set; }
+        public string Message { get; set; }
     
         public virtual EventTable EventTable { get; set; }
         public virtual UserProfile UserProfile { get; set; }
