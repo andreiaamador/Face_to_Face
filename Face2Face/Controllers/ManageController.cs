@@ -116,7 +116,7 @@ namespace Face2Face.Controllers
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(ChangeProfile model, string fluentLanguages)
+        public ActionResult Index(ChangeProfile model, string Fluents, string Natives, string Interests)
         {
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "Language", "Language"); //(Diego)
             var userId = User.Identity.GetUserId<int>();
