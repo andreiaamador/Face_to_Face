@@ -75,7 +75,7 @@
     }
 </style>
 
-<div class="row">
+<div onload="disableBackButton()" class="row">
 
     <div class="col-md-3">
 
@@ -473,18 +473,11 @@
 
         });
 
-        window.onload = function () { Clear(); }
-        function Clear() {
-            var Backlen = history.length;
-            if (Backlen > 0) history.go(-Backlen);
+        function disableBackButton() {
+            window.history.forward();
+
+            console.log("OKOK");
         }
+        setTimeout("disableBackButton()", 0);
     </script>
-
-
-
-<script type="text/javascript">
-        if (window.history.forward(1) != null)
-            window.history.forward(1);
-</script>
-
 }
