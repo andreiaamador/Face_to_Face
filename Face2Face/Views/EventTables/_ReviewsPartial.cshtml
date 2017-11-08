@@ -1,0 +1,109 @@
+﻿@model Face2Face.Models.EventTable
+
+@{
+    Layout = null;
+}
+<style>
+
+    .reviews {
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 5px;
+    }
+
+        .reviews a:hover {
+            opacity: 0.8;
+            text-decoration: none;
+        }
+
+    .photoReview {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .reviews img {
+        height: 40px;
+        width: 40px;
+        margin: 5px;
+    }
+</style>
+<div class="container-fluid reviews">
+    <div class="row">
+        <div id="reviewTable" class="col-md-12 ">
+            <h4>Reviews to @Model.Name</h4>
+            @{
+                if (Model.ReviewTable.Count() == 0)
+                {
+                    <span>There are no Reviews to this event.</span>
+                }
+                else
+                {
+                    foreach (var review in Model.ReviewTable)
+                    {
+                        <div class="row">
+                            <div class="col-md-2 photoReview">
+                                <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = @review.UserProfile.UserID })'>
+                                    @{
+                                        if (review.UserProfile.Photo != null)
+                                        {
+                                            <img src=@review.UserProfile.Photo>
+
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Content/Images/avatar.png">
+                                        }
+                                        <br />
+                                        @review.UserProfile.Name
+                                    }
+                                </a>
+                            </div>
+
+                            <div class="col-md-10">
+                                @{
+                                    <div>
+                                        @{
+                                            int rev = Convert.ToInt16(@review.Classification);
+
+                                            if (rev != 0)
+                                            {
+                                                int i;
+                                                for (i = 0; i < rev; i++)
+                                                {
+                                                    <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                                }
+                                                if (rev > i)
+                                                {
+                                                    <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                                }
+                                                @rev
+                                            }
+                                        }
+                                    </div>
+
+                                    <div>
+                                        <p align="justify">
+                                            @review.Review
+                                        </p>
+                                    </div>
+
+                                    <div>
+
+                                        @{
+                                            if (@review.UserID == @ViewBag.userLog)
+                                            {
+                                                @Html.ActionLink("Remove", "RemoveReviews", new { eventID = @review.EventID, userID = @review.UserID })
+                                            }
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                                                }
+                                            }
+            }
+        </div>
+    </div>
+</div>

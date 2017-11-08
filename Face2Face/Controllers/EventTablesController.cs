@@ -131,10 +131,10 @@ namespace Face2Face.Controllers
             }
         }
 
-        public ActionResult GoToEvent(int id)
+        public PartialViewResult GoToEvent(int EventID)
         {
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
-            var eventTable = db.EventTable.Find(id);
+            var eventTable = db.EventTable.Find(EventID);
             UserProfile Profile = db.UserProfile.Find(userLog);
 
             if (eventTable.UserProfile1.Contains(Profile))
@@ -146,25 +146,10 @@ namespace Face2Face.Controllers
                 eventTable.UserProfile1.Add(Profile);
             }
 
-            ViewBag.userLog = userLog;
-            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
-
-            if (db.ReviewTable.Find(id, userLog) != null)
-            {
-                ViewBag.isOnReviews = true;
-            }
-            else
-            {
-                ViewBag.isOnReviews = false;
-            }
-
             db.Entry(eventTable).State = EntityState.Modified;
             db.SaveChanges();
 
-            //ViewBag.userLog = userLog;
-            //ViewBag.userInEvent = IsThisUserInEvent(eventTable.UserProfile1, ViewBag.userLog);
-
-            return View("Details", eventTable);
+            return PartialView("_ParticipantsDetails", db.EventTable.Find(EventID));
         }
 
         // GET: EventTables
@@ -202,57 +187,51 @@ namespace Face2Face.Controllers
             return View(eventTable);
         }
 
+
+        public ActionResult GetParticipants(int eventID) {  
+            return View("_ParticipantsDetails", db.EventTable.Find(eventID));
+    }
+
+        public ActionResult GetReviews(int eventID)
+        {
+            ViewBag.userLog = Convert.ToInt32(User.Identity.GetUserId());
+            return View("_ReviewsPartial", db.EventTable.Find(eventID));
+        }
+
         [HttpPost]
-        public ActionResult AddReviews(int eventID, int classification, string review)
+        public PartialViewResult AddReviews(int eventID, int classification, string review)
         {
             if (ModelState.IsValid)
             {
-
                 int userLog = Convert.ToInt32(User.Identity.GetUserId());
 
-                //if (!db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog)))
-                //{
-                    ReviewTable reviewTable = new ReviewTable
-                    {
-                        EventID = eventID,
-                        UserID = userLog,
-                        Classification = classification,
-                        Review = review
-                    };
-
-                    db.ReviewTable.Add(reviewTable);
-                    db.Entry(reviewTable).State = EntityState.Added;
-                    db.SaveChanges();
-                //}
-
-                ViewBag.userLog = userLog;
-                ViewBag.userInEvent = db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog));
-
-                if (db.ReviewTable.Find(eventID, userLog) != null)
+                ReviewTable reviewTable = new ReviewTable
                 {
-                    ViewBag.isOnReviews = true;
-                }
-                else
-                {
-                    ViewBag.isOnReviews = false;
-                }
+                    EventID = eventID,
+                    UserID = userLog,
+                    Classification = classification,
+                    Review = review
+                };
 
+                db.ReviewTable.Add(reviewTable);
+                db.Entry(reviewTable).State = EntityState.Added;
+                db.SaveChanges();
             }
-            return View("Details", db.EventTable.Find(eventID));
-        }
 
+            ViewBag.userLog = Convert.ToInt32(User.Identity.GetUserId());
+            return PartialView("_ReviewsPartial", db.EventTable.Find(eventID));
+        }
 
         public ActionResult RemoveReviews(int eventID, int userID)
         {
             if (ModelState.IsValid)
             {
-
                 int userLog = Convert.ToInt32(User.Identity.GetUserId());
 
                 //if (!db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog)))
                 //{
-                
-                var reviewTable= db.ReviewTable.Find(eventID, userID);
+
+                var reviewTable = db.ReviewTable.Find(eventID, userID);
                 db.ReviewTable.Remove(reviewTable);
                 db.Entry(reviewTable).State = EntityState.Deleted;
                 db.SaveChanges();
@@ -277,7 +256,7 @@ namespace Face2Face.Controllers
         //GET
         public ActionResult ChatView(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -309,7 +288,7 @@ namespace Face2Face.Controllers
         //        return View("EventList", db.EventTable);
         //    }
         //}
-        
+
         // GET: EventTables/Create
 
         public ActionResult Create()
