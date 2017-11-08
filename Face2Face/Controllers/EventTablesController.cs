@@ -212,17 +212,17 @@ namespace Face2Face.Controllers
 
                 //if (!db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog)))
                 //{
-                    ReviewTable reviewTable = new ReviewTable
-                    {
-                        EventID = eventID,
-                        UserID = userLog,
-                        Classification = classification,
-                        Review = review
-                    };
+                ReviewTable reviewTable = new ReviewTable
+                {
+                    EventID = eventID,
+                    UserID = userLog,
+                    Classification = classification,
+                    Review = review
+                };
 
-                    db.ReviewTable.Add(reviewTable);
-                    db.Entry(reviewTable).State = EntityState.Added;
-                    db.SaveChanges();
+                db.ReviewTable.Add(reviewTable);
+                db.Entry(reviewTable).State = EntityState.Added;
+                db.SaveChanges();
                 //}
 
                 ViewBag.userLog = userLog;
@@ -242,6 +242,7 @@ namespace Face2Face.Controllers
         }
 
 
+
         public ActionResult RemoveReviews(int eventID, int userID)
         {
             if (ModelState.IsValid)
@@ -251,8 +252,8 @@ namespace Face2Face.Controllers
 
                 //if (!db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog)))
                 //{
-                
-                var reviewTable= db.ReviewTable.Find(eventID, userID);
+
+                var reviewTable = db.ReviewTable.Find(eventID, userID);
                 db.ReviewTable.Remove(reviewTable);
                 db.Entry(reviewTable).State = EntityState.Deleted;
                 db.SaveChanges();
@@ -273,6 +274,11 @@ namespace Face2Face.Controllers
             }
             return View("Details", db.EventTable.Find(eventID));
         }
+
+        public ActionResult _Report(){
+            return View();
+        }
+
 
         //GET
         public ActionResult ChatView(int? id)
