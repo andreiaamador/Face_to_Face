@@ -134,6 +134,8 @@
             @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
                 <input class="datefield" data-val="true" data-val-required="Date is required"
                        id="CreateEventDate" name="releaseDate" type="date" value="1/11/1989" />
+
+                <input  class="hidden" type="time" name="hour" />
             </div>
         </div>
 

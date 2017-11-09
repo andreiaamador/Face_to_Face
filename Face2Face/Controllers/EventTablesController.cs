@@ -131,26 +131,7 @@ namespace Face2Face.Controllers
             }
         }
 
-        public PartialViewResult GoToEvent(int EventID)
-        {
-            int userLog = Convert.ToInt32(User.Identity.GetUserId());
-            var eventTable = db.EventTable.Find(EventID);
-            UserProfile Profile = db.UserProfile.Find(userLog);
-
-            if (eventTable.UserProfile1.Contains(Profile))
-            {
-                eventTable.UserProfile1.Remove(Profile);
-            }
-            else
-            {
-                eventTable.UserProfile1.Add(Profile);
-            }
-
-            db.Entry(eventTable).State = EntityState.Modified;
-            db.SaveChanges();
-
-            return PartialView("_ParticipantsDetails", db.EventTable.Find(EventID));
-        }
+ 
 
         // GET: EventTables
         public ActionResult Index()
@@ -190,7 +171,28 @@ namespace Face2Face.Controllers
 
         public ActionResult GetParticipants(int eventID) {  
             return View("_ParticipantsDetails", db.EventTable.Find(eventID));
-    }
+        }
+
+        public PartialViewResult GoToEvent(int EventID)
+        {
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            var eventTable = db.EventTable.Find(EventID);
+            UserProfile Profile = db.UserProfile.Find(userLog);
+
+            if (eventTable.UserProfile1.Contains(Profile))
+            {
+                eventTable.UserProfile1.Remove(Profile);
+            }
+            else
+            {
+                eventTable.UserProfile1.Add(Profile);
+            }
+
+            db.Entry(eventTable).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return PartialView("_ParticipantsDetails", eventTable);
+        }
 
         public ActionResult GetReviews(int eventID)
         {
@@ -199,15 +201,14 @@ namespace Face2Face.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult AddReviews(int eventID, int classification, string review)
+        public PartialViewResult AddReviews(int EventID, int classification, string review)
         {
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
-                int userLog = Convert.ToInt32(User.Identity.GetUserId());
-
                 ReviewTable reviewTable = new ReviewTable
                 {
-                    EventID = eventID,
+                    EventID = EventID,
                     UserID = userLog,
                     Classification = classification,
                     Review = review
@@ -218,14 +219,25 @@ namespace Face2Face.Controllers
                 db.SaveChanges();
             }
 
-            ViewBag.userLog = Convert.ToInt32(User.Identity.GetUserId());
-            return PartialView("_ReviewsPartial", db.EventTable.Find(eventID));
+            EventTable eventTable = db.EventTable.Find(EventID);
+            ViewBag.userLog = userLog;
+            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
+            if (db.ReviewTable.Find(EventID, userLog) != null)
+            {
+                ViewBag.isOnReviews = true;
+            }
+            else
+            {
+                ViewBag.isOnReviews = false;
+            }
+            return PartialView("_ReviewsPartial", eventTable);
         }
 
         public ActionResult RemoveReviews(int eventID, int userID)
         {
             if (ModelState.IsValid)
             {
+
                 int userLog = Convert.ToInt32(User.Identity.GetUserId());
 
                 //if (!db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog)))
@@ -304,7 +316,7 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string hour)
         {
             if (ModelState.IsValid)
             {
@@ -315,6 +327,9 @@ namespace Face2Face.Controllers
                         string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
                         photo.SaveAs(path);
                         eventTable.Photo = "/UploadedFiles/" + Path.GetFileName(photo.FileName);
+
+                        //eventTable.Date = Convert.ToDateTime(releaseDate+" "+hour+":00.00");
+
                         eventTable.Date = Convert.ToDateTime(releaseDate);
                         eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
 
@@ -336,7 +351,7 @@ namespace Face2Face.Controllers
                 db.EventTable.Add(eventTable);
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("EventsList");
             }
 
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "LanguageID", "Language", eventTable.LanguageID);
@@ -428,9 +443,11 @@ namespace Face2Face.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             EventTable eventTable = db.EventTable.Find(id);
+
+            db.EventTable.Find(id).UserProfile1.Clear();
             db.EventTable.Remove(eventTable);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("EventsList");
         }
 
         protected override void Dispose(bool disposing)
