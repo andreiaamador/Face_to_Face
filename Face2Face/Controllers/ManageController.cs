@@ -20,8 +20,12 @@ using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
+<<<<<<< HEAD
 
     [Authorize]
+=======
+    //[Authorize(Roles = "Admin")]
+>>>>>>> Sara
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -61,6 +65,7 @@ namespace Face2Face.Controllers
             }
         }
 
+        //[Authorize(Roles = "User")]
         // GET: /Manage/Index
         public ActionResult Index(ManageMessageId? message)
         {
@@ -113,6 +118,7 @@ namespace Face2Face.Controllers
             return View(model);
         }
 
+<<<<<<< HEAD
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -208,6 +214,7 @@ namespace Face2Face.Controllers
             return RedirectToAction("EventsList", "EventTables");
         }
 
+=======
         //[Authorize(Roles = "Admin")]
 >>>>>>> Sara
         // POST: /Manage/RemoveLogin
