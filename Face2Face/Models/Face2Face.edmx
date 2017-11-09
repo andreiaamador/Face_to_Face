@@ -455,6 +455,10 @@
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_getLanguageID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="LanguageID" Type="int" Mode="InOut" />
+        </Function>
         <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -619,7 +623,14 @@
             <Parameter Name="userID" Mode="In" Type="Int32" />
             <Parameter Name="X" Mode="InOut" Type="Double" />
           </FunctionImport>
+<<<<<<< HEAD
           <EntitySet Name="ReportTable" EntityType="Face2FaceModel.ReportTable" />
+=======
+          <FunctionImport Name="sp_getLanguageID">
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="LanguageID" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+>>>>>>> master
           <EntitySet Name="C__MigrationHistory" EntityType="Face2FaceModel.C__MigrationHistory" />
           <EntitySet Name="AspNetRoles" EntityType="Face2FaceModel.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Face2FaceModel.AspNetUserClaims" />
@@ -664,6 +675,7 @@
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="MessageTable" EntitySet="MessageTable" />
           </AssociationSet>
+<<<<<<< HEAD
           <AssociationSet Name="FK_ReportTable_ReviewTable" Association="Face2FaceModel.FK_ReportTable_ReviewTable">
             <End Role="ReviewTable" EntitySet="ReviewTable" />
             <End Role="ReportTable" EntitySet="ReportTable" />
@@ -672,6 +684,8 @@
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="ReportTable" EntitySet="ReportTable" />
           </AssociationSet>
+=======
+>>>>>>> master
           <AssociationSet Name="FK_ReviewTable_UserProfile" Association="Face2FaceModel.FK_ReviewTable_UserProfile">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="ReviewTable" EntitySet="ReviewTable" />
@@ -866,7 +880,10 @@
           <NavigationProperty Name="AspNetUsers" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="UserProfile" ToRole="AspNetUsers" />
           <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="UserProfile" ToRole="EventTable" />
           <NavigationProperty Name="MessageTable" Relationship="Face2FaceModel.FK_MessageTable_UserProfile" FromRole="UserProfile" ToRole="MessageTable" />
+<<<<<<< HEAD
           <NavigationProperty Name="ReportTable" Relationship="Face2FaceModel.FK_ReportTable_UserProfile" FromRole="UserProfile" ToRole="ReportTable" />
+=======
+>>>>>>> master
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_UserProfile" FromRole="UserProfile" ToRole="ReviewTable" />
           <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FluentLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
           <NavigationProperty Name="LanguagesTable1" Relationship="Face2FaceModel.InterestedLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
@@ -973,6 +990,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+<<<<<<< HEAD
         <Association Name="FK_ReportTable_ReviewTable">
           <End Type="Face2FaceModel.ReviewTable" Role="ReviewTable" Multiplicity="1" />
           <End Type="Face2FaceModel.ReportTable" Role="ReportTable" Multiplicity="*" />
@@ -997,6 +1015,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+=======
+>>>>>>> master
         <Association Name="FK_ReviewTable_UserProfile">
           <End Type="Face2FaceModel.UserProfile" Role="UserProfile" Multiplicity="1" />
           <End Type="Face2FaceModel.ReviewTable" Role="ReviewTable" Multiplicity="*" />
@@ -1060,6 +1080,7 @@
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Face2FaceModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Face2FaceModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="sp_ProfileClassification" FunctionName="Face2FaceModel.Store.sp_ProfileClassification" />
+<<<<<<< HEAD
           <EntitySetMapping Name="ReportTable">
             <EntityTypeMapping TypeName="Face2FaceModel.ReportTable">
               <MappingFragment StoreEntitySet="ReportTable">
@@ -1069,6 +1090,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+=======
+          <FunctionImportMapping FunctionImportName="sp_getLanguageID" FunctionName="Face2FaceModel.Store.sp_getLanguageID" />
+>>>>>>> master
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="Face2FaceModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">

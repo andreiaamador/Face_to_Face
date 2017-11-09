@@ -6,11 +6,28 @@
     <edmx:Diagrams>
       <Diagram DiagramId="70d945aa34d7443980349fac578aaca0" Name="Diagram1" ZoomLevel="84">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        <EntityTypeShape EntityType="Face2FaceModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="7.5" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="10.25" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="13" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="3" PointY="6.25" />
+        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="9.75" PointY="5.25" />
+        <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="7.5" PointY="6" />
+        <EntityTypeShape EntityType="Face2FaceModel.MessageTable" Width="1.5" PointX="12" PointY="6.125" />
+        <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="12" PointY="3.125" />
+        <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="5.25" PointY="5.5" />
+      <Diagram DiagramId="70d945aa34d7443980349fac578aaca0" Name="Diagram1" ZoomLevel="20">
+>>>>>>> master
         
         
         
         
         
+<<<<<<< HEAD
         <EntityTypeShape EntityType="Face2FaceModel.ReportTable" Width="1.5" PointX="9.27496437042717" PointY="19.510654026414571" />
         <EntityTypeShape EntityType="Face2FaceModel.C__MigrationHistory" Width="1.5" PointX="4.9004573118409409" PointY="31.144488080937641" />
         <EntityTypeShape EntityType="Face2FaceModel.AspNetRoles" Width="1.5" PointX="4.4854049517239467" PointY="23.337216000695349" />
@@ -24,6 +41,20 @@
         <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="5.6843859430795476" PointY="8.3016463407788645" />
         <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="0.31422527335315253" PointY="18.655951627835609" />
         <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="5.0143881687030136" PointY="30.613586514542618" />
+=======
+        <EntityTypeShape EntityType="Face2FaceModel.C__MigrationHistory" Width="1.5" PointX="7.6100267989607655" PointY="24.817669060462002" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetRoles" Width="1.5" PointX="7.5090202891775508" PointY="21.065255502734917" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="0.91174475332337646" PointY="26.832817164637529" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="5.9766857614632158" PointY="11.740869304044576" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="4.199099820199935" PointY="19.886157104692494" />
+        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="11.231819182276642" PointY="11.864913439315238" />
+        <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="2.2578356388294303" PointY="25.457604092293234" />
+        <EntityTypeShape EntityType="Face2FaceModel.MessageTable" Width="1.5" PointX="7.8590920902132488" PointY="0.12462145095906288" />
+        <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="1.0558261652737047" PointY="6.990074339783785" />
+        <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="5.023394641011671" PointY="11.83618422403754" />
+        <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="11.210584563766878" PointY="14.7263628312975" />
+        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="11.159721633028109" PointY="19.172391438471337" />
+>>>>>>> master
         <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Face2FaceModel.FK_UserProfile_AspNetUsers" />
@@ -32,8 +63,11 @@
         <AssociationConnector Association="Face2FaceModel.FK_MessageTable_EventTable" />
         <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_EventTable" />
         <AssociationConnector Association="Face2FaceModel.FK_MessageTable_UserProfile" />
+<<<<<<< HEAD
         <AssociationConnector Association="Face2FaceModel.FK_ReportTable_ReviewTable" />
         <AssociationConnector Association="Face2FaceModel.FK_ReportTable_UserProfile" />
+=======
+>>>>>>> master
         <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_UserProfile" />
         <AssociationConnector Association="Face2FaceModel.AspNetUserRoles" />
         <AssociationConnector Association="Face2FaceModel.FluentLanguage" />
@@ -76,6 +110,7 @@
         
         
         
+<<<<<<< HEAD
         
         
         
@@ -109,6 +144,8 @@
         
         
 =======
+=======
+>>>>>>> master
         
         
         
@@ -116,7 +153,81 @@
         
         
         
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; master
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         

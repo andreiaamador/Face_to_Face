@@ -30,6 +30,7 @@
     .participantsDetails img, .reviews img {
         height: 40px;
         width: 40px;
+        margin: 5px;
     }
 
     .reviews a {
@@ -75,51 +76,9 @@
 <div class="row">
 
     <div class="col-md-3">
-
-        <div class="participantsDetails">
-            @{   int parCount = Model.UserProfile1.Count;
-
-                <div id="totalUsers" class="row">
-                    <div class="col-md-12">
-                        <p>
-                            <label>
-                                Participants:
-                            </label>
-                            @parCount
-                        </p>
-                    </div>
-                </div>
-
-                if (parCount != 0)
-                {
-                    foreach (var part in Model.UserProfile1)
-                    {
-                        <div class="row">
-
-                            <div class="col-md-3 col-md-offset-1">
-                                <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
-                                    @{
-                                        if (@part.Photo == null)
-                                        {
-                                            <img src=@part.Photo>
-                                        }
-                                        else
-                                        {
-                                            <img src="~/Content/Images/no-photo-available.png">
-                                        }
-                                    }
-                                </a>
-                            </div>
-
-                            <div class="col-md-7">
-                                @part.Name
-                            </div>
-                        </div>
-                                            }
-                                        }
-            }
+        <div id="partTarget">
+            @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
         </div>
-
     </div>
 
     <div class="col-md-9 eventDetails1">
@@ -141,11 +100,11 @@
                     @{
                         if (Model.Photo != null)
                         {
-                    <img src=@Model.Photo>
+                            <img src=@Model.Photo>
                         }
                         else
                         {
-                    <img src="~/Content/Images/no-photo-available.png">
+                            <img src="~/Content/Images/no-photo-available.png">
                         }
                     }
                 </div>
@@ -247,24 +206,52 @@
 
             <div align="right">
                 @{
-                    if (ViewBag.userInEvent)
+
+                    if (Model.UserID!= ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
                     {
-                        if (!ViewBag.isOnReviews)
-                        {
-                            <input type="button" value="Add a Review" id="AddReview" />
-                        }
-                        <input type="button" value="Don't go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
+                        <input type="button" value="Add a Review" id="AddReview" />
                     }
                     else
                     {
-                        <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent","EventTables", new { id = Model.EventID })'" />
+                        @*<input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
                         @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
+                        <input class="hidden" type="button" value="Add a Review" id="AddReview" />
+                    }
+
+                    if (Model.UserID != ViewBag.userLog && DateTime.Now < Model.Date)
+                    {
+                        using (Ajax.BeginForm("GoToEvent", "EventTables", new AjaxOptions
+                        {//GetPatients is name of method in PatientController
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+                            UpdateTargetId = "partTarget"
+                            //LoadingElementId = "loader"
+                        }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.EventID)
+
+                            if (ViewBag.userInEvent)
+                            {
+                                <input id="dgoBtn" type="submit" value="Don't go!" />
+                                <input id="goBtn" class="hidden" type="submit" value="Go!" />                       
+                            }
+                            else
+                            {
+                                <input id = "dgoBtn" class="hidden" type="submit" value="Don't go!" />
+                                <input id="goBtn" type="submit" value="Go!" />
+                            }
+                        }
                     }
                 }
             </div>
-
         </div>
 
+        <div id="targetRv">
+            @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
+        </div>
+
+<<<<<<< HEAD
         <div class="container-fluid reviews">
             <div class="row">
                 <div class="col-md-12 ">
@@ -346,63 +333,62 @@
                                                         }
                                                     }
                     }
+=======
+        @using (Ajax.BeginForm("AddReviews", "EventTables", new AjaxOptions
+        {//GetPatients is name of method in PatientController
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+            UpdateTargetId = "targetRv"
+            //LoadingElementId = "loader"
+        }))
+        {
+            <div class="addReviewForm hidden">
+                <div class="form-horizontal">
+                    <hr />
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Classification</label>
+                        <div class="col-md-10">
+                            <i class="fa fa-star starRev 1" aria-hidden="true" style="color:yellow"></i>
+                            <i class="fa fa-star-o starRev 2" aria-hidden="true" style="color:yellow"></i>
+                            <i class="fa fa-star-o starRev 3" aria-hidden="true" style="color:yellow"></i>
+                            <i class="fa fa-star-o starRev 4" aria-hidden="true" style="color:yellow"></i>
+                            <i class="fa fa-star-o starRev 5" aria-hidden="true" style="color:yellow"></i>
+                            <input id="lbsRev" class="hidden" type="number" name="classification" max="5" min="0" />
+                        </div>
+                    </div>
+>>>>>>> master
 
-                    <div class="addReviewForm hidden">
-                        @using (Html.BeginForm("AddReviews", "EventTables", FormMethod.Post))
-                        {
-                            @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Review</label>
+                        <div class="col-md-10">
+                            <input id="textReview" type="text" name="review" />
+                        </div>
+                    </div>
 
-                            <div class="form-horizontal">
-                                <hr />
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
 
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                @Html.HiddenFor(model => model.EventID)
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.EventID)
 
-                                <div class="form-group">
-                                    <label class="control-label col-md-2">Classification</label>
-                                    <div class="col-md-10">
-                                        @*<label name="eventID" value="6"> @Model.EventID</label>*@
-                                        <i class="fa fa-star starRev 1" aria-hidden="true" style="color:yellow"></i>
-                                        <i class="fa fa-star-o starRev 2" aria-hidden="true" style="color:yellow"></i>
-                                        <i class="fa fa-star-o starRev 3" aria-hidden="true" style="color:yellow"></i>
-                                        <i class="fa fa-star-o starRev 4" aria-hidden="true" style="color:yellow"></i>
-                                        <i class="fa fa-star-o starRev 5" aria-hidden="true" style="color:yellow"></i>
-                                        @*<spann id="lbsRev" name="classification">1</spann>*@
-                                        <input id="lbsRev" class="hidden" type="number" name="classification" max="5" min="0" />
-                                    </div>
-                                </div>
+        
 
-                                <div class="form-group">
-                                    <label class="control-label col-md-2">Review</label>
-                                    <div class="col-md-10">
-                                        <input id="textReview" type="text" name="review" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Save" class="btn btn-default" />
-                                </div>
-                            </div>
-                        }
+                        </div>
+                            <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                     </div>
                 </div>
-
             </div>
-
-        </div>
-
-        <div id="ChatViewPartial">
-            @Html.Action("ChatView", "EventTables", new { id = Model.EventID })
-        </div>
+        }
     </div>
-
 </div>
 
+@*<div id="ChatViewPartial">
+    @{Html.RenderPartial("_ChatView", Model); }
+</div>*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script>
 
         $('#AddReview').click(function () {
@@ -413,7 +399,6 @@
             else {
                 $('.addReviewForm').addClass("hidden");
             }
-
         })
 
         $(".starRev").click(function () {
@@ -466,12 +451,28 @@
                 $("#lbsRev").text(5);
                 $("#lbsRev").val(5);
             }
+        })
 
+        $("#addRev").click(function () {
+            $(".addReviewForm").addClass("hidden");
+            $("#AddReview").addClass("hidden");
         });
 
+        $("#goBtn").click(function () {
+            $("#goBtn").addClass("hidden");
+            $("#dgoBtn").removeClass("hidden");
+        });
+
+<<<<<<< HEAD
     $("Report").click(function () {
                 $('#').show();
     });
+=======
+        $("#dgoBtn").click(function () {
+            $("#dgoBtn").addClass("hidden");
+            $("#goBtn").removeClass("hidden");   
+        });
+>>>>>>> master
 
 
     </script>
