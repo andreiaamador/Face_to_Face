@@ -1,4 +1,4 @@
-﻿@{
+﻿@*@{
     ViewBag.Title = "About";
 }
 <h2>@ViewBag.Title.</h2>
@@ -133,4 +133,42 @@
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap"
-            async defer></script>
+            async defer></script>*@
+
+@using Face2Face.Models
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "How to Face2Face works:";
+}
+<h2>@ViewBag.Title</h2>
+
+<style>
+    body {
+        background-image: url("../../Content/Images/black_background.jpg");
+        color: white;
+    }
+</style>
+
+
+<div class="">
+    <p>
+        Here you can book meetings with people you dont't know.
+        <br></br>
+        You can meet people with the same languages interests as you.
+        <br></br>
+        You have two ways to do that:
+        <br></br>
+        You can create your own events and invite people to go on them
+        <br></br>
+        or
+        <br></br>
+        You can go to one that already exists.
+        <br></br>
+        After you attend an event you can give your opinion and also rate the people who organize it.
+        <br></br>
+        Like the others participants can do the same when you organize an event.
+        <br></br>
+        You can see Face2Face as an excellent opprtunity to improve your language skills.
+    </p>
+</div>
