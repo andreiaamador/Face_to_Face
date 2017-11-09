@@ -22,21 +22,27 @@ namespace Face2Face.Controllers
         // GET: EventTables
         public ActionResult EventsList()
         {
-            var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
-            return View(eventTable.ToList());
+            //var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
+
+            //,eventTable.ToList()
+            return View("EventsList");
         }
 
-        public ActionResult MyOwnEvents()
+        public ActionResult GetAllEventsList()
+        {
+            var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
+            return View("_allEvents", eventTable.ToList());
+        }
+
+        public PartialViewResult MyOwnEvents()
         {
             int userID = Convert.ToInt32(User.Identity.GetUserId());
-
             string sqlQuery = string.Format("{0}{1}", "select * from EventTable where UserID=", userID);
             var eventTable = db.EventTable.SqlQuery(sqlQuery);
-
-            return View("EventsList", eventTable.ToList());
+            return PartialView("_MyOwnEvents", eventTable.ToList());
         }
 
-        public ActionResult NextEvents()
+        public PartialViewResult MyNextEvents()
         {
             int userID = Convert.ToInt32(User.Identity.GetUserId());
 
@@ -57,12 +63,12 @@ namespace Face2Face.Controllers
                 }
             }
 
-            return View("EventsList", eventos.ToList());
+            return PartialView("_allEvents", eventos.ToList());
         }
 
         // POST:
         [HttpPost]
-        public ActionResult Filter(string Location, string Date, string Language, string keyWord)
+        public PartialViewResult Filter(string Location, string Date, string Language, string keyWord)
         {
             //List<EventTable> eventTable = new List<EventTable>();
             string sqlQuery;
@@ -123,15 +129,13 @@ namespace Face2Face.Controllers
 
                 var eventTable = db.EventTable.SqlQuery(sqlQuery);
 
-                return View("EventsList", eventTable.ToList());
+                return PartialView("_allEvents", eventTable.ToList());
             }
             else
             {
-                return View("EventsList", db.EventTable.ToList());
+                return PartialView("_allEvents", db.EventTable.ToList());
             }
         }
-
- 
 
         // GET: EventTables
         public ActionResult Index()
@@ -168,8 +172,8 @@ namespace Face2Face.Controllers
             return View(eventTable);
         }
 
-
-        public ActionResult GetParticipants(int eventID) {  
+        public ActionResult GetParticipants(int eventID)
+        {
             return View("_ParticipantsDetails", db.EventTable.Find(eventID));
         }
 
@@ -327,12 +331,6 @@ namespace Face2Face.Controllers
                         string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
                         photo.SaveAs(path);
                         eventTable.Photo = "/UploadedFiles/" + Path.GetFileName(photo.FileName);
-
-                        //eventTable.Date = Convert.ToDateTime(releaseDate+" "+hour+":00.00");
-
-                        eventTable.Date = Convert.ToDateTime(releaseDate);
-                        eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
-
                         db.Entry(eventTable).State = EntityState.Modified;
                         db.SaveChanges();
                         ViewBag.Message = "File uploaded successfully";
@@ -345,6 +343,12 @@ namespace Face2Face.Controllers
                 {
                     ViewBag.Message = "You have not specified a file.";
                 }
+
+
+                //eventTable.Date = Convert.ToDateTime(releaseDate+" "+hour+":00.00");
+                eventTable.Date = Convert.ToDateTime(releaseDate);
+                eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+
                 eventTable.Address = Address;
 
                 eventTable.UserProfile1.Add(db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));

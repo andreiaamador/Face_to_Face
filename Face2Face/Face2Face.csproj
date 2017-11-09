@@ -482,6 +482,8 @@
     <Content Include="Views\EventTables\_ReviewsPartial.cshtml" />
     <Content Include="Views\EventTables\_ParticipantsDetails.cshtml" />
     <Content Include="Views\EventTables\_allEvents.cshtml" />
+    <Content Include="Views\EventTables\_MyOwnEvents.cshtml" />
+    <Content Include="Views\EventTables\_MyEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
