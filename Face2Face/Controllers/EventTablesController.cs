@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,9 +15,11 @@ using System.IO;
 
 namespace Face2Face.Controllers
 {
+    ////[Authorize(Roles = "User")]
     public class EventTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
+        internal static object cs;
 
         // GET: EventTables
         public ActionResult EventsList()
@@ -532,6 +534,7 @@ namespace Face2Face.Controllers
             return View(eventTable);
         }
 
+        
         // GET: EventTables/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -546,7 +549,7 @@ namespace Face2Face.Controllers
             }
             return View(eventTable);
         }
-
+        
         // POST: EventTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
