@@ -183,6 +183,8 @@ namespace Face2Face.Controllers
             {
                 ViewBag.isOnReviews = false;
             }
+            ViewBag.Chat = db.MessageTable.Where(c => c.EventID == id).ToList();
+
             return View(eventTable);
         }
 
@@ -290,9 +292,60 @@ namespace Face2Face.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View("ChatView");
+            MessageTable messageTable = db.MessageTable.Find(id);
+            if (messageTable == null)
+            {
+                return HttpNotFound();
+            }
+
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            ViewBag.userLog = userLog;
+            ViewBag.userInEvent = db.EventTable.Find(id).UserProfile1.Contains(db.UserProfile.Find(userLog));
+
+            if (db.ReviewTable.Find(id, userLog) != null)
+            {
+                ViewBag.isOnReviews = true;
+            }
+            else
+            {
+                ViewBag.isOnReviews = false;
+            }
+
+            return View("Details", db.EventTable.Find(id));
         }
 
+        [HttpPost]
+        public ActionResult ChatView([Bind(Include = "MessageID,EventID,UserID,Message")] MessageTable messageTable, string message, int? id)
+        {
+            if (ModelState.IsValid)
+            {
+                messageTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
+                messageTable.EventID = (int)id;
+
+                db.MessageTable.Add(messageTable);
+                db.Entry(messageTable).State = EntityState.Added;
+                db.SaveChanges();
+
+                ViewBag.user = db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())).Name;
+            }
+
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            ViewBag.userLog = userLog;
+            ViewBag.userInEvent = db.EventTable.Find(id).UserProfile1.Contains(db.UserProfile.Find(userLog));
+
+            if (db.ReviewTable.Find(id, userLog) != null)
+            {
+                ViewBag.isOnReviews = true;
+            }
+            else
+            {
+                ViewBag.isOnReviews = false;
+            }
+
+            return View("Details", db.EventTable.Find(id));
+            //return PartialView("_ChatView", db.MessageTable.Where(c => c.EventID == userLoggedIn).ToList());
+        }
+        
         //[HttpPost]
         //public ActionResult ChatView(int id, string message)
         //{

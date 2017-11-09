@@ -213,6 +213,8 @@
                     }
                     else
                     {
+                        @*<input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
+                        @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
                         <input class="hidden" type="button" value="Add a Review" id="AddReview" />
                     }
 
@@ -285,14 +287,19 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.EventID)
 
-                            <input id="addRev" type="submit" value="Save" class="btn btn-default" />
+        
+
                         </div>
+                            <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                     </div>
                 </div>
             </div>
         }
-
     </div>
+</div>
+
+<div id="ChatViewPartial">
+    @{Html.RenderPartial("_ChatView", Model); }
 </div>
 
 @section Scripts {
