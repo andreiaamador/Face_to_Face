@@ -38,15 +38,15 @@
         /*margin: 5px;*/
     }
 
-    #filters1 {
-        padding: 10px;
-        /*margin: 5px;*/
-    }
-
     .ownProfile {
         padding: 10px;
-        text-align: center
+        text-align: center;
     }
+
+    /*.profile1 {
+        margin: 10px;
+        text-align: center;
+    }*/
 
     .event {
         border: solid;
@@ -93,6 +93,20 @@
         padding: 10px;
     }
 
+    #btn:hover {
+        opacity:0.8;
+    }
+
+    .profile1 input, .profile1 button {
+        border-radius: 10px;
+        width: 140px;
+    }
+
+    .profile1 input:hover, .profile1 button:hover {
+       
+        opacity: 0.8;
+    }
+
     /*button{
          border-radius:10px;
     }*/
@@ -113,49 +127,52 @@
                 @Html.Action("GetOwnProfile", "UserProfiles")
             </div>
 
-            <div >
-                <p>
-                    @using (Ajax.BeginForm("MyOwnEvents", "EventTables", new AjaxOptions
-                    {//GetPatients is name of method in PatientController
-                        HttpMethod = "POST",
-                        InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
-                        UpdateTargetId = "targetRv"
-                        //LoadingElementId = "loader"
-                    }))
-                    {
-                        <div>
-                            <input type="submit" value="My own events">
-                        </div>
-                    }
-                    @*@Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")*@
-                </p>
+            <div class="profile1">
 
-                <p>
-                    @using (Ajax.BeginForm("MyNextEvents", "EventTables", new AjaxOptions
-                    {//GetPatients is name of method in PatientController
-                        HttpMethod = "POST",
-                        InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
-                        UpdateTargetId = "targetRv"
-                        //LoadingElementId = "loader"
-                    }))
-                    {
-                        <div>
-                            <input type="submit" value="My Events">
-                        </div>
-                    }
-                    @*@Html.ActionLink("Next Events", "NextEvents", "EventTables")*@
+                <div >
 
-                </p>
-                <p>
-                    <button onclick="location.href='@Url.Action("Create", "EventTables")';return false;">Create new Event</button>
-                </p>
+                    <p>
+                        @using (Ajax.BeginForm("MyOwnEvents", "EventTables", new AjaxOptions
+                        {//GetPatients is name of method in PatientController
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+                            UpdateTargetId = "targetRv"
+                            //LoadingElementId = "loader"
+                        }))
+                        {
+                            <div>
+                                <input type="submit" value="My own events">
+                            </div>
+                        }
+                        @*@Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")*@
+                    </p>
+                    <p>
+                        @using (Ajax.BeginForm("MyNextEvents", "EventTables", new AjaxOptions
+                        {//GetPatients is name of method in PatientController
+                            HttpMethod = "POST",
+                            InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+                            UpdateTargetId = "targetRv"
+                            //LoadingElementId = "loader"
+                        }))
+                        {
+                            <div>
+                                <input type="submit" value="My Events">
+                            </div>
+                        }
+                        @*@Html.ActionLink("Next Events", "NextEvents", "EventTables")*@
+
+                    </p>
+                    <p>
+                        <button onclick="location.href='@Url.Action("Create", "EventTables")';return false;">Create new Event</button>
+                    </p>
+                </div>
+                
 
             </div>
 
         </div>
 
         <div id="targetRv" class="col-md-7 eventTable">
-            @*////////////////////////////////////////////////////////////////////////*@
             @Html.Action("GetAllEventsList", "EventTables")
         </div>
 
