@@ -532,8 +532,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+<<<<<<< HEAD
+=======
     <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Login\" />
+>>>>>>> Sara
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
