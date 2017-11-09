@@ -490,15 +490,12 @@
     <Content Include="Views\EventTables\GoToEvent.cshtml" />
     <Content Include="Views\EventTables\_ChatView.cshtml" />
     <Content Include="Views\UserProfiles\ClassificationPartial.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\EventTables\_Report.cshtml" />
-=======
     <Content Include="Views\EventTables\_ReviewsPartial.cshtml" />
     <Content Include="Views\EventTables\_ParticipantsDetails.cshtml" />
     <Content Include="Views\EventTables\_allEvents.cshtml" />
     <Content Include="Views\EventTables\_MyOwnEvents.cshtml" />
     <Content Include="Views\EventTables\_MyEvents.cshtml" />
->>>>>>> master
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
