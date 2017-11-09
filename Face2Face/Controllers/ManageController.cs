@@ -61,7 +61,6 @@ namespace Face2Face.Controllers
             }
         }
 
-        //
         // GET: /Manage/Index
         public ActionResult Index(ManageMessageId? message)
         {
@@ -209,6 +208,8 @@ namespace Face2Face.Controllers
             return RedirectToAction("EventsList", "EventTables");
         }
 
+        //[Authorize(Roles = "Admin")]
+>>>>>>> Sara
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]

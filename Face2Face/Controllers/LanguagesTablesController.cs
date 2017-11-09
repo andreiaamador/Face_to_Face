@@ -10,6 +10,7 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
+    //[Authorize(Roles = "User")]
     public class LanguagesTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
@@ -93,7 +94,7 @@ namespace Face2Face.Controllers
             }
             return View(languagesTable);
         }
-
+        //[Authorize(Roles = "Admin")]
         // GET: LanguagesTables/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -108,7 +109,7 @@ namespace Face2Face.Controllers
             }
             return View(languagesTable);
         }
-
+        //[Authorize(Roles = "Admin")]
         // POST: LanguagesTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -43,7 +43,7 @@ namespace Face2Face
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
             var manager = new ApplicationUserManager(
-           new CustomUserStore(context.Get<ApplicationDbContext>()));
+           new CustomUserStore(context.Get<Models.ApplicationDbContext>()));
             // Configure validation logic for usernames 
             manager.UserValidator = new UserValidator<ApplicationUser, int>(manager)
             {

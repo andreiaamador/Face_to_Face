@@ -12,8 +12,8 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-
-    [Authorize]
+    ////[Authorize(Roles = "Admin")]
+    ////[Authorize(Roles = "User")]
     public class AccountController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
@@ -155,7 +155,7 @@ namespace Face2Face.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -294,7 +294,7 @@ namespace Face2Face.Controllers
         }
 
         //
-        // GET: /Account/SendCode
+        // GET: /Account
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -409,7 +409,7 @@ namespace Face2Face.Controllers
             return View(model);
         }
 
-        //
+        ////[Authorize(Roles = "User")]
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
