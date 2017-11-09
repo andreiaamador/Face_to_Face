@@ -176,15 +176,15 @@ namespace Face2Face.Controllers
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
             ViewBag.userLog = userLog;
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
-
-            if (db.ReviewTable.Find(id, userLog) != null)
-            {
-                ViewBag.isOnReviews = true;
-            }
-            else
-            {
-                ViewBag.isOnReviews = false;
-            }
+            ViewBag.isOnReviews = false;
+            //if (db.ReviewTable.Find(id, userLog) != null)
+            //{
+            //    ViewBag.isOnReviews = true;
+            //}
+            //else
+            //{
+            //    ViewBag.isOnReviews = false;
+            //}
             ViewBag.Chat = db.MessageTable.Where(c => c.EventID == id).ToList();
 
             return View(eventTable);
