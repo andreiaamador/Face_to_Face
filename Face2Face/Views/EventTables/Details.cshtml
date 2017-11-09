@@ -207,14 +207,13 @@
             <div align="right">
                 @{
 
-
                     if (Model.UserID!= ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
                     {
                         <input type="button" value="Add a Review" id="AddReview" />
                     }
                     else
                     {
-                        <input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />
+                        @*<input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
                         @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
                         <input class="hidden" type="button" value="Add a Review" id="AddReview" />
                     }
@@ -288,19 +287,19 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.EventID)
 
-        <div id="ChatViewPartial">
-            @{Html.RenderPartial("_ChatView", Model); }
-        </div>
+        
 
-    </div>
-                            <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                         </div>
+                            <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                     </div>
                 </div>
             </div>
         }
-
     </div>
+</div>
+
+<div id="ChatViewPartial">
+    @{Html.RenderPartial("_ChatView", Model); }
 </div>
 
 @section Scripts {
