@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-﻿// T4 code generation is enabled for model 'C:\Users\Pedro\Documents\GitHub\FaceToFace\Face2Face\Models\Face2Face.edmx'. 
-=======
-﻿// T4 code generation is enabled for model 'C:\Users\altar22\Documents\GitHub\Face_to_Face\Face2Face\Models\Face2Face.edmx'. 
-﻿// T4 code generation is enabled for model 'C:\Users\altar13\Documents\GitHub\Face_to_Face\Face2Face\Models\Face2Face.edmx'. 
->>>>>>> Sara
+﻿// T4 code generation is enabled for model 'C:\Users\altar21\Documents\GitHub\Face_to_Face\Face2Face\Models\Face2Face.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

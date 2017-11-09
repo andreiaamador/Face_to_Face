@@ -20,12 +20,10 @@ using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
-<<<<<<< HEAD
+
 
     [Authorize]
-=======
     //[Authorize(Roles = "Admin")]
->>>>>>> Sara
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -115,10 +113,22 @@ namespace Face2Face.Controllers
             json = json + "]";
             model.ListLanguages = json;
 
+            ViewBag.NationalityID = new SelectList(db.NationalityTable, "Nationality", "Nationality", userProfile.Nationality); //(Diego)
+
+            string json2 = "[";
+            List<string> availableNationalities = new List<string>();
+            foreach (var item in db.NationalityTable)
+            {
+                json2 = json2 + "," + item.Nationality;
+            }
+            json2 = json2 + "]";
+            model.ListNationalities = json2;
+
+
             return View(model);
         }
 
-<<<<<<< HEAD
+
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -214,9 +224,9 @@ namespace Face2Face.Controllers
             return RedirectToAction("EventsList", "EventTables");
         }
 
-=======
+
         //[Authorize(Roles = "Admin")]
->>>>>>> Sara
+
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
