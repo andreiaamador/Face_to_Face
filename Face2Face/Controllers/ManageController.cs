@@ -105,7 +105,7 @@ namespace Face2Face.Controllers
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "Language", "Language", userProfile.Nationality); //(Diego)
 
             string json = "[";
-            List<string> availableLanguages = new List<string>();
+            //List<string> availableLanguages = new List<string>();
             foreach (var item in db.LanguagesTable)
             {
                 json = json + "," + item.Language;
@@ -115,14 +115,14 @@ namespace Face2Face.Controllers
 
             ViewBag.NationalityID = new SelectList(db.NationalityTable, "Nationality", "Nationality", userProfile.Nationality); //(Diego)
 
-            string json2 = "[";
-            List<string> availableNationalities = new List<string>();
-            foreach (var item in db.NationalityTable)
-            {
-                json2 = json2 + "," + item.Nationality;
-            }
-            json2 = json2 + "]";
-            model.ListNationalities = json2;
+            //string json2 = "[";
+            //List<string> availableNationalities = new List<string>();
+            //foreach (var item in db.NationalityTable)
+            //{
+            //    json2 = json2 + "," + item.Nationality;
+            //}
+            //json2 = json2 + "]";
+            //model.ListNationalities = json2;
 
 
             return View(model);
