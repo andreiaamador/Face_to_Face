@@ -1,87 +1,248 @@
-﻿@model Face2Face.Models.IndexViewModel
+﻿@model Face2Face.Models.ChangeProfile
+
 @{
     ViewBag.Title = "Manage";
 }
 
-<h2>@ViewBag.Title.</h2>
+@section Styles {
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/Content/jquery.tagit.css" />
 
-<p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Change your account settings</h4>
-    <hr />
+
+    <style>
+        img {
+            height: 150px;
+            width: 150px;
+            margin: 5px;
+        }
+
+        #newPhoto {
+            height: 150px;
+            width: 150px;
+            background-image: url('');
+            background-size: cover;
+            background-position: center;
+            background-size: 150px 150px;
+            background-repeat: no-repeat;
+            margin: 5px;
+        }
+    </style>
+}
+<h4>Change your account settings</h4>
+
+@*@using (Html.BeginForm())*@
+@using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="photo1" class="form-group">
+
+            @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*<input type="file" name="photo" id="photo" /><br><br>*@
+
+                
+                <div id="oldPhoto">
+                    @{
+                        if (Model.Photo != null)
+                        {
+                            <img src=@Model.Photo>
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/avatar.png">
+                        }
+                    }
+                </div>
+
+                @*@Html.TextBox("photo", "", new { type = "file" })*@
+                <div class="hidden" id='newPhoto'></div>
+                <input id="newFile" name="photo" type="file">
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nationality, "Nationality/Country", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Nationality, (SelectList)ViewBag.LanguageID, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nationality, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber, "Phone Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NativeLanguage, "Native Languages", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 ">
+                <input class="hidden" type="text" id="listLanguages" value=@Model.ListLanguages>
+
+                <input class="hidden" type="text" id="myNatives" name="Natives">
+                <ul id="nativeLanguages">
+                    @foreach (var item in Model.NativeLanguage)
+                    {
+                        <li>@item.Language</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FluentLanguage, "Fluent Languages", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                <input class="hidden" type="text" id="myFluents" name="Fluents">
+                <ul id="fluentLanguages" name="fluentLanguages">
+                    @foreach (var item in Model.FluentLanguage)
+                    {
+                        <li>@item.Language</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.InterestedLanguage, "Interested Languages", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                <input class="hidden" type="text" id="myInterests" name="Interests">
+                <ul id="interestedLanguages">
+
+                    @foreach (var item in Model.InterestedLanguage)
+                    {
+                        <li>@item.Language</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <dl class="dl-horizontal">
         <dt>Password:</dt>
         <dd>
             [
-            @if (Model.HasPassword)
-            {
-                @Html.ActionLink("Change your password", "ChangePassword")
-            }
-            else
-            {
-                @Html.ActionLink("Create", "SetPassword")
-            }
+            @Html.ActionLink("Change your password", "ChangePassword")
             ]
         </dd>
-        <dt>External Logins:</dt>
-        <dd>
-            @Model.Logins.Count [
-            @Html.ActionLink("Manage", "ManageLogins") ]
-        </dd>
-        @*
-            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
-             See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
-             Uncomment the following block after you have set up two-factor authentication
-        *@
-        @*  
-            <dt>Phone Number:</dt>
-            <dd>
-                @(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
-                {
-                    <br />
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    }
-                }
-                else
-                {
-                    <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                }
-            </dd>
-        *@
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
-                {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Enabled
-                        <input type="submit" value="Disable" class="btn btn-link" />
-                        </text>
-                    }
-                }
-                else
-                {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Disabled
-                        <input type="submit" value="Enable" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
-        </dd>
     </dl>
-</div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" id="btnSave" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+                        }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/tag-it.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#nativeLanguages").tagit({
+                availableTags: $("#listLanguages").val().split(","),
+
+                afterTagRemoved: function (event, ui) {
+                    var y = $("#myNatives").val().replace(" ", "").split(',');
+                    if (y.indexOf(ui.tagLabel) != -1) {
+                        y[y.indexOf(ui.tagLabel)] = "";
+                        var str = "";
+                        for (var i = 0; i < y.length; i++) {
+                            if (y[i] != "") {
+                                str = str + y[i] + ",";
+                            }
+                        }
+                        $("#myNatives").val(str);
+                    }
+                },
+                afterTagAdded: function (event, ui) {
+                    $("#myNatives").val($("#myNatives").val() + ui.tagLabel + ",");
+                }
+            })
+
+            $("#fluentLanguages").tagit({
+
+                availableTags: $("#listLanguages").val().split(","),
+                afterTagRemoved: function (event, ui) {
+                    var y = $("#myFluents").val().replace(" ", "").split(',');
+                    if (y.indexOf(ui.tagLabel) != -1) {
+                        y[y.indexOf(ui.tagLabel)] = "";
+                        var str = "";
+                        for (var i = 0; i < y.length; i++) {
+                            if (y[i] != "") {
+                                str = str + y[i] + ",";
+                            }
+                        }
+                        $("#myFluents").val(str);
+                    }
+                },
+                afterTagAdded: function (event, ui) {
+                    $("#myFluents").val($("#myFluents").val() + ui.tagLabel + ",");
+                }
+            })
+
+            $("#interestedLanguages").tagit({
+                availableTags: $("#listLanguages").val().split(","),
+                afterTagRemoved: function (event, ui) {
+                    var y = $("#myInterests").val().replace(" ", "").split(',');
+                    if (y.indexOf(ui.tagLabel) != -1) {
+                        y[y.indexOf(ui.tagLabel)] = "";
+                        var str = "";
+                        for (var i = 0; i < y.length; i++) {
+                            if (y[i] != "") {
+                                str = str + y[i] + ",";
+                            }
+                        }
+                        $("#myInterests").val(str);
+                    }
+                },
+                afterTagAdded: function (event, ui) {
+                    $("#myInterests").val($("#myInterests").val() + ui.tagLabel + ",");
+                }
+            })
+
+            document.getElementById('newFile').addEventListener('change', readURL, true);
+            function readURL() {
+                var file = document.getElementById("newFile").files[0];
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    document.getElementById('newPhoto').style.backgroundImage = "url(" + reader.result + ")";
+                }
+                if (file) {
+                    reader.readAsDataURL(file);
+                    $("#oldPhoto").addClass("hidden")
+                    $("#newPhoto").removeClass("hidden")
+                } else {
+                }
+            }
+        });
+    </script>
+}

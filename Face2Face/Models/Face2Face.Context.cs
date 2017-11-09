@@ -160,5 +160,14 @@ namespace Face2Face.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_ProfileClassification", userIDParameter, x);
         }
+    
+        public virtual int sp_getLanguageID(string language, ObjectParameter languageID)
+        {
+            var languageParameter = language != null ?
+                new ObjectParameter("Language", language) :
+                new ObjectParameter("Language", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_getLanguageID", languageParameter, languageID);
+        }
     }
 }

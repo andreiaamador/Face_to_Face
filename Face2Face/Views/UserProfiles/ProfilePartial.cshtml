@@ -15,13 +15,19 @@
         border-radius: 5px;
         padding: 10px;
     }
+
+    img {
+    height:140px;
+    width:140px;
+    
+    }
 </style>
 
 <div class="profile">
 
     @if (Model != null)
     {
-        <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = @Model.UserID})'>
+        <a id="eventImg" href='@Url.Action("Index", "Manage", new { id = @Model.UserID})'>
             @{
                 if (Model.Photo != null)
                 {
@@ -46,7 +52,7 @@
             </p>
         </a>
 
-        <p>
+        @*<p>
             @Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")
         </p>
 
@@ -56,6 +62,6 @@
         </p>
         <p>
             @Html.ActionLink("Create new Event", "Create", "EventTables")
-        </p>
+        </p>*@
                     }
 </div>

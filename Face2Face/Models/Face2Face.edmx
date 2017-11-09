@@ -422,6 +422,10 @@
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_getLanguageID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Language" Type="nvarchar" Mode="In" />
+          <Parameter Name="LanguageID" Type="int" Mode="InOut" />
+        </Function>
         <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -576,6 +580,10 @@
           <FunctionImport Name="sp_ProfileClassification">
             <Parameter Name="userID" Mode="In" Type="Int32" />
             <Parameter Name="X" Mode="InOut" Type="Double" />
+          </FunctionImport>
+          <FunctionImport Name="sp_getLanguageID">
+            <Parameter Name="Language" Mode="In" Type="String" />
+            <Parameter Name="LanguageID" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="C__MigrationHistory" EntityType="Face2FaceModel.C__MigrationHistory" />
           <EntitySet Name="AspNetRoles" EntityType="Face2FaceModel.AspNetRoles" />
@@ -972,6 +980,7 @@
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Face2FaceModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Face2FaceModel.Store.sp_upgraddiagrams" />
           <FunctionImportMapping FunctionImportName="sp_ProfileClassification" FunctionName="Face2FaceModel.Store.sp_ProfileClassification" />
+          <FunctionImportMapping FunctionImportName="sp_getLanguageID" FunctionName="Face2FaceModel.Store.sp_getLanguageID" />
           <EntitySetMapping Name="C__MigrationHistory">
             <EntityTypeMapping TypeName="Face2FaceModel.C__MigrationHistory">
               <MappingFragment StoreEntitySet="__MigrationHistory">

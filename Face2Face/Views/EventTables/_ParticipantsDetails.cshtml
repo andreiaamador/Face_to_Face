@@ -1,0 +1,52 @@
+﻿@model Face2Face.Models.EventTable
+
+@{
+    Layout = null;
+}
+
+
+<div class="participantsDetails">
+    @{   int parCount = Model.UserProfile1.Count;
+
+        <div id="totalUsers" class="row">
+            <div class="col-md-12">
+                <p>
+                    <label>
+                        Participants:
+                    </label>
+                    @parCount
+                </p>
+            </div>
+            
+        </div>
+
+        if (parCount != 0)
+        {
+            foreach (var part in Model.UserProfile1)
+            {
+                <div class="row">
+
+                    <div class="col-md-3 col-md-offset-1">
+                        <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
+                            @{
+                                if (@part.Photo != null)
+                                {
+                                    <img src=@part.Photo>
+                                }
+                                else
+                                {
+                                    <img src="~/Content/Images/avatar.png">
+                                }
+                            }
+                        </a>
+                    </div>
+
+                    <div class="col-md-7">
+                        @part.Name
+                    </div>
+                </div>
+                                    }
+                                }
+    }
+</div>
+

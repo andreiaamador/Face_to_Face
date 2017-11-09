@@ -78,6 +78,17 @@
     .form-group.locationGoogle {
         margin-left: 170px;
     }
+
+    #newPhoto {
+        height: 150px;
+        width: 150px;
+        background-image: url('');
+        background-size: cover;
+        background-position: center;
+        background-size: 150px 150px;
+        background-repeat: no-repeat;
+        margin: 5px;
+    }
 </style>
 
 @using (Html.BeginForm("Create", "EventTables", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -107,8 +118,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBox("photo", "", new { type = "file" })
-                @*<input type="file" name="photo" id="photo" /><br><br>*@
+                @*@Html.TextBox("photo", "", new { type = "file" })*@
+               
+                <div class="hidden" id='newPhoto'></div>
+               
+                <input id="newFile" name="photo" type="file">
+
             </div>
         </div>
 
@@ -119,6 +134,8 @@
             @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
                 <input class="datefield" data-val="true" data-val-required="Date is required"
                        id="CreateEventDate" name="releaseDate" type="date" value="1/11/1989" />
+
+                <input  class="hidden" type="time" name="hour" />
             </div>
         </div>
 
@@ -230,7 +247,25 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        
+
+
+
+        document.getElementById('newFile').addEventListener('change', readURL, true);
+        function readURL() {
+            var file = document.getElementById("newFile").files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                document.getElementById('newPhoto').style.backgroundImage = "url(" + reader.result + ")";
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+                $("#newPhoto").removeClass("hidden");
+            } else {
+            }
+        }
+
+
+
         // This example requires the Places library. Include the libraries=places
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
@@ -330,7 +365,15 @@
             });
         }
 
-        google.maps.event.trigger(map, 'resize')
+        google.maps.event.trigger(map, 'resize');
+
+
+
+
+
 </script>
+
+
+
 
 }

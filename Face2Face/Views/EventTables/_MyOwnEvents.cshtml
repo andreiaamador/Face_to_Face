@@ -1,0 +1,225 @@
+﻿@{
+    Layout = null;
+}
+
+
+<style>
+    #pastEvent {
+        opacity: 0.7;
+    }
+</style>
+
+<div style="height: 550px; overflow: auto;">
+
+
+
+    @foreach (var item in Model)
+    {
+        if (DateTime.Now > item.Date)
+        {
+            <div id="pastEvent" class="container-fluid event">
+
+
+                <div class="row">
+                    <div id="eventPhoto" class="col-md-4">
+                        <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
+
+                            @{
+                                if (item.Photo != null)
+                                {
+                            <img src=@item.Photo>
+                                }
+                                else
+                                {
+                            <img src="~/Content/Images/no-photo-available.png">
+                                }
+                            }
+                        </a>
+                    </div>
+
+                    <div class="col-md-8">
+                        <p class="title">
+                            @item.Name
+
+                            <label class="review">
+                                @{
+
+                                    if (item.ReviewTable.Count != 0)
+                                    {
+
+                                        double eventClassification = 0;
+                                        int count = 0;
+
+                                        foreach (var rev in item.ReviewTable)
+                                        {
+                                            eventClassification = eventClassification + @rev.Classification;
+                                            count++;
+                                        }
+
+                                        eventClassification = eventClassification / count;
+
+                                        if (eventClassification != 0)
+                                        {
+                                            int i = 0;
+                                            for (i = 0; i < Math.Floor(eventClassification); i++)
+                                            {
+                                <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                            }
+
+                                            if (eventClassification > i)
+                                            {
+                                <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                            }
+                                @eventClassification
+                                        }
+                                    }
+                                }
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                Location:
+                            </label>
+                            @item.Address
+                        </p>
+
+                        <p>
+                            <label>
+                                Date:
+                            </label>
+                            @item.Date;
+
+                        <p align="justify">
+                            <label>
+                                Summary:
+                            </label>
+                            @item.Summary
+                        </p>
+
+                        <p>
+                            <label>
+                                Language:
+                            </label>
+                            @item.LanguagesTable.Language
+                        </p>
+
+                        created by
+
+                        <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = item.UserProfile.UserID })'>
+                            @item.UserProfile.Name
+                        </a>
+
+                        @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = item.UserProfile.UserID })
+                    </div>
+                </div>
+
+            </div>
+                                        }
+                                    }
+
+    @foreach (var item in Model)
+    {
+
+        if (DateTime.Now < item.Date)
+        {
+
+            <div class="container-fluid event">
+                <div class="row">
+                    <div id="eventPhoto" class="col-md-4">
+                        <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
+
+                            @{
+                            if (item.Photo != null)
+                            {
+                        <img src=@item.Photo>
+                            }
+                            else
+                            {
+                        <img src="~/Content/Images/no-photo-available.png">
+                            }
+                            }
+                        </a>
+                    </div>
+
+                    <div class="col-md-8">
+                        <p class="title">
+                            @item.Name
+
+                            <label class="review">
+                                @{
+
+                                if (item.ReviewTable.Count != 0)
+                                {
+
+                                    double eventClassification = 0;
+                                    int count = 0;
+
+                                    foreach (var rev in item.ReviewTable)
+                                    {
+                                        eventClassification = eventClassification + @rev.Classification;
+                                        count++;
+                                    }
+
+                                    eventClassification = eventClassification / count;
+
+                                    if (eventClassification != 0)
+                                    {
+                                        int i = 0;
+                                        for (i = 0; i < Math.Floor(eventClassification); i++)
+                                        {
+                            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                        }
+
+                                        if (eventClassification > i)
+                                        {
+                            <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                        }
+                            @eventClassification
+                                    }
+                                }
+                                }
+                            </label>
+                        </p>
+
+                        <p>
+                            <label>
+                                Location:
+                            </label>
+                            @item.Address
+                        </p>
+
+                        <p>
+                            <label>
+                                Date:
+                            </label>
+                            @item.Date;
+
+                        <p align="justify">
+                            <label>
+                                Summary:
+                            </label>
+                            @item.Summary
+                        </p>
+
+                        <p>
+                            <label>
+                                Language:
+                            </label>
+                            @item.LanguagesTable.Language
+                        </p>
+
+                        created by
+
+                        <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = item.UserProfile.UserID})'>
+                            @item.UserProfile.Name
+                        </a>
+
+                        @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = item.UserProfile.UserID })
+                    </div>
+                </div>
+            </div>
+                                        }
+
+                                    }
+</div>
