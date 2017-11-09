@@ -89,7 +89,7 @@ namespace Face2Face.Controllers
             var userId = User.Identity.GetUserId<int>();
             var user = db.AspNetUsers.Find(userId);
             var userProfile = db.UserProfile.Find(userId);
-            
+
             model.Email = user.Email;
             model.PhoneNumber = user.PhoneNumber;
             model.Nationality = userProfile.Nationality;
@@ -126,11 +126,9 @@ namespace Face2Face.Controllers
 
             userProfile.Name = model.Name;
             user.Email = model.Email;
-            user.PhoneNumber = model.PhoneNumber; 
+            user.PhoneNumber = model.PhoneNumber;
             userProfile.Nationality = model.Nationality;
             userProfile.Age = model.Age;
-
-            //userProfile.Photo = model.Photo;
 
             if (photo != null && photo.ContentLength > 0)
                 try
@@ -154,28 +152,57 @@ namespace Face2Face.Controllers
 
             ObjectParameter l = new ObjectParameter("LanguageID", typeof(int));
 
+            //if (Fluents == "")
+            //{
+            //    userProfile.LanguagesTable.Remove();
+            //    db.SaveChanges();
+            //}
+            //else
+            //{
+            //    userProfile.LanguagesTable.Clear();
+            //    string[] fluents = Fluents.Split(',');
+            //    foreach (var langStr in fluents)
+            //    {
+            //        db.sp_getLanguageID(langStr, l);
+            //        userProfile.LanguagesTable.Add(db.LanguagesTable.Find(l.Value));
+            //    }
+            //    db.SaveChanges();
+            //}
+
+
+
             userProfile.LanguagesTable.Clear();
-            string[] fluents = Fluents.Split(',');
-            foreach (var langStr in fluents)
+            if (Fluents != "")
             {
-                db.sp_getLanguageID(langStr, l);      
-                userProfile.LanguagesTable.Add(db.LanguagesTable.Find(l.Value));
+                string[] fluents = Fluents.Split(',');
+                foreach (var langStr in fluents)
+                {
+                    db.sp_getLanguageID(langStr, l);
+                    userProfile.LanguagesTable.Add(db.LanguagesTable.Find(l.Value));
+                }
             }
 
             userProfile.LanguagesTable1.Clear();
-            string[] interests = Interests.Split(',');
-            foreach (var langStr in interests)
+            if (Interests != "")
             {
-                db.sp_getLanguageID(langStr, l);
-                userProfile.LanguagesTable1.Add(db.LanguagesTable.Find(l.Value));
+                string[] interests = Interests.Split(',');
+                foreach (var langStr in interests)
+                {
+                    db.sp_getLanguageID(langStr, l);
+                    userProfile.LanguagesTable1.Add(db.LanguagesTable.Find(l.Value));
+                }
+
             }
 
             userProfile.LanguagesTable2.Clear();
-            string[] natives = Natives.Split(',');
-            foreach (var langStr in natives)
+            if (Natives != "")
             {
-                db.sp_getLanguageID(langStr, l);
-                userProfile.LanguagesTable2.Add(db.LanguagesTable.Find(l.Value));
+                string[] natives = Natives.Split(',');
+                foreach (var langStr in natives)
+                {
+                    db.sp_getLanguageID(langStr, l);
+                    userProfile.LanguagesTable2.Add(db.LanguagesTable.Find(l.Value));
+                }
             }
 
             db.SaveChanges();
@@ -483,9 +510,6 @@ namespace Face2Face.Controllers
             }
             return View("Index");
         }
-
-        //(Diego)
-
 
         #region Helpers
         // Used for XSRF protection when adding external logins

@@ -128,12 +128,9 @@
                         </div>
                     }
                     @*@Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")*@
-
-
                 </p>
 
                 <p>
-
                     @using (Ajax.BeginForm("MyNextEvents", "EventTables", new AjaxOptions
                     {//GetPatients is name of method in PatientController
                         HttpMethod = "POST",
