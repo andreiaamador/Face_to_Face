@@ -36,6 +36,7 @@ namespace Face2Face.Models
         public virtual DbSet<LanguagesTable> LanguagesTable { get; set; }
         public virtual DbSet<MessageTable> MessageTable { get; set; }
         public virtual DbSet<NationalityTable> NationalityTable { get; set; }
+        public virtual DbSet<ReportTable> ReportTable { get; set; }
         public virtual DbSet<ReviewTable> ReviewTable { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<UserProfile> UserProfile { get; set; }

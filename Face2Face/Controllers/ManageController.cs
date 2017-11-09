@@ -20,12 +20,6 @@ using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
-<<<<<<< HEAD
-
-    [Authorize]
-=======
-    //[Authorize(Roles = "Admin")]
->>>>>>> Sara
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -64,8 +58,7 @@ namespace Face2Face.Controllers
                 _userManager = value;
             }
         }
-
-        //[Authorize(Roles = "User")]
+        
         // GET: /Manage/Index
         public ActionResult Index(ManageMessageId? message)
         {
@@ -117,8 +110,7 @@ namespace Face2Face.Controllers
 
             return View(model);
         }
-
-<<<<<<< HEAD
+        
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -213,10 +205,7 @@ namespace Face2Face.Controllers
             db.SaveChanges();
             return RedirectToAction("EventsList", "EventTables");
         }
-
-=======
-        //[Authorize(Roles = "Admin")]
->>>>>>> Sara
+        
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -239,15 +228,13 @@ namespace Face2Face.Controllers
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
-
-        //
+        
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
             return View();
         }
-
-        //
+        
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -271,7 +258,6 @@ namespace Face2Face.Controllers
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
-        //
         // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -299,8 +285,7 @@ namespace Face2Face.Controllers
             }
             return RedirectToAction("Index", "Manage");
         }
-
-        //
+        
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
@@ -308,8 +293,7 @@ namespace Face2Face.Controllers
             // Send an SMS through the SMS provider to verify the phone number
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
-
-        //
+        
         // POST: /Manage/VerifyPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -333,8 +317,7 @@ namespace Face2Face.Controllers
             ModelState.AddModelError("", "Failed to verify phone");
             return View(model);
         }
-
-        //
+        
         // POST: /Manage/RemovePhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -352,15 +335,13 @@ namespace Face2Face.Controllers
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
-
-        //
+        
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
             return View();
         }
-
-        //
+       
         // POST: /Manage/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]

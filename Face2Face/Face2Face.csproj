@@ -28,7 +28,8 @@
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressUseClassicPipelineMode>
+    </IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -301,6 +302,9 @@
     <Compile Include="Models\NationalityTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReportTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ReviewTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
@@ -532,11 +536,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-<<<<<<< HEAD
-=======
-    <Folder Include="UploadedFiles\" />
     <Folder Include="Views\Login\" />
->>>>>>> Sara
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
