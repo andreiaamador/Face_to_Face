@@ -12,23 +12,13 @@ namespace Face2Face.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ReviewTable
+    public partial class ReportTable
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ReviewTable()
-        {
-            this.ReportTable = new HashSet<ReportTable>();
-        }
-    
         public int ReviewID { get; set; }
-        public int EventID { get; set; }
         public int UserID { get; set; }
-        public int Classification { get; set; }
-        public string Review { get; set; }
+        public string ReportType { get; set; }
     
-        public virtual EventTable EventTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ReportTable> ReportTable { get; set; }
+        public virtual ReviewTable ReviewTable { get; set; }
         public virtual UserProfile UserProfile { get; set; }
     }
 }

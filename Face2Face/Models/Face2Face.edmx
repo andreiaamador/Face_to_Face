@@ -139,11 +139,20 @@
           <Property Name="EventID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="ReviewTable">
+        <EntityType Name="ReportTable">
           <Key>
-            <PropertyRef Name="EventID" />
+            <PropertyRef Name="ReviewID" />
             <PropertyRef Name="UserID" />
           </Key>
+          <Property Name="ReviewID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ReportType" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReviewTable">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EventID" Type="int" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="Classification" Type="int" Nullable="false" />
@@ -369,6 +378,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ReportTable_ReviewTable">
+          <End Role="ReviewTable" Type="Self.ReviewTable" Multiplicity="1" />
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReviewTable">
+              <PropertyRef Name="ReviewID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="ReviewID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_UserProfile">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
+          <End Role="ReportTable" Type="Self.ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ReviewTable_EventTable">
           <End Role="EventTable" Type="Self.EventTable" Multiplicity="1" />
           <End Role="ReviewTable" Type="Self.ReviewTable" Multiplicity="*" />
@@ -459,6 +492,7 @@
           <EntitySet Name="NationalityTable" EntityType="Self.NationalityTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NativeLanguage" EntityType="Self.NativeLanguage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ParticipantsTable" EntityType="Self.ParticipantsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportTable" EntityType="Self.ReportTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReviewTable" EntityType="Self.ReviewTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
@@ -525,6 +559,14 @@
           <AssociationSet Name="FK_ParticipantsTable_UserProfile" Association="Self.FK_ParticipantsTable_UserProfile">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="ParticipantsTable" EntitySet="ParticipantsTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_ReviewTable" Association="Self.FK_ReportTable_ReviewTable">
+            <End Role="ReviewTable" EntitySet="ReviewTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_UserProfile" Association="Self.FK_ReportTable_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
           </AssociationSet>
           <AssociationSet Name="FK_ReviewTable_EventTable" Association="Self.FK_ReviewTable_EventTable">
             <End Role="EventTable" EntitySet="EventTable" />
@@ -594,6 +636,7 @@
           <EntitySet Name="LanguagesTable" EntityType="Face2FaceModel.LanguagesTable" />
           <EntitySet Name="MessageTable" EntityType="Face2FaceModel.MessageTable" />
           <EntitySet Name="NationalityTable" EntityType="Face2FaceModel.NationalityTable" />
+          <EntitySet Name="ReportTable" EntityType="Face2FaceModel.ReportTable" />
           <EntitySet Name="ReviewTable" EntityType="Face2FaceModel.ReviewTable" />
           <EntitySet Name="sysdiagrams" EntityType="Face2FaceModel.sysdiagrams" />
           <EntitySet Name="UserProfile" EntityType="Face2FaceModel.UserProfile" />
@@ -628,6 +671,14 @@
           <AssociationSet Name="FK_MessageTable_UserProfile" Association="Face2FaceModel.FK_MessageTable_UserProfile">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="MessageTable" EntitySet="MessageTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_ReviewTable" Association="Face2FaceModel.FK_ReportTable_ReviewTable">
+            <End Role="ReviewTable" EntitySet="ReviewTable" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReportTable_UserProfile" Association="Face2FaceModel.FK_ReportTable_UserProfile">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ReportTable" EntitySet="ReportTable" />
           </AssociationSet>
           <AssociationSet Name="FK_ReviewTable_UserProfile" Association="Face2FaceModel.FK_ReviewTable_UserProfile">
             <End Role="UserProfile" EntitySet="UserProfile" />
@@ -777,16 +828,28 @@
           <Property Name="CountryCode" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="Nationality" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="ReviewTable">
+        <EntityType Name="ReportTable">
           <Key>
-            <PropertyRef Name="EventID" />
+            <PropertyRef Name="ReviewID" />
             <PropertyRef Name="UserID" />
           </Key>
+          <Property Name="ReviewID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ReportType" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReportTable_ReviewTable" FromRole="ReportTable" ToRole="ReviewTable" />
+          <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_ReportTable_UserProfile" FromRole="ReportTable" ToRole="UserProfile" />
+        </EntityType>
+        <EntityType Name="ReviewTable">
+          <Key>
+            <PropertyRef Name="ReviewID" />
+          </Key>
+          <Property Name="ReviewID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EventID" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="Classification" Type="Int32" Nullable="false" />
           <Property Name="Review" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_ReviewTable_EventTable" FromRole="ReviewTable" ToRole="EventTable" />
+          <NavigationProperty Name="ReportTable" Relationship="Face2FaceModel.FK_ReportTable_ReviewTable" FromRole="ReviewTable" ToRole="ReportTable" />
           <NavigationProperty Name="UserProfile" Relationship="Face2FaceModel.FK_ReviewTable_UserProfile" FromRole="ReviewTable" ToRole="UserProfile" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -811,6 +874,7 @@
           <NavigationProperty Name="AspNetUsers" Relationship="Face2FaceModel.FK_UserProfile_AspNetUsers" FromRole="UserProfile" ToRole="AspNetUsers" />
           <NavigationProperty Name="EventTable" Relationship="Face2FaceModel.FK_EventTable_UserProfile" FromRole="UserProfile" ToRole="EventTable" />
           <NavigationProperty Name="MessageTable" Relationship="Face2FaceModel.FK_MessageTable_UserProfile" FromRole="UserProfile" ToRole="MessageTable" />
+          <NavigationProperty Name="ReportTable" Relationship="Face2FaceModel.FK_ReportTable_UserProfile" FromRole="UserProfile" ToRole="ReportTable" />
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_UserProfile" FromRole="UserProfile" ToRole="ReviewTable" />
           <NavigationProperty Name="LanguagesTable" Relationship="Face2FaceModel.FluentLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
           <NavigationProperty Name="LanguagesTable1" Relationship="Face2FaceModel.InterestedLanguage" FromRole="UserProfile" ToRole="LanguagesTable" />
@@ -913,6 +977,30 @@
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="MessageTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_ReviewTable">
+          <End Type="Face2FaceModel.ReviewTable" Role="ReviewTable" Multiplicity="1" />
+          <End Type="Face2FaceModel.ReportTable" Role="ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReviewTable">
+              <PropertyRef Name="ReviewID" />
+            </Principal>
+            <Dependent Role="ReportTable">
+              <PropertyRef Name="ReviewID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReportTable_UserProfile">
+          <End Type="Face2FaceModel.UserProfile" Role="UserProfile" Multiplicity="1" />
+          <End Type="Face2FaceModel.ReportTable" Role="ReportTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ReportTable">
               <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1081,6 +1169,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ReportTable">
+            <EntityTypeMapping TypeName="Face2FaceModel.ReportTable">
+              <MappingFragment StoreEntitySet="ReportTable">
+                <ScalarProperty Name="ReportType" ColumnName="ReportType" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ReviewTable">
             <EntityTypeMapping TypeName="Face2FaceModel.ReviewTable">
               <MappingFragment StoreEntitySet="ReviewTable">
@@ -1088,6 +1185,7 @@
                 <ScalarProperty Name="Classification" ColumnName="Classification" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="ReviewID" ColumnName="ReviewID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

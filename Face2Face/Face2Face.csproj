@@ -286,6 +286,9 @@
     <Compile Include="Models\NationalityTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReportTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ReviewTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>

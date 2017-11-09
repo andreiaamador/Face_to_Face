@@ -5,19 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="70d945aa34d7443980349fac578aaca0" Name="Diagram1" ZoomLevel="84">
-        <EntityTypeShape EntityType="Face2FaceModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Face2FaceModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="7.5" />
-        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="10.25" />
-        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="13" />
-        <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="3" PointY="6.25" />
-        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="9.75" PointY="5.25" />
-        <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="7.5" PointY="6" />
-        <EntityTypeShape EntityType="Face2FaceModel.MessageTable" Width="1.5" PointX="12" PointY="6.125" />
-        <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="12" PointY="3.125" />
-        <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="5.25" PointY="5.5" />
-      <Diagram DiagramId="70d945aa34d7443980349fac578aaca0" Name="Diagram1" ZoomLevel="20">
+        <Diagram DiagramId="70d945aa34d7443980349fac578aaca0" Name="Diagram1" ZoomLevel="20">
         
         
         
@@ -186,6 +174,35 @@
         
         
       </Diagram>
+        <EntityTypeShape EntityType="Face2FaceModel.C__MigrationHistory" Width="1.5" PointX="7.4479618796370737" PointY="8.5293165485045481" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetRoles" Width="1.5" PointX="11.1814223915252" PointY="22.158828835077038" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="8.501083741197867" PointY="9.4052559032129377" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="4.0911763515747976" PointY="23.854836698553914" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="7.7006346358454945" PointY="6.5005503625145886" />
+        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="2.1526655918698134" PointY="23.034070472714525" />
+        <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="3.9290201868531387" PointY="15.072266198262696" />
+        <EntityTypeShape EntityType="Face2FaceModel.MessageTable" Width="1.5" PointX="10.657227169097041" PointY="31.537315040611343" />
+        <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="2.2781786687104866" PointY="7.6098700350196431" />
+        <EntityTypeShape EntityType="Face2FaceModel.ReportTable" Width="1.5" PointX="0.9588380404556347" PointY="23.628781463778012" />
+        <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="0.3968987504005892" PointY="30.522309749630423" />
+        <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="1.7757986233456984" PointY="7.9776971377328492" />
+        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="7.7952730617463928" PointY="8.908565182661901" />
+        <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="Face2FaceModel.FK_UserProfile_AspNetUsers" />
+        <AssociationConnector Association="Face2FaceModel.FK_EventTable_LanguagesTable" />
+        <AssociationConnector Association="Face2FaceModel.FK_EventTable_UserProfile" />
+        <AssociationConnector Association="Face2FaceModel.FK_MessageTable_EventTable" />
+        <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_EventTable" />
+        <AssociationConnector Association="Face2FaceModel.FK_MessageTable_UserProfile" />
+        <AssociationConnector Association="Face2FaceModel.FK_ReportTable_ReviewTable" />
+        <AssociationConnector Association="Face2FaceModel.FK_ReportTable_UserProfile" />
+        <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_UserProfile" />
+        <AssociationConnector Association="Face2FaceModel.AspNetUserRoles" />
+        <AssociationConnector Association="Face2FaceModel.FluentLanguage" />
+        <AssociationConnector Association="Face2FaceModel.InterestedLanguage" />
+        <AssociationConnector Association="Face2FaceModel.NativeLanguage" />
+        <AssociationConnector Association="Face2FaceModel.ParticipantsTable" />
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>
