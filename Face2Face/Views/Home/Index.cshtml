@@ -35,6 +35,10 @@
         background-image: url("../../Content/Images/black_background.jpg");
     }
 
+
+    h3 {
+    color:white;
+    }
 </style>
 <body"> 
 
@@ -44,6 +48,9 @@
                 <h1>Face2Face</h1>
                 <p class="lead">Do you want to learn a new language outside a classroom?</p>
                 <p>
+                <h2>Face To Face</h2>
+                <p class="lead">Do you want to learn a new language outside a classroom?</p>
+                <p align="justify">
                     Do you feel that sometimes you don't have enough time at school, for exemple, to speak the new language that you're learning?
                     <br></br>
                     Face2Face could be the answer!
@@ -54,6 +61,7 @@
                 </p>
             </div>
         </div>
+<<<<<<< HEAD
         <div class="row">
             <div id="subtitle" class="col-md-5">
                 <h3> A way to combine meetings in every language!</h3>
@@ -67,6 +75,14 @@
                         <div class="col-md-12">
                             <section id="loginForm">
                                 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        <h3> A way to combine meetings in every language!</h3>
+        <div id="logins" class="col-md-5">
+            
+            <div align="justify">
+                <div class="row">
+                    <div class="col-md-12">
+                        <section id="loginForm">
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                                     @Html.AntiForgeryToken()
 
