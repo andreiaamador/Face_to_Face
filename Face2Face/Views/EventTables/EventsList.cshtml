@@ -1,6 +1,15 @@
 ﻿@model IEnumerable<Face2Face.Models.EventTable>
 
 <style>
+
+    select {
+        padding-right: 5px;
+        margin: 5px;
+        border-radius: 10px;
+        width: 140px;
+        height: 25px;
+        color: black;
+    }
     #eventImg:hover {
         opacity: 0.8;
         text-decoration: none;
@@ -142,15 +151,11 @@
                 </p>
                 <p>
                     <button onclick="location.href='@Url.Action("Create", "EventTables")';return false;">Create new Event</button>
-                  
-                
                 </p>
 
             </div>
 
         </div>
-
-
 
         <div id="targetRv" class="col-md-7 eventTable">
             @*////////////////////////////////////////////////////////////////////////*@
@@ -174,7 +179,7 @@
                         <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
                         Location:
                         <div class="input hidden">
-                            <input type="text" name="Location">
+                            <input id="location" type="text" name="Location">
                         </div>
                     </div>
 
@@ -193,7 +198,15 @@
                         <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
                         Language:
                         <div class="input hidden">
-                            @Html.Action("selectLanguage", "Languagestables")
+                            @*@Html.Action("selectLanguage", "Languagestables")*@
+                            <select id="language" name="Language">
+                                <option>--Select--</option>
+                                @foreach (var item in ViewBag.allLanguages)
+                                {
+                                    <option>@item</option>
+                                }
+                            </select>
+
                         </div>
                     </div>
 
@@ -202,7 +215,7 @@
                         <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
                         KeyWord:
                         <div class="input hidden">
-                            <input type="text" name="keyWord">
+                            <input id="keyWord" type="text" name="keyWord">
                         </div>
                     </div>
 
@@ -212,8 +225,6 @@
                 }
             </div>
         </div>
-
-
     </div>
 </div>
 
@@ -240,8 +251,9 @@
             }
             else {
                 $(".location .input").addClass("hidden");
-            }
+                $("#location").val('');
 
+            }
             $(".location i").removeClass("hidden");
             $(this).addClass("hidden");
         });
@@ -253,6 +265,7 @@
             }
             else {
                 $(".date .input").addClass("hidden");
+                $("#ReleaseDate").val('');
             }
 
             $(".date i").removeClass("hidden");
@@ -266,6 +279,8 @@
 
             else {
                 $(".language .input").addClass("hidden");
+                $("#language").prop("selected", false)
+                $("#language").val('');    
             }
 
             $(".language  i").removeClass("hidden");
@@ -279,6 +294,7 @@
 
             else {
                 $(".keyWord .input").addClass("hidden");
+                $("#keyWord").val('');
             }
 
             $(".keyWord i").removeClass("hidden");

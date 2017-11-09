@@ -208,7 +208,7 @@
                 @{
 
 
-                    if (!ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
+                    if (Model.UserID!= ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
                     {
                         <input type="button" value="Add a Review" id="AddReview" />
                     }

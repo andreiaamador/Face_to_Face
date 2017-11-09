@@ -23,14 +23,21 @@ namespace Face2Face.Controllers
         public ActionResult EventsList()
         {
             //var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
-
             //,eventTable.ToList()
+
+
+            List<string> allList = new List<String>();
+            foreach (var lang in db.LanguagesTable) {
+                allList.Add(lang.Language);
+            }
+
+            ViewBag.allLanguages = allList;
             return View("EventsList");
         }
 
         public ActionResult GetAllEventsList()
         {
-            var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
+            var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile).OrderBy(e => e.Date);
             return View("_allEvents", eventTable.ToList());
         }
 
@@ -39,7 +46,7 @@ namespace Face2Face.Controllers
             int userID = Convert.ToInt32(User.Identity.GetUserId());
             string sqlQuery = string.Format("{0}{1}", "select * from EventTable where UserID=", userID);
             var eventTable = db.EventTable.SqlQuery(sqlQuery);
-            return PartialView("_MyOwnEvents", eventTable.ToList());
+            return PartialView("_MyOwnEvents", eventTable.OrderBy(e => e.Date).ToList());
         }
 
         public PartialViewResult MyNextEvents()
@@ -63,7 +70,7 @@ namespace Face2Face.Controllers
                 }
             }
 
-            return PartialView("_allEvents", eventos.ToList());
+            return PartialView("_MyOwnEvents", eventos.OrderBy(e => e.Date).ToList());
         }
 
         // POST:
@@ -74,7 +81,7 @@ namespace Face2Face.Controllers
             string sqlQuery;
             int languageID = 0;
 
-            if (Location != "" || Date != "" || Language != "--Select--" || keyWord != "")
+            if (Location != "" || Date != "" || (Language != "--Select--" && Language !=null) || keyWord != "")
             {
                 sqlQuery = "select * from EventTable where";
                 if (Location != "")
@@ -82,7 +89,7 @@ namespace Face2Face.Controllers
                     sqlQuery = string.Format("{0} {1}", sqlQuery, "lower(Address) like lower('%" + Location + "%')");
                 }
 
-                if (Language != "--Select--")
+                if (Language != "--Select--" && Language != null)
                 {
                     foreach (var item in db.LanguagesTable)
                     {
@@ -105,7 +112,7 @@ namespace Face2Face.Controllers
 
                 if (Date != "")
                 {
-                    if (Location == "" && Language == "--Select--")
+                    if (Location == "" && Language == "--Select--" && Language != null)
                     {
                         sqlQuery = string.Format("{0} {1}", sqlQuery, "lower(Date) like lower('%" + Date + "%')");
                     }
@@ -117,7 +124,7 @@ namespace Face2Face.Controllers
 
                 if (keyWord != "")
                 {
-                    if (Location == "" && Language == "--Select--" && Date == "")
+                    if (Location == "" && Language == "--Select--" && Language != null && Date == "")
                     {
                         sqlQuery = string.Format("{0} {1}", sqlQuery, "lower(Name) like lower('%" + keyWord + "%') or lower(Summary) like lower('%" + keyWord + "%')");
                     }
@@ -129,11 +136,18 @@ namespace Face2Face.Controllers
 
                 var eventTable = db.EventTable.SqlQuery(sqlQuery);
 
-                return PartialView("_allEvents", eventTable.ToList());
+
+                if (Date == "")
+                {
+                    return PartialView("_allEvents", eventTable.OrderBy(e => e.Date).ToList());
+                }
+                else {
+                    return PartialView("_allEvents", eventTable);
+                }
             }
             else
             {
-                return PartialView("_allEvents", db.EventTable.ToList());
+                return PartialView("_allEvents", db.EventTable.OrderBy(e => e.Date).ToList());
             }
         }
 
