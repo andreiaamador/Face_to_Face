@@ -334,8 +334,9 @@
                                                     {
                                                         @Html.ActionLink("Remove", "RemoveReviews", new { eventID = @review.EventID, userID = @review.UserID })
                                                         <span> | </span>
-                                                        @Html.ActionLink("Report", "_Report", new {  }) //(Report)
                                                     }
+                                                    
+                                                    @Html.ActionLink("Report", "_Report", new {  }) //(Report)
                                                 }
                                             </div>
                                         }
@@ -467,5 +468,11 @@
             }
 
         });
+
+    $("Report").click(function () {
+                $('#').show();
+    });
+
+
     </script>
 }

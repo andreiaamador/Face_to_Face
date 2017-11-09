@@ -191,14 +191,14 @@ namespace Face2Face.Controllers
             ViewBag.userLog = userLog;
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
 
-            if (db.ReviewTable.Find(id, userLog) != null)
-            {
-                ViewBag.isOnReviews = true;
-            }
-            else
-            {
-                ViewBag.isOnReviews = false;
-            }
+            //if (db.ReviewTable.Find(id, userLog) != null)
+            //{
+            //    ViewBag.isOnReviews = true;
+            //}
+            //else
+            //{
+            //    ViewBag.isOnReviews = false;
+            //}
             return View(eventTable);
         }
 
@@ -290,31 +290,31 @@ namespace Face2Face.Controllers
             return View("ChatView");
         }
 
-        [HttpPost]
-        public ActionResult ChatView(int id, string message)
-        {
-            if (ModelState.IsValid)
-            {
-                int userLog = Convert.ToInt32(User.Identity.GetUserId());
-                ChatTable chatTable = new ChatTable
-                {
-                    EventID = id,
-                    UserID = userLog,
-                    ChatEntry = message,
-                };
+        //[HttpPost]
+        //public ActionResult ChatView(int id, string message)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //int userLog = Convert.ToInt32(User.Identity.GetUserId());
+        //        //ChatTable chatTable = new ChatTable
+        //        //{
+        //        //    EventID = id,
+        //        //    UserID = userLog,
+        //        //    ChatEntry = message,
+        //        //};
 
-                db.ChatTable.Add(chatTable);
-                db.Entry(chatTable).State = EntityState.Added;
-                db.SaveChanges();
+        //        //db.ChatTable.Add(chatTable);
+        //        //db.Entry(chatTable).State = EntityState.Added;
+        //        //db.SaveChanges();
 
-                ViewBag.user = userLog;
-                return RedirectToAction("ChatView", db.ChatTable);
-            }
-            else
-            {
-                return View("EventList", db.EventTable);
-            }
-        }
+        //        //ViewBag.user = userLog;
+        //        //return RedirectToAction("ChatView", db.ChatTable);
+        //    }
+        //    else
+        //    {
+        //        return View("EventList", db.EventTable);
+        //    }
+        //}
         
         // GET: EventTables/Create
         public ActionResult Create()

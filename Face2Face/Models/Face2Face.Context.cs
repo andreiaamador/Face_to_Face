@@ -27,14 +27,15 @@ namespace Face2Face.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ReportTable> ReportTable { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<ChatTable> ChatTable { get; set; }
         public virtual DbSet<EventTable> EventTable { get; set; }
         public virtual DbSet<LanguagesTable> LanguagesTable { get; set; }
+        public virtual DbSet<MessageTable> MessageTable { get; set; }
         public virtual DbSet<NationalityTable> NationalityTable { get; set; }
         public virtual DbSet<ReviewTable> ReviewTable { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }

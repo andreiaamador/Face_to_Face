@@ -4,16 +4,32 @@
     ViewBag.Title = "_Report";
 }
 <style>
+  
 
 </style>
+<div id="report">
+    <p>Report This Comment: </p>
+    <input type="radio" name="usrname" /> Spam or scam <br>
+    <input type="radio" name="usrname" /> Hate speech or personal attack <br>
+    <input type="radio" name="usrname" /> Sexually explicit content <br>
+    <input type="radio" name="usrname" /> Violence or harmful behavior <br>
+    <input type="radio" name="usrname" id="outrosReport" /> Outros:* <br>
+    <div id="outros">
+        @Html.TextBox("ReportOutros", null, new { @class = "form-control" })
+    </div>
+    
 
-<p>Report This Comment: </p>
-<input type="radio" name="usrname1"/> Spam or scam <br>
-<input type="radio" name="usrname2" /> Hate speech or personal attack <br>
-<input type="radio" name="usrname3" /> Sexually explicit content <br>
-<input type="radio" name="usrname4" /> Violence or harmful behavior <br>
-<input type="radio" name="usrname5" /> Outros:* <br>
+    <input type="button" value="Submit">
+    <input type="button" value="Cancel">
 
+</div>
 
-<input type="button" value="Submit">
-<input type="button" value="Cancel">
+@section Scripts{
+<script>
+ $("#outros").hide();
+
+    $('#outrosReport').click(function () {
+                $('#outros').show();
+    });
+    </script>
+}

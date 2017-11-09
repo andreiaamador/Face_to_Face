@@ -8,32 +8,70 @@
 <<<<<<< HEAD
         
         
-        <EntityTypeShape EntityType="Face2FaceModel.C__MigrationHistory" Width="1.5" PointX="10.908657794310086" PointY="5.5533778544298267" />
-        <EntityTypeShape EntityType="Face2FaceModel.AspNetRoles" Width="1.5" PointX="1.2728610137816803" PointY="6.6688819260657217" />
-        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="1.1079994836393741" PointY="17.055585168793606" />
-        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="6.7686299228894669" PointY="10.164799158538132" />
-        <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="3.4519169383924071" PointY="11.888040577940663" />
-        <EntityTypeShape EntityType="Face2FaceModel.ChatTable" Width="1.5" PointX="2.3927840676125065" PointY="2.5273671012964876" />
-        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="9.9652499267669619" PointY="1.1500461255898915" />
-        <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="2.9758637300580104" PointY="19.387848818389628" />
-        <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="4.8222798094257158" PointY="17.810821466991129" />
-        <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="9.9455363331109" PointY="17.986115091473849" />
-        <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="0.5219309909837" PointY="2.312774614576611" />
-        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="1.7173235834191196" PointY="22.969342972603322" />
+        
+        
+        
+        <EntityTypeShape EntityType="Face2FaceModel.ReportTable" Width="1.5" PointX="9.27496437042717" PointY="19.510654026414571" />
+        <EntityTypeShape EntityType="Face2FaceModel.C__MigrationHistory" Width="1.5" PointX="4.9004573118409409" PointY="31.144488080937641" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetRoles" Width="1.5" PointX="4.4854049517239467" PointY="23.337216000695349" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="4.597156714926081" PointY="19.569486001305975" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="8.83176042178262" PointY="15.307019613360529" />
+        <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="9.00582734914768" PointY="27.296822635129477" />
+        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="2.8540147910146114" PointY="9.70913143908099" />
+        <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="6.6017313946977865" PointY="0.70010104808029772" />
+        <EntityTypeShape EntityType="Face2FaceModel.MessageTable" Width="1.5" PointX="7.5434528065582054" PointY="20.967428455579761" />
+        <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="10.848510112077236" PointY="22.119297082591476" />
+        <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="5.6843859430795476" PointY="8.3016463407788645" />
+        <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="0.31422527335315253" PointY="18.655951627835609" />
+        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="5.0143881687030136" PointY="30.613586514542618" />
         <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Face2FaceModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Face2FaceModel.FK_UserProfile_AspNetUsers" />
-        <AssociationConnector Association="Face2FaceModel.FK_ChatTable_EventTable" />
-        <AssociationConnector Association="Face2FaceModel.FK_ChatTable_UserProfile" />
         <AssociationConnector Association="Face2FaceModel.FK_EventTable_LanguagesTable" />
         <AssociationConnector Association="Face2FaceModel.FK_EventTable_UserProfile" />
+        <AssociationConnector Association="Face2FaceModel.FK_MessageTable_EventTable" />
         <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_EventTable" />
+        <AssociationConnector Association="Face2FaceModel.FK_MessageTable_UserProfile" />
+        <AssociationConnector Association="Face2FaceModel.FK_ReportTable_ReviewTable" />
+        <AssociationConnector Association="Face2FaceModel.FK_ReportTable_UserProfile" />
         <AssociationConnector Association="Face2FaceModel.FK_ReviewTable_UserProfile" />
         <AssociationConnector Association="Face2FaceModel.AspNetUserRoles" />
         <AssociationConnector Association="Face2FaceModel.FluentLanguage" />
         <AssociationConnector Association="Face2FaceModel.InterestedLanguage" />
         <AssociationConnector Association="Face2FaceModel.NativeLanguage" />
         <AssociationConnector Association="Face2FaceModel.ParticipantsTable" />
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -79,6 +117,25 @@
         
         
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; master
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      &gt;&gt;&gt;&gt;&gt;&gt;&gt; master
         
         
         

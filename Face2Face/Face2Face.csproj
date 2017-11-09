@@ -250,9 +250,6 @@
     <Compile Include="Models\AspNetUsers.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ChatTable.cs">
-      <DependentUpon>Face2Face.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
@@ -279,7 +276,13 @@
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MessageTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\NationalityTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReviewTable.cs">
@@ -417,7 +420,9 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\tag-it.min.js" />
     <Content Include="UploadedFiles\google.jpg" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
