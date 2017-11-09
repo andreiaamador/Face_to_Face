@@ -19,7 +19,7 @@ namespace Face2Face.Controllers
     public class EventTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
-        internal static object cs;
+        //internal static object cs;
 
         // GET: EventTables
         public ActionResult EventsList()
