@@ -1,11 +1,13 @@
 ﻿@model ICollection<Face2Face.Models.MessageTable>
     
     <ul id="discussion">
-        @foreach (var msg in Model)
+	 
+	    @foreach (var msg in Model)
         {
             @msg.UserProfile.Name
             @msg.Message
-        }
+        } 
+	
     </ul>
 
 // fazer uma lista para fazr display das mensagens que já existem na base de dados... Esta vai ser a partial view que vai ser atualizada
