@@ -589,5 +589,10 @@ namespace Face2Face.Controllers
                 return (double)0;
             }
         }
+
+        public ActionResult _Report()
+        {
+            return View();
+        }
     }
 }

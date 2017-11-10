@@ -1,5 +1,6 @@
 ﻿@model Face2Face.Models.EventTable
 
+
 @{
     Layout = null;
 }
@@ -95,7 +96,9 @@
                                             if (@review.UserID == @ViewBag.userLog)
                                             {
                                                 @Html.ActionLink("Remove", "RemoveReviews", new { eventID = @review.EventID, userID = @review.UserID })
+                                                <span> | </span>
                                             }
+                                             @Html.Partial("_Report")
                                         }
                                     </div>
                                 }
@@ -107,3 +110,13 @@
         </div>
     </div>
 </div>
+
+@*@section scripts{
+        <script>
+     $("").hide();
+
+        $('#').click(function () {
+                    $('').show();
+        });
+        </script>
+    }*@
