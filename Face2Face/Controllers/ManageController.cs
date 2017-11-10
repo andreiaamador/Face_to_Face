@@ -98,9 +98,9 @@ namespace Face2Face.Controllers
             model.NativeLanguage = userProfile.LanguagesTable2;
 
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "Language", "Language", userProfile.Nationality); //(Diego)
+            ViewBag.NationalityID = new SelectList(db.NationalityTable, "Nationality", "Nationality", userProfile.Nationality); //(Diego)
 
             string json = "[";
-            List<string> availableLanguages = new List<string>();
             foreach (var item in db.LanguagesTable)
             {
                 json = json + "," + item.Language;

@@ -58,7 +58,6 @@
             <div class="col-md-10">
                 @*<input type="file" name="photo" id="photo" /><br><br>*@
 
-                
                 <div id="oldPhoto">
                     @{
                         if (Model.Photo != null)
@@ -81,7 +80,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Nationality, "Nationality/Country", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Nationality, (SelectList)ViewBag.LanguageID, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.Nationality, (SelectList)ViewBag.NationalityID, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Nationality, "", new { @class = "text-danger" })
             </div>
         </div>
