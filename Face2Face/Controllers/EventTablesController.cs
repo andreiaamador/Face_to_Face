@@ -340,18 +340,22 @@ namespace Face2Face.Controllers
         }
 
         [HttpPost]
-        public ActionResult ChatView([Bind(Include = "MessageID,EventID,UserID,Message")] MessageTable messageTable, string message, int? id)
+        public ActionResult ChatView(int? id, string message)
         {
             if (ModelState.IsValid)
             {
-                messageTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
-                messageTable.EventID = (int)id;
+                MessageTable messageTable = new MessageTable
+                {
+                    UserID = Convert.ToInt32(User.Identity.GetUserId()),
+                    EventID = (int)id,
+                    Message = message,
+                };
 
                 db.MessageTable.Add(messageTable);
                 db.Entry(messageTable).State = EntityState.Added;
                 db.SaveChanges();
 
-                ViewBag.user = db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())).Name;
+                ViewBag.user = db.UserProfile.Find(messageTable.UserID).Name;
             }
 
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
@@ -367,35 +371,9 @@ namespace Face2Face.Controllers
                 ViewBag.isOnReviews = false;
             }
 
-            return View("Details", db.EventTable.Find(id));
-            //return PartialView("_ChatView", db.MessageTable.Where(c => c.EventID == userLoggedIn).ToList());
+
+            return PartialView("_ChatView"); // falta passar o modelo, ou seja, uma lista de mensagens para actualizar a partial view);
         }
-        
-        //[HttpPost]
-        //public ActionResult ChatView(int id, string message)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        int userLog = Convert.ToInt32(User.Identity.GetUserId());
-        //        ChatTable chatTable = new ChatTable
-        //        {
-        //            EventID = id,
-        //            UserID = userLog,
-        //            ChatEntry = message,
-        //        };
-
-        //        db.ChatTable.Add(chatTable);
-        //        db.Entry(chatTable).State = EntityState.Added;
-        //        db.SaveChanges();
-
-        //        ViewBag.user = userLog;
-        //        return RedirectToAction("ChatView", db.ChatTable);
-        //    }
-        //    else
-        //    {
-        //        return View("EventList", db.EventTable);
-        //    }
-        //}
 
         // GET: EventTables/Create
 
