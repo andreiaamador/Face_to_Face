@@ -478,7 +478,6 @@ namespace Face2Face.Controllers
         [ValidateAntiForgeryToken]
 
         public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
-
         {
             if (ModelState.IsValid)
             {
@@ -501,17 +500,21 @@ namespace Face2Face.Controllers
                     }
                 else
                 {
+
+ //eventTable.Photo = db.EventTable.Find(eventTable.EventID).Photo;
                     ViewBag.Message = "You have not specified a file.";
                 }
 
+               
                 eventTable.Date = Convert.ToDateTime(releaseDate);
                 eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
                 eventTable.Address = Address;
 
-                db.Entry(eventTable).State = EntityState.Modified;
+                //db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("EventsList");
             }
+
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "LanguageID", "Language", eventTable.LanguageID);
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);
             return View(eventTable);
@@ -570,7 +573,6 @@ namespace Face2Face.Controllers
 
         public double GetEventClassification(int? id)
         {
-
             var reviewTable = db.EventTable.Find(id).ReviewTable;
             double eventReviews = 0;
             int count = 0;

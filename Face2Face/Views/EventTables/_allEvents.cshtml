@@ -3,11 +3,12 @@
     Layout = null;
 }
 
-<div style="height: 550px; overflow: auto;">
+@*<div style="height: 550px; overflow: auto;">*@
+<div>
     @foreach (var item in Model)
     {
         if (DateTime.Now < item.Date)
-        { 
+        {
 
             <div class="container-fluid event">
                 <div class="row">
@@ -105,5 +106,5 @@
                 </div>
             </div>
                                         }
-                                    }                         
+                                    }
 </div>

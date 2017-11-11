@@ -2,6 +2,17 @@
 
 <style>
 
+    .ProfileBar {
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
+    }
+
+    .ownProfile {
+        padding-top:10px;
+        text-align: center;
+    }
+
     select {
         padding-right: 5px;
         margin: 5px;
@@ -11,76 +22,74 @@
         color: black;
     }
 
-    #eventImg:hover {
-        opacity: 0.8;
-        text-decoration: none;
-    }
-
     .fa:hover {
         cursor: pointer;
     }
 
-    .location:hover {
+    #filters {
+        text-align: left;
+    }
+
+        #filters input {
+            margin: 5px;
+            border-radius: 10px;
+            width: 140px;
+            color: black;
+        }
+
+    .location:hover, .date:hover, .language:hover, .keyWord:hover {
         cursor: pointer;
     }
 
-    #filters input {
-        margin: 5px;
+    .profile1 input, .profile1 button {
         border-radius: 10px;
         width: 140px;
-        color: black;
+    }
+    #btn input {
+        border-radius: 10px;
+        width: 140px;
+        margin-bottom: 5px;
+        margin-top:7px;
     }
 
-    #filters {
-        border: solid;
-        border-color: black;
-        border-radius: 5px;
-        padding: 10px;
-        /*margin: 5px;*/
-    }
-
-    .ownProfile {
-        padding: 10px;
-        text-align: center;
-    }
-
-    /*.profile1 {
-        margin: 10px;
-        text-align: center;
-    }*/
+        .profile1 input:hover, .profile1 button:hover {
+            opacity: 0.8;
+        }
 
     .event {
         border: solid;
         border-color: black;
         border-radius: 5px;
-        margin: 5px;
+        margin: 10px;
         padding: 10px;
     }
 
-        .event img {
-            height: 100PX;
-            width: 100PX;
-            margin: 5px;
-        }
+    #eventImg:hover {
+        opacity: 0.8;
+        text-decoration: none;
+    }
 
-        .event p {
-            margin: 0px;
-        }
+    .event img {
+        height: 100PX;
+        width: 100PX;
+        margin: 5px;
+    }
 
-        .event .title {
-            font-size: 20px;
-            font-weight: bold;
-        }
+    .event p {
+        margin: 0px;
+    }
 
-        .event .review {
-            font-size: 15px;
-            font-weight: bold;
-        }
+    .event .title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .event .review {
+        font-size: 15px;
+        font-weight: bold;
+    }
 
     .eventTable {
-        /*border: solid;
-        border-color: black;
-        border-radius: 10px;*/
         padding: 10px;
     }
 
@@ -91,154 +100,155 @@
 
     #btn {
         text-align: center;
-        padding: 10px;
+        margin:5px;
     }
 
-    #btn:hover {
-        opacity:0.8;
-    }
+        #btn:hover {
+            opacity: 0.8;
+        }
 
-    .profile1 input, .profile1 button {
-        border-radius: 10px;
-        width: 140px;
+    #filterHr {
+        border-top: 1px solid black;
     }
-
-    .profile1 input:hover, .profile1 button:hover {
-        opacity: 0.8;
-    }
-
-    /*button{
-         border-radius:10px;
-    }*/
 </style>
 
 @*<h2>EventsList</h2>*@
 
-<a Id="filtersIcon">Search Filters</a>
-<i class="fa fa-search-minus search" aria-hidden="true"></i>
-<i class="fa fa-search-plus search hidden" aria-hidden="true"></i>
+
 
 <div class="container-fluid">
 
     <div class="row">
 
-        <div class="col-md-2 ownProfile">
-            <div>
-                @Html.Action("GetOwnProfile", "UserProfiles")
-            </div>
+        <div class="col-md-2 ProfileBar">
 
-            <div class="profile1">
+            <div class="">
+                <div class="ownProfile">
 
-                <div >
+                    <div>
+                        @Html.Action("GetOwnProfile", "UserProfiles")
+                    </div>
 
-                    <p>
-                        @using (Ajax.BeginForm("MyOwnEvents", "EventTables", new AjaxOptions
+                    <div class="profile1">
+
+                        <div>
+                            <p>
+                                @using (Ajax.BeginForm("MyOwnEvents", "EventTables", new AjaxOptions
+                                {//GetPatients is name of method in PatientController
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+                                    UpdateTargetId = "targetRv"
+                                    //LoadingElementId = "loader"
+                                }))
+                                {
+                                    <div>
+                                        <input type="submit" value="My own events">
+                                    </div>
+                                }
+                                @*@Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")*@
+                            </p>
+                            <p>
+                                @using (Ajax.BeginForm("MyNextEvents", "EventTables", new AjaxOptions
+                                {//GetPatients is name of method in PatientController
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+                                    UpdateTargetId = "targetRv"
+                                    //LoadingElementId = "loader"
+                                }))
+                                {
+                                    <div>
+                                        <input type="submit" value="My Events">
+                                    </div>
+                                }
+                                @*@Html.ActionLink("Next Events", "NextEvents", "EventTables")*@
+
+                            </p>
+                            <p>
+                                <button onclick="location.href='@Url.Action("Create", "EventTables")';return false;">Create new Event</button>
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <hr id="filterHr" />
+
+                    <div>
+                        @using (Ajax.BeginForm("Filter", "EventTables", new AjaxOptions
                         {//GetPatients is name of method in PatientController
                             HttpMethod = "POST",
                             InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
                             UpdateTargetId = "targetRv"
                             //LoadingElementId = "loader"
                         }))
-                        {
-                            <div>
-                                <input type="submit" value="My own events">
-                            </div>
-                        }
-                        @*@Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")*@
-                    </p>
-                    <p>
-                        @using (Ajax.BeginForm("MyNextEvents", "EventTables", new AjaxOptions
-                        {//GetPatients is name of method in PatientController
-                            HttpMethod = "POST",
-                            InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
-                            UpdateTargetId = "targetRv"
-                            //LoadingElementId = "loader"
-                        }))
-                        {
-                            <div>
-                                <input type="submit" value="My Events">
-                            </div>
-                        }
-                        @*@Html.ActionLink("Next Events", "NextEvents", "EventTables")*@
 
-                    </p>
-                    <p>
-                        <button onclick="location.href='@Url.Action("Create", "EventTables")';return false;">Create new Event</button>
-                    </p>
+                        {
+                            <div id="filters">
+                                <div class="location">
+                                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                                    Location:
+                                    <div class="input hidden">
+                                        <input id="location" type="text" name="Location">
+                                    </div>
+                                </div>
+
+                                <div class="date">
+                                    <i class="fa fa-plus-square date" aria-hidden="true"> </i>
+                                    <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
+                                    Date:
+                                    <div class="input hidden">
+                                        <input class="datefield" data-val="true" data-val-required="Date is required"
+                                               id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
+                                    </div>
+                                </div>
+
+                                <div class="language">
+                                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                                    Language:
+                                    <div class="input hidden">
+                                        @*@Html.Action("selectLanguage", "Languagestables")*@
+                                        <select id="language" name="Language">
+                                            <option>--Select--</option>
+                                            @foreach (var item in ViewBag.allLanguages)
+                                            {
+                                                <option>@item</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="keyWord">
+                                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                                    KeyWord:
+                                    <div class="input hidden">
+                                        <input id="keyWord" type="text" name="keyWord">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div id="btn">
+                                <input type="submit" value="Search">
+                            </div>
+
+
+                        }
+                    </div>
                 </div>
-                
-
             </div>
 
+            <a Id="filtersIcon">Search Filters</a>
+            <i class="fa fa-search-minus search" aria-hidden="true"></i>
+            <i class="fa fa-search-plus search hidden" aria-hidden="true"></i>
         </div>
 
-        <div id="targetRv" class="col-md-7 eventTable">
+        <div id="targetRv" class="col-md-10 eventTable">
             @Html.Action("GetAllEventsList", "EventTables")
         </div>
 
-        <div id="filters1" class="col-md-3">
-            <div id="filters">
-
-                @using (Ajax.BeginForm("Filter", "EventTables", new AjaxOptions
-                {//GetPatients is name of method in PatientController
-                    HttpMethod = "POST",
-                    InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
-                    UpdateTargetId = "targetRv"
-                    //LoadingElementId = "loader"
-                }))
-                {
-
-                    <div class="location">
-                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                        Location:
-                        <div class="input hidden">
-                            <input id="location" type="text" name="Location">
-                        </div>
-                    </div>
-
-                    <div class="date">
-                        <i class="fa fa-plus-square date" aria-hidden="true"> </i>
-                        <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
-                        Date:
-                        <div class="input hidden">
-                            <input class="datefield" data-val="true" data-val-required="Date is required"
-                                   id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
-                        </div>
-                    </div>
-
-                    <div class="language">
-                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                        Language:
-                        <div class="input hidden">
-                            @*@Html.Action("selectLanguage", "Languagestables")*@
-                            <select id="language" name="Language">
-                                <option>--Select--</option>
-                                @foreach (var item in ViewBag.allLanguages)
-                                {
-                                    <option>@item</option>
-                                }
-                            </select>
-
-                        </div>
-                    </div>
-
-                    <div class="keyWord">
-                        <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                        <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                        KeyWord:
-                        <div class="input hidden">
-                            <input id="keyWord" type="text" name="keyWord">
-                        </div>
-                    </div>
-
-                    <div id="btn">
-                        <input type="submit" value="Search">
-                    </div>
-                }
-            </div>
-        </div>
     </div>
 </div>
 
@@ -250,9 +260,15 @@
 
             if ($("#filters").hasClass("hidden")) {
                 $("#filters").removeClass("hidden");
+                $("#filterHr").removeClass("hidden");
+                $("#btn").removeClass("hidden");
+                $(".profile1").removeClass("hidden");
             }
             else {
                 $("#filters").addClass("hidden");
+                $("#filterHr").addClass("hidden");
+                $("#btn").addClass("hidden");
+                $(".profile1").addClass("hidden");
             }
             $(".fa.search").removeClass("hidden");
             $(this).addClass("hidden");
@@ -294,7 +310,7 @@
             else {
                 $(".language .input").addClass("hidden");
                 $("#language").prop("selected", false)
-                $("#language").val('');    
+                $("#language").val('');
             }
 
             $(".language  i").removeClass("hidden");
