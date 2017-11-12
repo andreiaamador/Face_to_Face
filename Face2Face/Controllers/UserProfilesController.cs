@@ -13,11 +13,14 @@ using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
-    //[Authorize(Roles = "User")]
+
     public class UserProfilesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
-        
+
+        private UserManager<ApplicationUser, int> userManager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
+
+
         // GET: UserProfiles
         public ActionResult Index()
         {
@@ -44,25 +47,35 @@ namespace Face2Face.Controllers
         public ActionResult Create()
         {
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email");
+            ViewBag.Roles = new SelectList(db.AspNetRoles, "Name", "Name");
             return View();
         }
-        
+
         // POST: UserProfiles/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserID,Nationality,Name,Age,Photo")] UserProfile userProfile)
+        public async Task<ActionResult> Create(RegisterViewModel model, string roleName)
         {
             if (ModelState.IsValid)
             {
-                db.UserProfile.Add(userProfile);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                    userManager.AddToRole(user.Id, roleName);
+                    UserProfile newUser = new UserProfile();
+                    newUser.UserID = user.Id;
+                    db.UserProfile.Add(newUser);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+            }
+            
             }
 
-            ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email", userProfile.UserID);
-            return View(userProfile);
+            ViewBag.Roles = new SelectList(db.AspNetRoles, "Name", "Name");
+            return View(model);
         }
         
         // GET: UserProfiles/Edit/5
@@ -72,11 +85,19 @@ namespace Face2Face.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserProfile userProfile = db.UserProfile.Find(id);
+
+            //UserProfile userProfile = db.UserProfile.Find(id);
+            UserProfile userProfile = db.UserProfile.Include("AspNetUsers.AspNetRoles").FirstOrDefault(u => u.UserID == id);
             if (userProfile == null)
             {
                 return HttpNotFound();
             }
+
+            //esta linha é para ir buscar o Role actual da pessoa, para ficar seleccionado na dropdown
+            //senão sempre que entrasses na página ia estar o valor Admin escolhido, em vez do actual da conta
+            var userRole = userProfile.AspNetUsers.AspNetRoles.First();
+
+            ViewBag.Roles = new SelectList(db.AspNetRoles, "Name", "Name", userRole.Name);
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email", userProfile.UserID);
             return View(userProfile);
         }
@@ -86,14 +107,28 @@ namespace Face2Face.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserID,Nationality,Name,Age,Photo")] UserProfile userProfile)
+        public ActionResult Edit([Bind(Include = "UserID,Nationality,Name,Age,Photo")] UserProfile userProfile, String roleName)
         {
             if (ModelState.IsValid)
             {
+                //alterar o role do utilizador
+                var role = db.AspNetRoles.FirstOrDefault(r => r.Name == roleName);
+                if (role == null)
+                {
+                    return HttpNotFound();
+                }
+                var userRoles = userManager.GetRoles(userProfile.UserID);
+                foreach (string r in userRoles)
+                {
+                    userManager.RemoveFromRole(userProfile.UserID, r);
+                }
+                userManager.AddToRole(userProfile.UserID, role.Name);
+
                 db.Entry(userProfile).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Roles = new SelectList(db.AspNetRoles, "Name", "Name");
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email", userProfile.UserID);
             return View(userProfile);
         }
@@ -133,10 +168,10 @@ namespace Face2Face.Controllers
             base.Dispose(disposing);
         }
 
-        public async Task<ActionResult> GetProfileClassificationAsync(int? id)
+        public ActionResult GetProfileClassificationAsync(int? id)
         {
             DbHelper helper = new DbHelper();
-            var classification = await helper.GetProfileClassificationAsync(id);
+            var classification = helper.GetProfileClassificationAsync(id);
             return View("ClassificationPartial", classification);
         }
 
@@ -148,11 +183,13 @@ namespace Face2Face.Controllers
         }
     }
 
+
+
     public class DbHelper
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
-
-        public async Task<double?> GetProfileClassificationAsync(int? id)
+        
+        public double? GetProfileClassificationAsync(int? id)
         {
             ObjectParameter x = new ObjectParameter("x", typeof(double));
             db.sp_ProfileClassification(id,  x);
