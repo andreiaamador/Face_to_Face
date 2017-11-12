@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<Face2Face.Models.EventTable>
 
 <style>
-
     .ProfileBar {
         border: solid;
         border-color: black;
         border-radius: 5px;
+        margin-bottom: 10px;
     }
 
     .ownProfile {
-        padding-top:10px;
+        padding-top: 10px;
         text-align: center;
     }
 
@@ -45,23 +45,24 @@
         border-radius: 10px;
         width: 140px;
     }
+
     #btn input {
         border-radius: 10px;
         width: 140px;
         margin-bottom: 5px;
-        margin-top:7px;
+        margin-top: 7px;
     }
 
-        .profile1 input:hover, .profile1 button:hover {
-            opacity: 0.8;
-        }
+    .profile1 input:hover, .profile1 button:hover {
+        opacity: 0.8;
+    }
 
     .event {
         border: solid;
         border-color: black;
         border-radius: 5px;
-        margin: 10px;
-        padding: 10px;
+        margin-bottom: 10px;
+        /*padding: 10px;*/
     }
 
     #eventImg:hover {
@@ -72,7 +73,7 @@
     .event img {
         height: 100PX;
         width: 100PX;
-        margin: 5px;
+   margin:10px;
     }
 
     .event p {
@@ -83,24 +84,22 @@
         font-size: 20px;
         font-weight: bold;
     }
-
+   
     .event .review {
         font-size: 15px;
         font-weight: bold;
     }
 
-    .eventTable {
-        padding: 10px;
-    }
 
     #eventPhoto {
         text-align: center;
         vertical-align: middle;
+        position: relative;
     }
 
     #btn {
         text-align: center;
-        margin:5px;
+        margin: 5px;
     }
 
         #btn:hover {
@@ -114,15 +113,12 @@
 
 @*<h2>EventsList</h2>*@
 
-
-
 <div class="container-fluid">
 
     <div class="row">
 
-        <div class="col-md-2 ProfileBar">
-
-            <div class="">
+        <div class="col-md-3 ProfileBar">
+            <div>
                 <div class="ownProfile">
 
                     <div>
@@ -141,9 +137,9 @@
                                     //LoadingElementId = "loader"
                                 }))
                                 {
-                                    <div>
-                                        <input type="submit" value="My own events">
-                                    </div>
+                                <div>
+                                    <input type="submit" value="My own events">
+                                </div>
                                 }
                                 @*@Html.ActionLink("My Own events", "MyOwnEvents", "EventTables")*@
                             </p>
@@ -156,9 +152,9 @@
                                     //LoadingElementId = "loader"
                                 }))
                                 {
-                                    <div>
-                                        <input type="submit" value="My Events">
-                                    </div>
+                                <div>
+                                    <input type="submit" value="My Events">
+                                </div>
                                 }
                                 @*@Html.ActionLink("Next Events", "NextEvents", "EventTables")*@
 
@@ -182,57 +178,54 @@
                         }))
 
                         {
-                            <div id="filters">
-                                <div class="location">
-                                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                                    Location:
-                                    <div class="input hidden">
-                                        <input id="location" type="text" name="Location">
-                                    </div>
+                        <div id="filters">
+                            <div class="location">
+                                <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                                <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                                Location:
+                                <div class="input hidden">
+                                    <input id="location" type="text" name="Location">
                                 </div>
+                            </div>
 
-                                <div class="date">
-                                    <i class="fa fa-plus-square date" aria-hidden="true"> </i>
-                                    <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
-                                    Date:
-                                    <div class="input hidden">
-                                        <input class="datefield" data-val="true" data-val-required="Date is required"
-                                               id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
-                                    </div>
+                            <div class="date">
+                                <i class="fa fa-plus-square date" aria-hidden="true"> </i>
+                                <i class="fa fa-minus-square date hidden" aria-hidden="true"></i>
+                                Date:
+                                <div class="input hidden">
+                                    <input class="datefield" data-val="true" data-val-required="Date is required"
+                                           id="ReleaseDate" name="Date" type="Date" value="1/11/1989" />
                                 </div>
+                            </div>
 
-                                <div class="language">
-                                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                                    Language:
-                                    <div class="input hidden">
-                                        @*@Html.Action("selectLanguage", "Languagestables")*@
-                                        <select id="language" name="Language">
-                                            <option>--Select--</option>
-                                            @foreach (var item in ViewBag.allLanguages)
+                            <div class="language">
+                                <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                                <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                                Language:
+                                <div class="input hidden">
+                                    @*@Html.Action("selectLanguage", "Languagestables")*@
+                                    <select id="language" name="Language">
+                                        <option>--Select--</option>
+                                        @foreach (var item in ViewBag.allLanguages)
                                             {
-                                                <option>@item</option>
+                                            <option>@item</option>
                                             }
-                                        </select>
+                                    </select>
 
-                                    </div>
                                 </div>
-
-                                <div class="keyWord">
-                                    <i class="fa fa-plus-square " aria-hidden="true"> </i>
-                                    <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
-                                    KeyWord:
-                                    <div class="input hidden">
-                                        <input id="keyWord" type="text" name="keyWord">
-                                    </div>
+                            </div>
+                            <div class="keyWord">
+                                <i class="fa fa-plus-square " aria-hidden="true"> </i>
+                                <i class="fa fa-minus-square hidden" aria-hidden="true"></i>
+                                KeyWord:
+                                <div class="input hidden">
+                                    <input id="keyWord" type="text" name="keyWord">
                                 </div>
-
-
                             </div>
-                            <div id="btn">
-                                <input type="submit" value="Search">
-                            </div>
+                        </div>
+                        <div id="btn">
+                            <input type="submit" value="Search">
+                        </div>
 
 
                         }
@@ -245,10 +238,10 @@
             <i class="fa fa-search-plus search hidden" aria-hidden="true"></i>
         </div>
 
-        <div id="targetRv" class="col-md-10 eventTable">
+        @*eventTable*@
+        <div id="targetRv" class="col-md-9 ">
             @Html.Action("GetAllEventsList", "EventTables")
         </div>
-
     </div>
 </div>
 
