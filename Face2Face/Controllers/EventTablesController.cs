@@ -412,7 +412,7 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string hour)
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
         {
             if (ModelState.IsValid)
             {
@@ -438,8 +438,9 @@ namespace Face2Face.Controllers
 
                 //eventTable.Date = Convert.ToDateTime(releaseDate+" "+hour+":00.00");
                 eventTable.Date = Convert.ToDateTime(releaseDate);
-                eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
-
+                if (endSignUpDate!="") {
+                    eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+                }
                 eventTable.Address = Address;
 
                 eventTable.UserProfile1.Add(db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
@@ -477,11 +478,20 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string NameEvent)
         {
             if (ModelState.IsValid)
             {
                 eventTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
+
+                eventTable.Name = NameEvent;
+                eventTable.Date = Convert.ToDateTime(releaseDate);
+                eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+                eventTable.Address = Address;
+                db.Entry(eventTable).State = EntityState.Modified;
+                db.SaveChanges();
+
+
 
                 if (photo != null && photo.ContentLength > 0)
                     try
@@ -489,7 +499,6 @@ namespace Face2Face.Controllers
                         string path = Path.Combine(Server.MapPath("~/UploadedFiles/"), Path.GetFileName(photo.FileName));
                         photo.SaveAs(path);
                         eventTable.Photo = "/UploadedFiles/" + Path.GetFileName(photo.FileName);
-
                         db.Entry(eventTable).State = EntityState.Modified;
                         db.SaveChanges();
                         ViewBag.Message = "File uploaded successfully";
@@ -500,18 +509,10 @@ namespace Face2Face.Controllers
                     }
                 else
                 {
-
- //eventTable.Photo = db.EventTable.Find(eventTable.EventID).Photo;
                     ViewBag.Message = "You have not specified a file.";
                 }
 
-               
-                eventTable.Date = Convert.ToDateTime(releaseDate);
-                eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
-                eventTable.Address = Address;
-
-                //db.Entry(eventTable).State = EntityState.Modified;
-                db.SaveChanges();
+                
                 return RedirectToAction("EventsList");
             }
 
