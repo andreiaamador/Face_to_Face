@@ -98,25 +98,41 @@
                                                 @Html.ActionLink("Remove", "RemoveReviews", new { eventID = @review.EventID, userID = @review.UserID })
                                                 <span> | </span>
                                             }
-                                             @Html.Partial("_Report")
+
+                                            <div id="modal-container" class="modal fade" tabindex="-1" role="dialog">
+                                                <div id="modal-content" style="width: 570px !important; margin: 100px auto !important; border: 5px solid #3A87AD; height: 250px;">
+                                                    <div id="modal-body">
+                                                         @Html.Partial("_Report")
+                                                     </div>
+                                                 </div>
+                                            </div>
+
+                                                        
                                         }
                                     </div>
                                 }
                             </div>
                         </div>
-                                                }
+                                                } 
                                             }
             }
         </div>
     </div>
 </div>
 
-@*@section scripts{
+@section scripts{
         <script>
      $("").hide();
 
         $('#').click(function () {
                     $('').show();
         });
+            $("body").on('click', '.modal-link', fuction(e){
+                e.preventDefault();
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');
+
+            });
+
         </script>
-    }*@
+    }
