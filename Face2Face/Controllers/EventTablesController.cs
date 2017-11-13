@@ -181,7 +181,9 @@ namespace Face2Face.Controllers
 
             ViewBag.isOnReviews = false;
             foreach (var rev in db.ReviewTable) {
-                if (rev.UserID== userLog) {
+
+                
+                if (rev.EventID == id && rev.UserID== userLog) {
                     ViewBag.isOnReviews = true;
                 }
             }
@@ -260,12 +262,11 @@ namespace Face2Face.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 int userLog = Convert.ToInt32(User.Identity.GetUserId());
 
                 ViewBag.isOnReviews = true;
                 foreach (var rev in db.ReviewTable) {
-                    if (rev.UserID==userLog) {
+                    if (rev.EventID== eventID && rev.UserID==userLog) {
                         db.ReviewTable.Remove(rev);
                         ViewBag.isOnReviews = false;
                         break;
@@ -343,35 +344,8 @@ namespace Face2Face.Controllers
             return View("Details", db.EventTable.Find(id));
             //return PartialView("_ChatView", db.MessageTable.Where(c => c.EventID == userLoggedIn).ToList());
         }
-        
-        //[HttpPost]
-        //public ActionResult ChatView(int id, string message)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        int userLog = Convert.ToInt32(User.Identity.GetUserId());
-        //        ChatTable chatTable = new ChatTable
-        //        {
-        //            EventID = id,
-        //            UserID = userLog,
-        //            ChatEntry = message,
-        //        };
-
-        //        db.ChatTable.Add(chatTable);
-        //        db.Entry(chatTable).State = EntityState.Added;
-        //        db.SaveChanges();
-
-        //        ViewBag.user = userLog;
-        //        return RedirectToAction("ChatView", db.ChatTable);
-        //    }
-        //    else
-        //    {
-        //        return View("EventList", db.EventTable);
-        //    }
-        //}
 
         // GET: EventTables/Create
-
         public ActionResult Create()
         {
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "LanguageID", "Language");
@@ -385,7 +359,7 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string LatLng)
         {
             if (ModelState.IsValid)
             {
@@ -411,10 +385,15 @@ namespace Face2Face.Controllers
 
                 //eventTable.Date = Convert.ToDateTime(releaseDate+" "+hour+":00.00");
                 eventTable.Date = Convert.ToDateTime(releaseDate);
-                if (endSignUpDate!="") {
+                if (endSignUpDate != "") {
                     eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
                 }
                 eventTable.Address = Address;
+
+                var x = LatLng.Split(',');
+                double y = Convert.ToDouble(x[0].Replace('.',','));
+                eventTable.Lat = Convert.ToDouble(x[0].Replace('.', ','));
+                eventTable.Lng = Convert.ToDouble(x[1].Replace('.', ','));
 
                 eventTable.UserProfile1.Add(db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
                 db.EventTable.Add(eventTable);
@@ -464,8 +443,6 @@ namespace Face2Face.Controllers
                 db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
 
-
-
                 if (photo != null && photo.ContentLength > 0)
                     try
                     {
@@ -493,8 +470,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);
             return View(eventTable);
         }
-
-        
+  
         // GET: EventTables/Delete/5
         public ActionResult Delete(int? id)
         {

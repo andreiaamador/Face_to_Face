@@ -240,6 +240,24 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Hubs\ChatHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Face2Face.Context.cs">
@@ -258,11 +276,32 @@
       <DependentUpon>Face2Face.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LanguagesTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MessageTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NationalityTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReportTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ReviewTable.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Face2Face.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserProfile.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -344,6 +383,7 @@
     </EntityDeploy>
     <Content Include="Models\Face2Face.edmx.diagram">
       <DependentUpon>Face2Face.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="app.config" />
     <Content Include="fonts\FontAwesome.otf" />

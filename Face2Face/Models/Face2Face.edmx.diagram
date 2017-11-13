@@ -5,15 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="70d945aa34d7443980349fac578aaca0" Name="Diagram1" ZoomLevel="84">
-        <<<<<<< HEAD
+    
         
-        
-        <Diagram DiagramId="70d945aa34d7443980349fac578aaca0" Name="Diagram1" ZoomLevel="20">
-        
-        
-        
-        
-        
+        <!--<Diagram DiagramId="70d945aa34d7443980349fac578aaca0" Name="Diagram1" ZoomLevel="20">-->
+
         <EntityTypeShape EntityType="Face2FaceModel.C__MigrationHistory" Width="1.5" PointX="7.6100267989607655" PointY="24.817669060462002" />
         <EntityTypeShape EntityType="Face2FaceModel.AspNetRoles" Width="1.5" PointX="7.5090202891775508" PointY="21.065255502734917" />
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="0.91174475332337646" PointY="26.832817164637529" />
