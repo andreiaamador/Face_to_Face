@@ -240,8 +240,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Hubs\ChatHub.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
@@ -260,6 +258,8 @@
     <Compile Include="Models\EventTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Hubs\ChatHub.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Face2Face.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -307,7 +307,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  
   <ItemGroup>
     <Content Include="Content\bootstrap-datepicker-standalone.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -384,6 +383,7 @@
     </EntityDeploy>
     <Content Include="Models\Face2Face.edmx.diagram">
       <DependentUpon>Face2Face.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="app.config" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -510,7 +510,6 @@
     </Content>
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
-
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
@@ -608,6 +607,7 @@
     <Content Include="Views\EventTables\_MyOwnEvents.cshtml" />
     <Content Include="Views\EventTables\_MyEvents.cshtml" />
     <Content Include="Views\EventTables\_googleMaps.cshtml" />
+    <Content Include="Views\UserProfiles\_ProfileTopBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
