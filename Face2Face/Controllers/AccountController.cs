@@ -163,6 +163,8 @@ namespace Face2Face.Controllers
             {
                 //quem fez isto?A Andreia. Isto é para só aparecer o nome que está antes do arroba no topo da página quando diz olá...
                 // sim mas tem que se fazer outra coisa se não os logins deixam de funcionar, depois lembra-lhe de corrigir amanhã
+            { 
+>>>>>>> 5f7d4a123303a3f63dfe1b72a90260bedc77046d
                 var user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
