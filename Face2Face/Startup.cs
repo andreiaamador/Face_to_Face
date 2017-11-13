@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 
+[assembly: OwinStartupAttribute(typeof(Face2Face.Startup))]
 namespace Face2Face
 {
     public partial class Startup
@@ -27,24 +28,24 @@ namespace Face2Face
                 role.Name = "Admin";
                 roleManager.Create(role);
 
-                var user = new ApplicationUser();
-                user.UserName = "Admin";
-                user.Email = "saralopesr@gmail.com";
-
-                string userPWD = "hau94r99";
-
-                var chkUser = UserManager.Create(user,userPWD);
-
-                if (chkUser.Succeeded)
-                {
-                    var result = UserManager.AddToRole(user.Id, "Admin");
-                }
             }
             if (!roleManager.RoleExists("User"))
             {
                 var role = new CustomRole();
                 role.Name = "User";
                 roleManager.Create(role);
+            }
+
+            ApplicationUser newUser = new ApplicationUser();
+            newUser.Email = "saralopesr@gmail.com";
+            
+
+            newUser.UserName = "saralopesr";
+            var password = "socializar";
+            var result = UserManager.Create(newUser, password);
+            if(result.Succeeded)
+            {
+                UserManager.AddToRole(newUser.Id, "Admin");
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Face2Face.Hubs
     {
         public void Send(string name, string message)
         {
-            Clients.All.broadcastMessage(name, message);
+            Clients.All.addNewMessageToPage(name, message);
         }
     }
 }

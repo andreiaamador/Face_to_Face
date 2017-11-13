@@ -71,7 +71,98 @@
     #textReview {
         min-width: 400px;
     }
+
+    /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+    #map {
+        height: 300px;
+        width: 300px;
+    }
+
+    #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    #infowindow-content .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+    }
+
+    #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+    }
+
+    .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+    }
+
+        .pac-controls label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+    #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+    }
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+    /*.form-group.locationGoogle {
+        margin-left: 170px;
+    }*/
+
+    .Photo {
+        height: 150px;
+        width: 150px;
+        margin-bottom: 5px;
+    }
+
+    #newPhoto {
+        height: 150px;
+        width: 150px;
+        background-image: url('');
+        background-size: cover;
+        background-position: center;
+        background-size: 150px 150px;
+        background-repeat: no-repeat;
+        margin: 5px;
+    }
 </style>
+
+@*Participants -----------------------------------------
+    ---------------------------------------------------------------------------------------------------------*@
 
 <div class="row">
 
@@ -80,6 +171,9 @@
             @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
         </div>
     </div>
+
+    @*EventDetails -----------------------------------------
+        ---------------------------------------------------------------------------------------------------------*@
 
     <div class="col-md-9 eventDetails1">
 
@@ -147,6 +241,7 @@
                         }
                     </p>
                     <p>
+
                         <label>Address: </label>
                         @Model.Address;
                     </p>
@@ -207,45 +302,48 @@
             <div align="right">
                 @{
 
-                    if (Model.UserID!= ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
-                    {
-                        <input type="button" value="Add a Review" id="AddReview" />
-                    }
-                    else
-                    {
-                        @*<input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
-                        @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
-                        <input class="hidden" type="button" value="Add a Review" id="AddReview" />
-                    }
-
-                    if (Model.UserID != ViewBag.userLog && DateTime.Now < Model.Date)
-                    {
-                        using (Ajax.BeginForm("GoToEvent", "EventTables", new AjaxOptions
-                        {//GetPatients is name of method in PatientController
-                            HttpMethod = "POST",
-                            InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
-                            UpdateTargetId = "partTarget"
-                            //LoadingElementId = "loader"
-                        }))
+                    @*if (Model.UserID!= ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
                         {
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.EventID)
+                            <input type="button" value="Add a Review" id="AddReview" />
+                        }
+                        else
+                        {*@
+                    @*<input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
+                    @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
+                    <input class="hidden" type="button" value="Add a Review" id="AddReview" />
+                    @*}*@
 
-                            if (ViewBag.userInEvent)
-                            {
-                                <input id="dgoBtn" type="submit" value="Don't go!" />
-                                <input id="goBtn" class="hidden" type="submit" value="Go!" />                       
-                            }
-                            else
-                            {
-                                <input id = "dgoBtn" class="hidden" type="submit" value="Don't go!" />
-                                <input id="goBtn" type="submit" value="Go!" />
-                            }
+                if (Model.UserID != ViewBag.userLog && DateTime.Now < Model.Date)
+                {
+                    using (Ajax.BeginForm("GoToEvent", "EventTables", new AjaxOptions
+                    {//GetPatients is name of method in PatientController
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+                        UpdateTargetId = "partTarget"
+                        //LoadingElementId = "loader"
+                    }))
+                    {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.EventID)
+
+                        if (ViewBag.userInEvent)
+                        {
+                <input id="dgoBtn" type="submit" value="Don't go!" />
+                <input id="goBtn" class="hidden" type="submit" value="Go!" />
+                        }
+                        else
+                        {
+                <input id="dgoBtn" class="hidden" type="submit" value="Don't go!" />
+                <input id="goBtn" type="submit" value="Go!" />
                         }
                     }
                 }
+                }
             </div>
         </div>
+
+        @*Reviews -----------------------------------------
+            ---------------------------------------------------------------------------------------------------------*@
 
         <div id="targetRv">
             @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
@@ -287,103 +385,186 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.EventID)
 
-        
+
 
                         </div>
-                            <input id="addRev" type="submit" value="Save" class="btn btn-default" />
+                        <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                     </div>
                 </div>
             </div>
         }
     </div>
+
+
 </div>
 
+
+@*Chat -----------------------------------------
+    ---------------------------------------------------------------------------------------------------------*@
+@Html.Action("GetMap", "EventTables", new { eventID = Model.EventID })
+
 @*<div id="ChatViewPartial">
-    @{Html.RenderPartial("_ChatView", Model); }
-</div>*@
+        <fieldset>
+            @using (Ajax.BeginForm("ChatView", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "discussion" }))
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" id="message" name="message" />
+                        <input type="submit" id="sendmessage" name="send" value="Send" />
+                        <input type="hidden" id="displayname" />
+                        @{Html.RenderPartial("_ChatView", Model); }
+                    </div>
+                </div>
+             }
+        </fieldset>
+    </div>*@
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
     <script>
 
-        $('#AddReview').click(function () {
+                //------------------
+                // Reviews ----------------------------------------------------------
+                //------------------
 
-            if ($('.addReviewForm').hasClass("hidden")) {
-                $('.addReviewForm').removeClass("hidden");
-            }
-            else {
-                $('.addReviewForm').addClass("hidden");
-            }
-        })
+                $('#AddReview').click(function () {
 
-        $(".starRev").click(function () {
+                    if ($('.addReviewForm').hasClass("hidden")) {
+                        $('.addReviewForm').removeClass("hidden");
+                    }
+                    else {
+                        $('.addReviewForm').addClass("hidden");
+                    }
+                })
 
-            $(".starRev").removeClass("fa-star-o");
-            $(".starRev").removeClass("fa-star");
+                $(".starRev").click(function () {
 
-            if ($(this).hasClass("1")) {
-                $(".1").addClass("fa-star");
-                $(".2").addClass("fa-star-o");
-                $(".3").addClass("fa-star-o");
-                $(".4").addClass("fa-star-o");
-                $(".5").addClass("fa-star-o");
-                $("#lbsRev").text(1);
-                $("#lbsRev").val(1);
-            }
+                    $(".starRev").removeClass("fa-star-o");
+                    $(".starRev").removeClass("fa-star");
 
-            if ($(this).hasClass("2")) {
-                $(".1").addClass("fa-star");
-                $(".2").addClass("fa-star");
-                $(".3").addClass("fa-star-o");
-                $(".4").addClass("fa-star-o");
-                $(".5").addClass("fa-star-o");
-                $("#lbsRev").text(2);
-                $("#lbsRev").val(2);
-            }
+                    if ($(this).hasClass("1")) {
+                        $(".1").addClass("fa-star");
+                        $(".2").addClass("fa-star-o");
+                        $(".3").addClass("fa-star-o");
+                        $(".4").addClass("fa-star-o");
+                        $(".5").addClass("fa-star-o");
+                        $("#lbsRev").text(1);
+                        $("#lbsRev").val(1);
+                    }
 
-            if ($(this).hasClass("3")) {
-                $(".1").addClass("fa-star");
-                $(".2").addClass("fa-star");
-                $(".3").addClass("fa-star");
-                $(".4").addClass("fa-star-o");
-                $(".5").addClass("fa-star-o");
-                $("#lbsRev").text(3);
-                $("#lbsRev").val(3);
-            }
+                    if ($(this).hasClass("2")) {
+                        $(".1").addClass("fa-star");
+                        $(".2").addClass("fa-star");
+                        $(".3").addClass("fa-star-o");
+                        $(".4").addClass("fa-star-o");
+                        $(".5").addClass("fa-star-o");
+                        $("#lbsRev").text(2);
+                        $("#lbsRev").val(2);
+                    }
 
-            if ($(this).hasClass("4")) {
-                $(".1").addClass("fa-star");
-                $(".2").addClass("fa-star");
-                $(".3").addClass("fa-star");
-                $(".4").addClass("fa-star");
-                $(".5").addClass("fa-star-o");
-                $("#lbsRev").text(4);
-                $("#lbsRev").val(4);
-            }
+                    if ($(this).hasClass("3")) {
+                        $(".1").addClass("fa-star");
+                        $(".2").addClass("fa-star");
+                        $(".3").addClass("fa-star");
+                        $(".4").addClass("fa-star-o");
+                        $(".5").addClass("fa-star-o");
+                        $("#lbsRev").text(3);
+                        $("#lbsRev").val(3);
+                    }
 
-            if ($(this).hasClass("5")) {
-                $(".starRev").addClass("fa-star");
-                $("#lbsRev").text(5);
-                $("#lbsRev").val(5);
-            }
-        })
+                    if ($(this).hasClass("4")) {
+                        $(".1").addClass("fa-star");
+                        $(".2").addClass("fa-star");
+                        $(".3").addClass("fa-star");
+                        $(".4").addClass("fa-star");
+                        $(".5").addClass("fa-star-o");
+                        $("#lbsRev").text(4);
+                        $("#lbsRev").val(4);
+                    }
 
-        $("#addRev").click(function () {
-            $(".addReviewForm").addClass("hidden");
-            $("#AddReview").addClass("hidden");
-        });
+                    if ($(this).hasClass("5")) {
+                        $(".starRev").addClass("fa-star");
+                        $("#lbsRev").text(5);
+                        $("#lbsRev").val(5);
+                    }
+                })
 
-        $("#goBtn").click(function () {
-            $("#goBtn").addClass("hidden");
-            $("#dgoBtn").removeClass("hidden");
-        });
+                $("#addRev").click(function () {
+                    $(".addReviewForm").addClass("hidden");
+                    $("#AddReview").addClass("hidden");
+                });
 
-        $("#dgoBtn").click(function () {
-            $("#dgoBtn").addClass("hidden");
-            $("#goBtn").removeClass("hidden");   
-        });
+                $("#goBtn").click(function () {
+                    $("#goBtn").addClass("hidden");
+                    $("#dgoBtn").removeClass("hidden");
+                });
 
+                $("#dgoBtn").click(function () {
+                    $("#dgoBtn").addClass("hidden");
+                    $("#goBtn").removeClass("hidden");
+                });
+
+                //--------------------
+                // Google Map ----------------------------------------------------------
+                //--------------------
+
+                
+        $("#type-selector").addClass("hidden");
+
+
+        $("#pac-input").val("Barreiro, Portugal");
+
+
+        
+
+        // Call the codeAddress function (once) when the map is idle (ready)
+        
+
+       
 
     </script>
+
+
+    @*<script src="Scripts/jquery-3.2.1.min.js"></script>
+        <!--Reference the SignalR library. -->
+        <script src="Scripts/jquery.signalR-2.2.2.min.js"></script>
+        <!--Reference the autogenerated SignalR hub script. -->
+        <script src="signalr/hubs"></script>
+        <!--Add script to update the page and send messages.-->
+
+                    <script>
+
+            $(function () {
+                // Declare a proxy to reference the hub.
+                var chat = $.connection.chatHub;
+                // Create a function that the hub can call to broadcast messages.
+                chat.client.addNewMessageToPage = function (name, message) {
+                    // Html encode display name and message.
+                    var encodedName = $('<div />').text(name).html();
+                    var encodedMsg = $('<div />').text(message).html();
+                    // Add the message to the page.
+                    $('#discussion').append('<li><strong>' + encodedName
+                        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+                };
+                // Get the user name and store it to prepend to messages.
+                $('#displayname').val(@ViewBag.user);
+                // Set initial focus to message input box.
+                $('#message').focus();
+                // Start the connection.
+                $.connection.hub.start().done(function () {
+                    $('#sendmessage').click(function () {
+                        // Call the Send method on the hub.
+                        chat.server.send($('#displayname').val(), $('#message').val());
+                        // Clear text box and reset focus for next comment.
+                        $('#message').val('').focus();
+                    });
+                });
+            });
+
+
+                    </script>*@
 }
