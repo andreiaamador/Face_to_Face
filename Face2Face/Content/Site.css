@@ -1,13 +1,17 @@
 ﻿body {
     padding-top: 70px;
     padding-bottom: 20px;
-    background-image: url("../../UploadedFiles/Background-Images.jpg");
-}
+    background-color:rgba(220, 111, 111, 0.80)
+    
+}   
+
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    background-image:
+    opacity: 0.9;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
