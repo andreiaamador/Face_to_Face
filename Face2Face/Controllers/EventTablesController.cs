@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -176,7 +176,6 @@ namespace Face2Face.Controllers
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
             ViewBag.userLog = userLog;
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
-            ViewBag.Address = eventTable.Address;
             ViewBag.isOnReviews = false;
 
 
@@ -187,20 +186,6 @@ namespace Face2Face.Controllers
                 }
 
             }
-
-
-           
-
-            //if (db.ReviewTable.Find(id, userLog) != null)
-            //{
-            //    ViewBag.isOnReviews = true;
-            //}
-            //else
-            //{
-            //    ViewBag.isOnReviews = false;
-            //}
-            ViewBag.Chat = db.MessageTable.Where(c => c.EventID == id).ToList();
-
             return View(eventTable);
         }
 
@@ -266,14 +251,7 @@ namespace Face2Face.Controllers
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
 
             ViewBag.isOnReviews = true;
-            //if (db.ReviewTable.Find(EventID, userLog) != null)
-            //{
-            //    ViewBag.isOnReviews = true;
-            //}
-            //else
-            //{
-            //    ViewBag.isOnReviews = false;
-            //}
+            
             return PartialView("_ReviewsPartial", eventTable);
         }
 
@@ -292,10 +270,8 @@ namespace Face2Face.Controllers
                         break;
                     }
                 }
-
-                //db.Entry(db.ReviewTable).State = EntityState.Deleted;
+                
                 db.SaveChanges();
-                //}
 
                 ViewBag.userLog = userLog;
                 ViewBag.userInEvent = db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog));
@@ -305,36 +281,18 @@ namespace Face2Face.Controllers
         }
 
         //GET
-        public ActionResult ChatView(int? id)
+        public ActionResult GetChatView(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MessageTable messageTable = db.MessageTable.Find(id);
-            if (messageTable == null)
-            {
-                return HttpNotFound();
-            }
-
-            int userLog = Convert.ToInt32(User.Identity.GetUserId());
-            ViewBag.userLog = userLog;
-            ViewBag.userInEvent = db.EventTable.Find(id).UserProfile1.Contains(db.UserProfile.Find(userLog));
-
-            if (db.ReviewTable.Find(id, userLog) != null)
-            {
-                ViewBag.isOnReviews = true;
-            }
-            else
-            {
-                ViewBag.isOnReviews = false;
-            }
-
-            return View("Details", db.EventTable.Find(id));
+            
+            return View("_ChatView", db.EventTable.Find(id));
         }
 
         [HttpPost]
-        public ActionResult ChatView(int? id, string message)
+        public ActionResult AddMessage(int? id, string message)
         {
             if (ModelState.IsValid)
             {
@@ -351,22 +309,8 @@ namespace Face2Face.Controllers
 
                 ViewBag.user = db.UserProfile.Find(messageTable.UserID).Name;
             }
-
-            int userLog = Convert.ToInt32(User.Identity.GetUserId());
-            ViewBag.userLog = userLog;
-            ViewBag.userInEvent = db.EventTable.Find(id).UserProfile1.Contains(db.UserProfile.Find(userLog));
-
-            if (db.ReviewTable.Find(id, userLog) != null)
-            {
-                ViewBag.isOnReviews = true;
-            }
-            else
-            {
-                ViewBag.isOnReviews = false;
-            }
-
-
-            return PartialView("_ChatView"); // falta passar o modelo, ou seja, uma lista de mensagens para actualizar a partial view);
+            
+            return PartialView("_ChatView", db.EventTable.Find(id)); 
         }
 
         // GET: EventTables/Create
