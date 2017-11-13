@@ -163,43 +163,42 @@ namespace Face2Face.Controllers
             {
                 //quem fez isto?A Andreia. Isto é para só aparecer o nome que está antes do arroba no topo da página quando diz olá...
                 // sim mas tem que se fazer outra coisa se não os logins deixam de funcionar, depois lembra-lhe de corrigir amanhã
-            { 
->>>>>>> 5f7d4a123303a3f63dfe1b72a90260bedc77046d
-                var user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    //vamos dar o role a todos os users novos
-                    //todos os users novos vão ficar com este role
-                    _userManager.AddToRole(user.Id, "User");
+             
+                    var user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        //vamos dar o role a todos os users novos
+                        //todos os users novos vão ficar com este role
+                        _userManager.AddToRole(user.Id, "User");
 
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-
-
-                    var userProfile = new UserProfile();
-                    userProfile.UserID = user.Id;
-                    userProfile.Name =user.Email.Split('@')[0];
-
-                    db.UserProfile.Add(userProfile);
-                    db.SaveChanges();
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        var userProfile = new UserProfile();
+                        userProfile.UserID = user.Id;
+                        userProfile.Name = user.Email.Split('@')[0];
 
-                    //return RedirectToAction("Index", "Home");
-                    return RedirectToAction("EventsList", "EventTables");
+                        db.UserProfile.Add(userProfile);
+                        db.SaveChanges();
+
+
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        //return RedirectToAction("Index", "Home");
+                        return RedirectToAction("EventsList", "EventTables");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                // If we got this far, something failed, redisplay form
+                return View(model);
+
         }
-
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
