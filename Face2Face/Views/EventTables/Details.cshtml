@@ -241,6 +241,7 @@
                         }
                     </p>
                     <p>
+
                         <label>Address: </label>
                         @Model.Address;
                     </p>
@@ -393,11 +394,14 @@
             </div>
         }
     </div>
+
+
 </div>
 
 
 @*Chat -----------------------------------------
     ---------------------------------------------------------------------------------------------------------*@
+@Html.Action("GetMap", "EventTables", new { eventID = Model.EventID })
 
 @*<div id="ChatViewPartial">
         <fieldset>
@@ -509,6 +513,18 @@
                 //--------------------
 
                 
+        $("#type-selector").addClass("hidden");
+
+
+        $("#pac-input").val("Barreiro, Portugal");
+
+
+        
+
+        // Call the codeAddress function (once) when the map is idle (ready)
+        
+
+       
 
     </script>
 

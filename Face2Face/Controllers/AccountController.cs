@@ -12,12 +12,11 @@ using Face2Face.Models;
 
 namespace Face2Face.Controllers
 {
-    ////[Authorize(Roles = "Admin")]
-    ////[Authorize(Roles = "User")]
+    
+   
     public class AccountController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
-
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -68,13 +67,20 @@ namespace Face2Face.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+
+
+            if (User.Identity.GetUserId() != null)
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            }
+
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -155,34 +161,44 @@ namespace Face2Face.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                //quem fez isto?A Andreia. Isto é para só aparecer o nome que está antes do arroba no topo da página quando diz olá...
+                // sim mas tem que se fazer outra coisa se não os logins deixam de funcionar, depois lembra-lhe de corrigir amanhã
+             
+                    var user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        //vamos dar o role a todos os users novos
+                        //todos os users novos vão ficar com este role
+                        _userManager.AddToRole(user.Id, "User");
 
-                    var userProfile = new UserProfile();
-                    userProfile.UserID = user.Id;
-                    userProfile.Name =user.Email.Split('@')[0];
-                    db.UserProfile.Add(userProfile);
-                    db.SaveChanges();
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    //return RedirectToAction("Index", "Home");
-                    return RedirectToAction("EventsList", "EventTables");
+                        var userProfile = new UserProfile();
+                        userProfile.UserID = user.Id;
+                        userProfile.Name = user.Email.Split('@')[0];
+
+                        db.UserProfile.Add(userProfile);
+                        db.SaveChanges();
+
+
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                        //return RedirectToAction("Index", "Home");
+                        return RedirectToAction("EventsList", "EventTables");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
-            }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                // If we got this far, something failed, redisplay form
+                return View(model);
+
         }
-
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -286,9 +302,13 @@ namespace Face2Face.Controllers
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
+            if (User.Identity.GetUserId() != null)
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            }
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
@@ -409,7 +429,7 @@ namespace Face2Face.Controllers
             return View(model);
         }
 
-        ////[Authorize(Roles = "User")]
+
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
