@@ -170,7 +170,7 @@ namespace Face2Face.Controllers
                     {
                         //vamos dar o role a todos os users novos
                         //todos os users novos vão ficar com este role
-                        _userManager.AddToRole(user.Id, "User");
+                        UserManager.AddToRole(user.Id, "User");
 
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
