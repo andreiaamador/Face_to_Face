@@ -161,18 +161,20 @@ namespace Face2Face.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
-            {
+            { 
                 var user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
+
                     var userProfile = new UserProfile();
                     userProfile.UserID = user.Id;
                     userProfile.Name =user.Email.Split('@')[0];
                     db.UserProfile.Add(userProfile);
                     db.SaveChanges();
+
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

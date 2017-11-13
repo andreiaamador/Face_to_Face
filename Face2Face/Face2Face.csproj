@@ -618,6 +618,7 @@
     <Content Include="Views\EventTables\_allEvents.cshtml" />
     <Content Include="Views\EventTables\_MyOwnEvents.cshtml" />
     <Content Include="Views\EventTables\_MyEvents.cshtml" />
+    <Content Include="Views\EventTables\_googleMaps.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

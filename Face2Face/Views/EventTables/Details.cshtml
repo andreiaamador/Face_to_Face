@@ -147,6 +147,7 @@
                         }
                     </p>
                     <p>
+
                         <label>Address: </label>
                         @Model.Address;
                     </p>
@@ -296,7 +297,11 @@
             </div>
         }
     </div>
+
+
 </div>
+
+@Html.Action("GetMap", "EventTables", new { eventID = Model.EventID })
 
 @*<div id="ChatViewPartial">
     @{Html.RenderPartial("_ChatView", Model); }
@@ -305,6 +310,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
     <script>
 
         $('#AddReview').click(function () {
@@ -384,6 +390,18 @@
             $("#goBtn").removeClass("hidden");   
         });
 
+        $("#type-selector").addClass("hidden");
+
+
+        $("#pac-input").val("Barreiro, Portugal");
+
+
+        
+
+        // Call the codeAddress function (once) when the map is idle (ready)
+        
+
+       
 
     </script>
 }

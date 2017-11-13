@@ -205,6 +205,12 @@ namespace Face2Face.Controllers
             return View("_ParticipantsDetails", db.EventTable.Find(eventID));
         }
 
+        public ActionResult GetMap(int? id)
+        {
+            ViewBag.Address = db.EventTable.Find(id).Address;
+            return View("_googleMaps");
+        }
+
         public PartialViewResult GoToEvent(int EventID)
         {
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
@@ -274,12 +280,6 @@ namespace Face2Face.Controllers
 
                 int userLog = Convert.ToInt32(User.Identity.GetUserId());
 
-                //if (!db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog)))
-                //{
-
-                //var reviewTable = db.ReviewTable.Find(eventID, userID);
-                //db.ReviewTable.Remove(reviewTable);
-
                 ViewBag.isOnReviews = true;
                 foreach (var rev in db.ReviewTable) {
                     if (rev.UserID==userLog) {
@@ -295,16 +295,6 @@ namespace Face2Face.Controllers
 
                 ViewBag.userLog = userLog;
                 ViewBag.userInEvent = db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog));
-
-
-                //if (db.ReviewTable.Find(eventID, userLog) != null)
-                //{
-                //    ViewBag.isOnReviews = true;
-                //}
-                //else
-                //{
-                //    ViewBag.isOnReviews = false;
-                //}
 
             }
             return View("Details", db.EventTable.Find(eventID));

@@ -270,19 +270,6 @@
 
         function initMap() {
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-
-                    var lat = position.coords.latitude;
-                    var lng = position.coords.longitude;
-                }, function () {
-                    //handleLocationError(true, infoWindow, map.getCenter());
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                //handleLocationError(false, infoWindow, map.getCenter());
-            }
-
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 51.509865, lng: -0.118092 },
                 zoom: 13
@@ -307,10 +294,6 @@
             var marker = new google.maps.Marker({
                 map: map,
                 anchorPoint: new google.maps.Point(0, -29)
-
-
-
-
             });
 
             autocomplete.addListener('place_changed', function () {
@@ -332,7 +315,7 @@
                 }
                 marker.setPosition(place.geometry.location);
                 marker.setVisible(true);
-
+            
                 var address = '';
                 if (place.address_components) {
                     address = [
