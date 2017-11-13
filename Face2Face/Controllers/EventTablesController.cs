@@ -184,18 +184,8 @@ namespace Face2Face.Controllers
                 if (rev.UserID== userLog) {
                     ViewBag.isOnReviews = true;
                 }
-
             }
-           
 
-            //if (db.ReviewTable.Find(id, userLog) != null)
-            //{
-            //    ViewBag.isOnReviews = true;
-            //}
-            //else
-            //{
-            //    ViewBag.isOnReviews = false;
-            //}
             ViewBag.Chat = db.MessageTable.Where(c => c.EventID == id).ToList();
 
             return View(eventTable);
@@ -263,14 +253,6 @@ namespace Face2Face.Controllers
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
 
             ViewBag.isOnReviews = true;
-            //if (db.ReviewTable.Find(EventID, userLog) != null)
-            //{
-            //    ViewBag.isOnReviews = true;
-            //}
-            //else
-            //{
-            //    ViewBag.isOnReviews = false;
-            //}
             return PartialView("_ReviewsPartial", eventTable);
         }
 
