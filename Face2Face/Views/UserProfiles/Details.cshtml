@@ -4,55 +4,119 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<style>
+    
+    .eventDetails{
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 5px;
+    }
 
-<div>
-    <h4>UserProfile</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nationality)
-        </dt>
+    #profilePhoto img{
+        text-align: center;
+        vertical-align: middle;
+        height: 250px;
+        width: 250px;
+    }
 
-        <dd>
-            @Html.DisplayFor(model => model.Nationality)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+</style>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+<h2>@Model.Name</h2>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
+<div class="container-fluid eventDetails">
 
-        <dd>
-            @Html.DisplayFor(model => model.Age)
-        </dd>
+    <div class="row">
+        <div id="profilePhoto" class="col-md-3">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
+            @{
+                if (Model.Photo != null)
+                {
+                    <img src=@Model.Photo>
+                }
+                else
+                {
+                    <img src="~/Content/Images/avatar.png">
+                }
+            }
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
+            <div class="col-md-6">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AspNetUsers.Email)
-        </dt>
+                <table>
+                    <tr>
+                        <th>Name:</th>
+                        <td style="padding: 5px;">@Model.Name</td>
+                    </tr>
 
-        <dd>
-            @Html.DisplayFor(model => model.AspNetUsers.Email)
-        </dd>
+                    <tr>
+                        <th>Age:</th>
+                        <td style="padding: 5px;">@Model.Age</td>
+                    </tr>
 
-    </dl>
+                    <tr>
+                        <th>Nationality:</th>
+                        <td style="padding: 5px;">@Model.Nationality</td>
+                    </tr>
+
+                </table>
+
+                @{
+                    if (Model.LanguagesTable.Count() != 0 && Model.LanguagesTable1.Count() != 0 && Model.LanguagesTable2.Count() != 0)
+                    {
+                        <table>
+                            <tr>
+                                <th>Native Language(s):</th>
+
+                                <td style="padding: 5px;">
+                                    @foreach (var lng in Model.LanguagesTable)
+                                    {
+                                        <section>@lng.Language</section>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Fluent Language(s):</th>
+
+                                <td style="padding: 5px;">
+                                    @foreach (var lng in Model.LanguagesTable2)
+                                    {
+                                        <section>@lng.Language</section>
+                                    }
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Language(s) of Interest:</th>
+
+                                <td style="padding: 5px;">
+                                    @foreach (var lng in Model.LanguagesTable1)
+                                    {
+                                        <section>@lng.Language</section>
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                }
+               
+                <table>
+                    <tr>
+                        <th>Events organized by @Model.Name:</th>
+                        <td style="padding: 5px;">
+                            @foreach (var evnt in Model.EventTable)
+                            {
+                                if (Model.UserID == evnt.UserID)
+                                {
+                                    <section>@Html.ActionLink(evnt.Name, "Details", "EventTables", new { id = evnt.EventID }, null)</section>
+                                }
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    </div>
 </div>
-<p>
-    @*@Html.ActionLink("Edit", "Edit", new { id = Model.UserID }) |
-    @Html.ActionLink("Back to List", "Index")*@
-</p>

@@ -176,6 +176,7 @@ namespace Face2Face.Controllers
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
             ViewBag.userLog = userLog;
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
+            ViewBag.Address = eventTable.Address;
 
 
             ViewBag.isOnReviews = false;
@@ -185,6 +186,8 @@ namespace Face2Face.Controllers
                 }
 
             }
+
+
            
 
             //if (db.ReviewTable.Find(id, userLog) != null)
