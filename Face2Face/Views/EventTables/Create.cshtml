@@ -10,8 +10,8 @@
     /* Always set the map height explicitly to define the size of the div
         * element that contains the map. */
     #map {
-        height: 500px;
-        width: 500px;
+        height: 450px;
+        width: 450px;
     }
 
     #description {
@@ -89,12 +89,20 @@
         background-repeat: no-repeat;
         margin: 5px;
     }
+
+    .INPUT {
+        height: 33px;
+        width: 280px;
+    }
 </style>
 
 @using (Html.BeginForm("Create", "EventTables", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+
+
+    <span>* Required Fields</span>
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
 
@@ -110,8 +118,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Name, "Event Name*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @*@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })*@
+                <input class="datefield INPUT" data-val="true" data-val-required="Date is required"
+                       name="Name" type="text" />
             </div>
         </div>
 
@@ -119,11 +129,8 @@
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.TextBox("photo", "", new { type = "file" })*@
-               
                 <div class="hidden" id='newPhoto'></div>
-               
                 <input id="newFile" name="photo" type="file">
-
             </div>
         </div>
 
@@ -131,11 +138,11 @@
             @Html.LabelFor(model => model.Date, "Event Date*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
-                <input class="datefield" data-val="true" data-val-required="Date is required"
-                       id="CreateEventDate" name="releaseDate" type="date" value="1/11/1989" />
+                    @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })*@
+                <input class="datefield INPUT" data-val="true" data-val-required="Date is required"
+                       name="releaseDate" type="date" />
 
-                <input  class="hidden" type="time" name="hour" />
+                <input class="hidden" type="time" name="hour" />
             </div>
         </div>
 
@@ -151,9 +158,8 @@
             @Html.LabelFor(model => model.EndSignUpDate, "Final date for signing up", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.EndSignUpDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndSignUpDate, "", new { @class = "text-danger" })*@
-                <input class="datefield" data-val="true" data-val-required="Date is required"
-                       id="CreateEventDate" name="endSignUpDate" type="date" value="1/11/1989" />
+                    @Html.ValidationMessageFor(model => model.EndSignUpDate, "", new { @class = "text-danger" })*@
+                <input class="datefield INPUT" name="endSignUpDate" type="date" data-val="false" />
             </div>
         </div>
 
@@ -177,8 +183,8 @@
             @Html.LabelFor(model => model.Address, "Location*", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })*@
-                <input type="text" name="Address" id="Address" />
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })*@
+                <input class="INPUT" type="text" name="Address" id="Address" data-val="true" data-val-required="Date is required" />
                 @*<input type="button" id="GoogleMaps" value="Google Location" />*@
             </div>
         </div>
@@ -222,9 +228,6 @@
                     </div>
 
                 </div>
-
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap"
-                        async defer></script>
             </div>
         </div>
 
@@ -234,21 +237,18 @@
             </div>
         </div>
 
-
-        <span>* Required Fields</span>
     </div>
 }
 
-<div>
+@*<div>
     @Html.ActionLink("Back to List", "Index")
-</div>
+</di*@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap"
+            async defer></script>
     <script>
-
-
 
         document.getElementById('newFile').addEventListener('change', readURL, true);
         function readURL() {
@@ -264,13 +264,12 @@
             }
         }
 
-
-
         // This example requires the Places library. Include the libraries=places
         // parameter when you first load the API. For example:
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
         function initMap() {
+
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: 51.509865, lng: -0.118092 },
                 zoom: 13
@@ -316,7 +315,7 @@
                 }
                 marker.setPosition(place.geometry.location);
                 marker.setVisible(true);
-
+            
                 var address = '';
                 if (place.address_components) {
                     address = [
@@ -367,13 +366,5 @@
 
         google.maps.event.trigger(map, 'resize');
 
-
-
-
-
-</script>
-
-
-
-
+    </script>
 }

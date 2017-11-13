@@ -4,12 +4,14 @@
 }
 
 
-<div style="height: 550px; overflow: auto;">
     @foreach (var item in Model)
     {
         if (DateTime.Now < item.Date)
         {
-            <div class="container-fluid event">
+            @*<div class="container-fluid event">
+            </div>*@
+
+
                 <div class="row">
                     <div id="eventPhoto" class="col-md-4">
                         <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
@@ -103,7 +105,5 @@
                         @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = item.UserProfile.UserID })
                     </div>
                 </div>
-            </div>
-                                        }
+                        }
                                     }
-</div>
