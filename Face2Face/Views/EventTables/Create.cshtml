@@ -99,7 +99,6 @@
 @using (Html.BeginForm("Create", "EventTables", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 
-
     <span>* Required Fields</span>
     @Html.AntiForgeryToken()
 
@@ -184,8 +183,11 @@
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })*@
-                <input class="INPUT" type="text" name="Address" id="Address" data-val="true" data-val-required="Date is required" />
-                @*<input type="button" id="GoogleMaps" value="Google Location" />*@
+
+                <input class="hidden" type="text" name="Address" id="Address" data-val="true" data-val-required="Date is required" />
+                <input id="LatLng" type="text" name="LatLng"/>
+                
+    @*<input type="button" id="GoogleMaps" value="Google Location" />*@
             </div>
         </div>
 
@@ -236,7 +238,6 @@
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
-
     </div>
 }
 
@@ -315,7 +316,9 @@
                 }
                 marker.setPosition(place.geometry.location);
                 marker.setVisible(true);
-            
+
+                $("#LatLng").val(place.geometry.location.lat() + ',' + place.geometry.location.lng());
+
                 var address = '';
                 if (place.address_components) {
                     address = [
@@ -364,7 +367,7 @@
             });
         }
 
-        google.maps.event.trigger(map, 'resize');
+        //google.maps.event.trigger(map, 'resize');
 
     </script>
 }

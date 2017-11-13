@@ -81,7 +81,6 @@ namespace Face2Face.Controllers
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             }
 
-
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -96,7 +95,7 @@ namespace Face2Face.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("","Invalid login attempt.");
                     return View(model);
             }
         }
@@ -164,7 +163,7 @@ namespace Face2Face.Controllers
                 //quem fez isto?A Andreia. Isto é para só aparecer o nome que está antes do arroba no topo da página quando diz olá...
                 // sim mas tem que se fazer outra coisa se não os logins deixam de funcionar, depois lembra-lhe de corrigir amanhã
              
-                    var user = new ApplicationUser { UserName = model.Email.Split('@')[0], Email = model.Email };
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -181,7 +180,6 @@ namespace Face2Face.Controllers
 
                         db.UserProfile.Add(userProfile);
                         db.SaveChanges();
-
 
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link

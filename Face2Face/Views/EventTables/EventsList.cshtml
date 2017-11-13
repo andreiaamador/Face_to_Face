@@ -121,9 +121,6 @@
          border-radius:10px;
     }*/
 
-    body {
-        background-image: url("../../UploadedFiles/Background-Images.jpg");
-    }
 
 </style>
 
@@ -173,7 +170,6 @@
                                     </div>
                                 }
                                 @*@Html.ActionLink("Next Events", "NextEvents", "EventTables")*@
-
                             </p>
                             <p>
                                 <button onclick="location.href='@Url.Action("Create", "EventTables")';return false;">Create new Event</button>
@@ -192,7 +188,6 @@
                             //LoadingElementId = "loader"
                         }))
                         {
-                           
                                 <input id="locationLabel"  class="hidden" type="submit" name="Location">
                         }
           
@@ -260,7 +255,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <a Id="filtersIcon">Search Filters</a>
             <i class="fa fa-search-minus search" aria-hidden="true"></i>
             <i class="fa fa-search-plus search hidden" aria-hidden="true"></i>
@@ -279,8 +274,8 @@
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&"
             async defer></script>
-    <script>
 
+    <script>
         $(".search").click(function () {
 
             if ($("#filters").hasClass("hidden")) {
@@ -358,8 +353,7 @@
             $(this).addClass("hidden");
         });
 
-        var lat;
-        var lng;
+   
         function getPosition() {
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
@@ -368,12 +362,14 @@
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-                    lat = pos.lat;
-                    lng = pos.lng;
+
+                    var lat = pos.lat;
+                     var lng = pos.lng;
 
                     console.log(lat);
                     console.log(lng);
-                    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng;
+                    var url = 'http://maps.googleapis.com/maps/api/geocode/json?'+'latlng=' + lat + ',' + lng; /*"+CA&key=AIzaSyAH5ZR9K2cPcQ0oRNvwb3J-eG6yHPPwm4Q" */
+          
                     $.getJSON({
                         url: url,
                         data: {
@@ -382,21 +378,17 @@
                         },
                         success: function (data, textStatus) {
                             //console.log(textStatus, data);
-                     
-                            console.log(data.results[5].formatted_address.split(","));
-                          
-                            var lgt = data.results[5].formatted_address.split(",").length - 2;
-                            console.log(lgt);
 
-                            if (data.results[5].formatted_address.split(",")[lgt] != null) {
-                                //"Look for events on " +
-                                $("#locationLabel").val(data.results[5].formatted_address.split(",")[0]);
-                                $("#locationLabel").removeClass("hidden");
-                            }
+                                if (data.results[5].formatted_address != null) {
+
+                                    console.log(data.results[5].formatted_address.split(","));
+                                    //"Look for events on " +
+                                    $("#locationLabel").val(data.results[5].formatted_address.split(",")[1]);
+                                    $("#locationLabel").removeClass("hidden");
+                                } 
                         }
                     });
-
-
+                  
 
                 }, function () {
                     handleLocationError(true, infoWindow, map.getCenter());
