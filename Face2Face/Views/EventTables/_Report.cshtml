@@ -3,10 +3,7 @@
 @{
     ViewBag.Title = "_Report";
 }
-<style>
 
-
-</style>
 <div id="report">
     <p>Report This Comment: </p>
     <input type="radio" name="usrname" /> Spam or scam <br>
@@ -19,17 +16,8 @@
     </div>
 
 
-    <input type="button" value="Submit">
-    <input type="button" value="Cancel">
+    <input type="button" id="ReportSubmit" value="Submit">
+    <input type="button" id="ReportCancel" value="Cancel">
 
 </div>
 
-@section Scripts{
-    <script>
- $("#outros").hide();
-
-    $('#outrosReport').click(function () {
-                $('#outros').show();
-    });
-    </script>
-}

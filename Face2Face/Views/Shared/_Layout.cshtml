@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/font-awesome.min.css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("styles", required: false)
@@ -41,8 +40,19 @@
         </footer>
     </div>
 
+    @RenderSection("popup", required: false)
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+@*@section Scripts{
+    <script>
+ $("#outros").hide();
+
+    $('#outrosReport').click(function () {
+                $('#outros').show();
+    });
+    </script>
+}*@

@@ -567,7 +567,7 @@ namespace Face2Face.Controllers
 
         public ActionResult _Report()
         {
-            return PartialView();
+            return PartialView("_Report");
         }
     }
 }
