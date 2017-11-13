@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,7 +15,6 @@ using System.IO;
 
 namespace Face2Face.Controllers
 {
-
     public class EventTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
@@ -27,9 +26,9 @@ namespace Face2Face.Controllers
             //var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
             //,eventTable.ToList()
 
-
             List<string> allList = new List<String>();
-            foreach (var lang in db.LanguagesTable) {
+            foreach (var lang in db.LanguagesTable)
+            {
                 allList.Add(lang.Language);
             }
 
@@ -83,7 +82,7 @@ namespace Face2Face.Controllers
             string sqlQuery;
             int languageID = 0;
 
-            if (Location != "" || Date != "" || (Language != "--Select--" && Language !=null) || keyWord != "")
+            if (Location != "" || Date != "" || (Language != "--Select--" && Language != null) || keyWord != "")
             {
                 sqlQuery = "select * from EventTable where";
                 if (Location != "")
@@ -143,7 +142,8 @@ namespace Face2Face.Controllers
                 {
                     return PartialView("_allEvents", eventTable.OrderBy(e => e.Date).ToList());
                 }
-                else {
+                else
+                {
                     return PartialView("_allEvents", eventTable);
                 }
             }
@@ -180,10 +180,12 @@ namespace Face2Face.Controllers
 
 
             ViewBag.isOnReviews = false;
-            foreach (var rev in db.ReviewTable) {
+            foreach (var rev in db.ReviewTable)
+            {
 
-                
-                if (rev.EventID == id && rev.UserID== userLog) {
+
+                if (rev.EventID == id && rev.UserID == userLog)
+                {
                     ViewBag.isOnReviews = true;
                 }
             }
@@ -265,15 +267,16 @@ namespace Face2Face.Controllers
                 int userLog = Convert.ToInt32(User.Identity.GetUserId());
 
                 ViewBag.isOnReviews = true;
-                foreach (var rev in db.ReviewTable) {
-                    if (rev.EventID== eventID && rev.UserID==userLog) {
+                foreach (var rev in db.ReviewTable)
+                {
+                    if (rev.EventID == eventID && rev.UserID == userLog)
+                    {
                         db.ReviewTable.Remove(rev);
                         ViewBag.isOnReviews = false;
                         break;
                     }
                 }
 
-                //db.Entry(db.ReviewTable).State = EntityState.Deleted;
                 db.SaveChanges();
                 //}
 
@@ -385,15 +388,15 @@ namespace Face2Face.Controllers
 
                 //eventTable.Date = Convert.ToDateTime(releaseDate+" "+hour+":00.00");
                 eventTable.Date = Convert.ToDateTime(releaseDate);
-                if (endSignUpDate != "") {
+                if (endSignUpDate != "")
+                {
                     eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
                 }
                 eventTable.Address = Address;
 
                 var x = LatLng.Split(',');
-                double y = Convert.ToDouble(x[0].Replace('.',','));
-                eventTable.Lat = Convert.ToDouble(x[0].Replace('.', ','));
-                eventTable.Lng = Convert.ToDouble(x[1].Replace('.', ','));
+                eventTable.Lat = Convert.ToDouble(x[0].Replace('.',','));
+                eventTable.Lng = Convert.ToDouble(x[1].Replace('.',','));
 
                 eventTable.UserProfile1.Add(db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
                 db.EventTable.Add(eventTable);
@@ -430,16 +433,25 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string NameEvent)
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string NameEvent,string LatLng)
         {
             if (ModelState.IsValid)
             {
                 eventTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
 
                 eventTable.Name = NameEvent;
+
                 eventTable.Date = Convert.ToDateTime(releaseDate);
-                eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+                if (endSignUpDate != "")
+                {
+
+                    eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+                }
+
                 eventTable.Address = Address;
+                var x = LatLng.Split(',');
+                eventTable.Lat = Convert.ToDouble(x[0].Replace('.',','));
+                eventTable.Lng = Convert.ToDouble(x[1].Replace('.',','));
                 db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
 
@@ -462,7 +474,7 @@ namespace Face2Face.Controllers
                     ViewBag.Message = "You have not specified a file.";
                 }
 
-                
+
                 return RedirectToAction("EventsList");
             }
 
@@ -470,7 +482,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.UserProfile, "UserID", "Nationality", eventTable.UserID);
             return View(eventTable);
         }
-  
+
         // GET: EventTables/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -485,7 +497,7 @@ namespace Face2Face.Controllers
             }
             return View(eventTable);
         }
-        
+
         // POST: EventTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
