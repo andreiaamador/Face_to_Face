@@ -504,12 +504,10 @@ namespace Face2Face.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             EventTable eventTable = db.EventTable.Find(id);
-
-
-            db.EventTable.Find(id).UserProfile1.Clear();
+            db.sp_removeMessages(id);
+            db.sp_removeReviwes(id);
+            eventTable.UserProfile1.Clear();
             db.EventTable.Remove(eventTable);
-
-
             db.SaveChanges();
             return RedirectToAction("EventsList");
         }
