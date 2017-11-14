@@ -70,7 +70,7 @@
         margin-left: 170px;
     }
 
-    .eventDetails, .reviews, .participantsDetails, .WebChat {
+    .eventDetails, .reviews, .participantsDetails, .WebChat, .addReviewForm {
         border: solid;
         border-color: black;
         border-radius: 5px;
@@ -94,16 +94,12 @@
         font-weight: bold;
     }
 
-
-
     .participantsDetails img, .reviews img {
         height: 150px;
         width: 150px;
         margin: 5px;
         border-radius: 50%;
     }
-
-
 
         .participantsDetails img:hover, .reviews img:hover {
             opacity: 0.8;
@@ -346,14 +342,16 @@
     @*Reviews -----------------------------------------                        
         ---------------------------------------------------------------------------------------------------------*@
 
-    <div class="col-md-12 reviewsDetails EventListCSS">
+    <div class="col-md-12 reviewsDetails">
 
-        @if (@Model.ReviewTable.Count > 0)
-        {
-            <div id="targetRv">
+        @*@if (@Model.ReviewTable.Count > 0)
+        { }*@
+
+      <div id="targetRv" class="EventListCSS">
                 @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
-            </div>
-        }
+       </div>
+       
+
         @using (Ajax.BeginForm("AddReviews", "EventTables", new AjaxOptions
         {//GetPatients is name of method in PatientController
             HttpMethod = "POST",
@@ -362,7 +360,7 @@
             //LoadingElementId = "loader"
         }))
         {
-            <div class="addReviewForm hidden">
+            <div class="addReviewForm hidden EventListCSS">
                 <div class="form-horizontal">
                     <hr />
                     <div class="form-group">
@@ -385,12 +383,13 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
+                        <div class="col-md-8">
 
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.EventID)
+                            <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                         </div>
-                        <input id="addRev" type="submit" value="Save" class="btn btn-default" />
+                        
                     </div>
                 </div>
             </div>
