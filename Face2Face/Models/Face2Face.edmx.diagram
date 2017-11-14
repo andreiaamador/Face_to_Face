@@ -14,13 +14,13 @@
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUserClaims" Width="1.5" PointX="0.91174475332337646" PointY="26.832817164637529" />
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUserLogins" Width="1.5" PointX="5.9766857614632158" PointY="11.740869304044576" />
         <EntityTypeShape EntityType="Face2FaceModel.AspNetUsers" Width="1.5" PointX="4.199099820199935" PointY="19.886157104692494" />
-        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="11.231819182276642" PointY="11.864913439315238" />
+        <EntityTypeShape EntityType="Face2FaceModel.EventTable" Width="1.5" PointX="11.25" PointY="11.5" />
         <EntityTypeShape EntityType="Face2FaceModel.LanguagesTable" Width="1.5" PointX="2.2578356388294303" PointY="25.457604092293234" />
-        <EntityTypeShape EntityType="Face2FaceModel.MessageTable" Width="1.5" PointX="7.8590920902132488" PointY="0.12462145095906288" />
+        <EntityTypeShape EntityType="Face2FaceModel.MessageTable" Width="1.5" PointX="8.375" PointY="10.875" />
         <EntityTypeShape EntityType="Face2FaceModel.NationalityTable" Width="1.5" PointX="1.0558261652737047" PointY="6.990074339783785" />
         <EntityTypeShape EntityType="Face2FaceModel.ReviewTable" Width="1.5" PointX="5.023394641011671" PointY="11.83618422403754" />
-        <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="11.210584563766878" PointY="14.7263628312975" />
-        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="11.159721633028109" PointY="19.172391438471337" />
+        <EntityTypeShape EntityType="Face2FaceModel.sysdiagrams" Width="1.5" PointX="11.25" PointY="16.625" />
+        <EntityTypeShape EntityType="Face2FaceModel.UserProfile" Width="1.5" PointX="8.125" PointY="15" />
 =======
         <EntityTypeShape EntityType="Face2FaceModel.ChatTable" Width="1.5" PointX="10.5" PointY="8.25" />
 >>>>>>> Sara

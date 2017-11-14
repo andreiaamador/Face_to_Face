@@ -307,8 +307,7 @@ namespace Face2Face.Controllers
             ViewBag.userLog = userLog;
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
             ViewBag.isOnReviews = false;
-
-
+            
             ViewBag.isOnReviews = false;
             foreach (var rev in db.ReviewTable)
             {
@@ -336,8 +335,13 @@ namespace Face2Face.Controllers
 
                 db.MessageTable.Add(messageTable);
                 db.SaveChanges();
+
+                ViewBag.userName = db.UserProfile.FirstOrDefault(u => u.UserID == messageTable.UserID).Name;
             }
 
+
+
+            return PartialView("_ChatView", db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == id)); 
             return PartialView("_ChatView", db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == id));
         }
 
