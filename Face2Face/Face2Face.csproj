@@ -315,6 +315,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\avatar.png" />
+    <Content Include="Content\Images\back.jpg" />
     <Content Include="Content\Images\backGround.jpg" />
     <Content Include="Content\Images\black_background.jpg" />
     <Content Include="Content\Images\no-photo-available.png" />

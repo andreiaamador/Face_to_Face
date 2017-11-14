@@ -52,3 +52,9 @@ textarea {
     background-color: rgba(0,0,0,0.4);
 }
 
+.about p {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    
+}
