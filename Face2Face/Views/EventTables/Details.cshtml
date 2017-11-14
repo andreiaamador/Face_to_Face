@@ -139,6 +139,11 @@
   
 <div class="row">
 
+    <div class="col-md-3">
+        <div id="partTarget">
+            @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
+        </div>
+    </div>
 
     @*Event Details -----------------------------------------
         ---------------------------------------------------------------------------------------------------------*@
@@ -146,8 +151,8 @@
     <div class="col-md-12 eventDetails1">
 
         <div class="container-fluid eventDetails">
-
-            @if (ViewBag.userLog == Model.UserID)
+            @*&& DateTime.Now < Model.Date*@
+            @if (ViewBag.userLog == Model.UserID )
             {
                 <p align="right">
                     @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
@@ -209,9 +214,20 @@
                         }
                     </p>
                     <p>
-
-                        <label>Address: </label>
-                        @Model.Address;
+                        @{
+                            if (@Model.Lat != null && @Model.Lng != null)
+                            {
+                                <br>
+                                <label id="ADDRESS" class="hidden">@Model.Address</label>
+                                <label> Lat: </label> @Model.Lat.ToString().Replace(",", ".")
+                                <label> Lng: </label> @Model.Lng
+                                <div id="map" class="map"> </div>
+                            }
+                            else
+                            {<label>Address: </label>
+                                @Model.Address;
+                            }
+                        }
                     </p>
 
                     <p>
@@ -399,8 +415,11 @@ Lng: @Model.Lng
 
 
 <div id="map"></div>*@
+    @{
+        var LAT = @Model.Lat.ToString().Replace(",", ".");
+        var LNG = @Model.Lng.ToString().Replace(",", ".");
+    }
 
-@*@Html.Action("GetMap", "EventTables", new {eventID = Model.EventID})*@
 
 @*<div id="ChatViewPartial">
         @{Html.RenderPartial("_ChatView", Model); }
@@ -417,9 +436,15 @@ Lng: @Model.Lng
     <script src="~/signalr/hubs"></script>
 
     <script>
+    @*<div id="ChatViewPartial">
+            @{Html.RenderPartial("_ChatView", Model); }
+        </div>*@
 
-        $('#LatInput').val(@Model.Lat.ToString());
-          $('#LatInput').text(@Model.Lat.ToString());
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+        <script>
 
         $('#AddReview').click(function () {
 
@@ -498,49 +523,27 @@ Lng: @Model.Lng
             $("#goBtn").removeClass("hidden");
         });
 
-        $("#type-selector").addClass("hidden");
-
+        $("#type-selector").addClass("hidden");          
 
         // Geolocation ----------------------------------------
 
         // Call the codeAddress function (once) when the map is idle (ready)
         function initMap() {
-
-
             var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: -34.397, lng: 150.644 },
-                zoom: 6
+                center: { lat: @LAT, lng: @LNG },
+                zoom: 17
             });
             var infoWindow = new google.maps.InfoWindow({ map: map });
 
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: -34.397, lng: 150.644 },
-                zoom: 6
-            });
-            var infoWindow = new google.maps.InfoWindow({ map: map });
-
-            // Try HTML5 geolocation.
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log(position);
-                    var pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent('Location found.');
-                    console.log(pos);
-
-                    map.setCenter(pos);
-                }, function () {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                });
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, infoWindow, map.getCenter());
-            }
-
+            var pos = {
+                lat: @LAT,
+                lng:  @LNG
+             };
+                        infoWindow.setPosition(pos);
+                        infoWindow.setContent($("#ADDRESS").text());
+                        map.setCenter(pos);
         }
+        </script>
 
         function handleLocationError(browserHasGeolocation, infoWindow, pos) {
             infoWindow.setPosition(pos);
@@ -581,3 +584,5 @@ Lng: @Model.Lng
         }
     </script>
 }
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
+    }

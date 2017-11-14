@@ -206,8 +206,16 @@
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })*@
-                <input class="INPUT" type="text" name="Address" id="Address" data-val="true" data-val-required="Date is required" />
+
+                <input class="INPUT hidden" type="text" name="Address" id="Address" data-val="true" data-val-required="Date is required" />
                 <label id="lbl" class="hidden">@Model.Address</label>
+
+                <input id="LatLng"  class="hidden" type="text" name="LatLng" />
+
+                @{ 
+                    string latlng = @Model.Lat.ToString() + ',' + @Model.Lng.ToString();
+                }
+                <label id="LatLngLbl" class="hidden">@latlng</label>
                 @*<input type="button" id="GoogleMaps" value="Google Location" />*@
             </div>
         </div>
@@ -251,20 +259,21 @@
                     </div>
 
                 </div>
-
-                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap"
-                        async defer></script>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input id="sub" type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
-      
     </div>
-                        }
+                    }
+
+@{
+    var LAT = @Model.Lat.ToString().Replace(",", ".");
+    var LNG = @Model.Lng.ToString().Replace(",", ".");
+}
 
 @*<div>
     @Html.ActionLink("Back to List", "Index")
@@ -274,8 +283,6 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-
-
         document.getElementById('newFile').addEventListener('change', readURL, true);
         function readURL() {
             var file = document.getElementById("newFile").files[0];
@@ -291,9 +298,20 @@
             }
         }
 
+        $('#sub').on('keyup keypress', function (e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
         $(".releaseDate .datefield").val($(".releaseDate #lbl").text());
         $(".endSignUpDate .datefield").val($(".endSignUpDate #lbl").text());
         $(".location input").val($(".location #lbl").text());
+
+        $("#LatLng").val($("#LatLngLbl").text())
+
         $(".name input").val($(".name #lbl").text());
         $(".photoDiv input").val($(".photoDiv #lbl").text());
 
@@ -302,10 +320,13 @@
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
         function initMap() {
+
+
             var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 51.509865, lng: -0.118092 },
-                zoom: 13
+                center: { lat:  @LAT, lng:  @LNG },
+                zoom: 17
             });
+
             var card = document.getElementById('pac-card');
             var input = document.getElementById('pac-input');
             var types = document.getElementById('type-selector');
@@ -362,6 +383,8 @@
                 infowindowContent.children['place-address'].textContent = address;
                 infowindow.open(map, marker);
 
+
+                $("#LatLng").val(place.geometry.location.lat() + ',' + place.geometry.location.lng());
                 $('#Address').val(address);
                 $('#pac-input').val("");
                 Console.log(google.maps.Point);
@@ -391,7 +414,20 @@
                 $('#Address').show();
                 $('#Address').val($('#pac-input').val());
             });
+
+
+
+
+
+
+             
+
+
+
         }
 
     </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap"
+        async defer></script>
 }

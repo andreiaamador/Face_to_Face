@@ -380,10 +380,9 @@
                             //console.log(textStatus, data);
 
                                 if (data.results[5].formatted_address != null) {
-
-                                    console.log(data.results[5].formatted_address.split(","));
-                                    //"Look for events on " +
-                                    $("#locationLabel").val(data.results[5].formatted_address.split(",")[1]);
+                                    console.log(data.results);
+                                    var x = data.results[5].formatted_address.split(",").length - 2;
+                                    $("#locationLabel").val(data.results[5].formatted_address.split(",")[x]);
                                     $("#locationLabel").removeClass("hidden");
                                 } 
                         }
