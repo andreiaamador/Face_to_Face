@@ -12,18 +12,16 @@
 
 
 
-    @foreach (var item in Model)
+@foreach (var item in Model)
+{
+    if (DateTime.Now > item.Date)
     {
-        if (DateTime.Now > item.Date)
-        {
-            <div id="pastEvent" class="container-fluid event">
+        <div id="pastEvent" class="container-fluid event">
 
-
-                <div class="row">
-                    <div id="eventPhoto" class="col-md-4">
-                        <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
-
-                            @{
+            <div class="row">
+                <div id="eventPhoto" class="col-md-4">
+                    <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
+                        @{
                                 if (item.Photo != null)
                                 {
                             <img src=@item.Photo>
@@ -32,16 +30,16 @@
                                 {
                             <img src="~/Content/Images/no-photo-available.png">
                                 }
-                            }
-                        </a>
-                    </div>
+                        }
+                    </a>
+                </div>
 
-                    <div class="col-md-8">
-                        <p class="title">
-                            @item.Name
+                <div class="col-md-8">
+                    <p class="title">
+                        @item.Name
 
-                            <label class="review">
-                                @{
+                        <label class="review">
+                            @{
 
                                     if (item.ReviewTable.Count != 0)
                                     {
@@ -72,81 +70,81 @@
                                 @eventClassification
                                         }
                                     }
-                                }
-                            </label>
-                        </p>
+                            }
+                        </label>
+                    </p>
 
-                        <p>
-                            <label>
-                                Location:
-                            </label>
-                            @item.Address
-                        </p>
+                    <p>
+                        <label>
+                            Location:
+                        </label>
+                        @item.Address
+                    </p>
 
-                        <p>
-                            <label>
-                                Date:
-                            </label>
-                            @item.Date;
+                    <p>
+                        <label>
+                            Date:
+                        </label>
+                        @item.Date;
 
-                        <p align="justify">
-                            <label>
-                                Summary:
-                            </label>
-                            @item.Summary
-                        </p>
+                    <p align="justify">
+                        <label>
+                            Summary:
+                        </label>
+                        @item.Summary
+                    </p>
 
-                        <p>
-                            <label>
-                                Language:
-                            </label>
-                            @item.LanguagesTable.Language
-                        </p>
+                    <p>
+                        <label>
+                            Language:
+                        </label>
+                        @item.LanguagesTable.Language
+                    </p>
 
-                        created by
+                    created by
 
-                        <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = item.UserProfile.UserID })'>
-                            @item.UserProfile.Name
-                        </a>
+                    <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = item.UserProfile.UserID })'>
+                        @item.UserProfile.Name
+                    </a>
 
-                        @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = item.UserProfile.UserID })
-                    </div>
+                    @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = item.UserProfile.UserID })
                 </div>
-
             </div>
-                                        }
-                                    }
 
-    @foreach (var item in Model)
+        </div>
+                                    }
+                                }
+
+@foreach (var item in Model)
+{
+
+    if (DateTime.Now < item.Date)
     {
 
-        if (DateTime.Now < item.Date)
-        {
+        <div class="container-fluid event">
+            <div class="row">
+                <div id="eventPhoto" class="col-md-4">
+                    <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
 
-            <div class="container-fluid event">
-                <div class="row">
-                    <div id="eventPhoto" class="col-md-4">
-                        <a id="eventImg" href='@Url.Action("Details", "EventTables", new { id = item.EventID })'>
-
-                            @{
+                        @{
                             if (item.Photo != null)
                             {
-                        <img src=@item.Photo>
+                            <img src=@item.Photo>
                             }
                             else
                             {
-                        <img src="~/Content/Images/no-photo-available.png">
+                            <img src="~/Content/Images/no-photo-available.png">
                             }
-                            }
-                        </a>
-                    </div>
+                        }
+                    </a>
+                </div>
 
-                    <div class="col-md-8">
-                        <p class="title">
-                            @item.Name
+                <div class="col-md-8">
+                    <p class="title">
+                        @item.Name
 
-                            <label class="review">
-                                @{
+                        <label class="review">
+                            @{
 
                                 if (item.ReviewTable.Count != 0)
                                 {
@@ -167,57 +165,57 @@
                                         int i = 0;
                                         for (i = 0; i < Math.Floor(eventClassification); i++)
                                         {
-                            <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
                                         }
 
                                         if (eventClassification > i)
                                         {
-                            <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
                                         }
-                            @eventClassification
+                                @eventClassification
                                     }
                                 }
-                                }
-                            </label>
-                        </p>
+                            }
+                        </label>
+                    </p>
 
-                        <p>
-                            <label>
-                                Location:
-                            </label>
-                            @item.Address
-                        </p>
+                    <p>
+                        <label>
+                            Location:
+                        </label>
+                        @item.Address
+                    </p>
 
-                        <p>
-                            <label>
-                                Date:
-                            </label>
-                            @item.Date;
+                    <p>
+                        <label>
+                            Date:
+                        </label>
+                        @item.Date;
 
-                        <p align="justify">
-                            <label>
-                                Summary:
-                            </label>
-                            @item.Summary
-                        </p>
+                    <p align="justify">
+                        <label>
+                            Summary:
+                        </label>
+                        @item.Summary
+                    </p>
 
-                        <p>
-                            <label>
-                                Language:
-                            </label>
-                            @item.LanguagesTable.Language
-                        </p>
+                    <p>
+                        <label>
+                            Language:
+                        </label>
+                        @item.LanguagesTable.Language
+                    </p>
 
-                        created by
+                    created by
 
-                        <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = item.UserProfile.UserID})'>
-                            @item.UserProfile.Name
-                        </a>
+                    <a id="eventImg" href='@Url.Action("Details", "UserProfiles", new { id = item.UserProfile.UserID})'>
+                        @item.UserProfile.Name
+                    </a>
 
-                        @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = item.UserProfile.UserID })
-                    </div>
+                    @Html.Action("GetProfileClassificationAsync", "UserProfiles", new { id = item.UserProfile.UserID })
                 </div>
             </div>
-                                        }
-
+        </div>
                                     }
+
+                                }

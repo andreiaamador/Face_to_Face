@@ -399,6 +399,10 @@
 
     <div class="col-md-12">
         <div class="WebChat">
+    @*@if (ViewBag.userInEvent)
+        { }*@
+    <div class="col-md-12 WebChat">
+        <div class="col-md-12">
             @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
             {
                 <input type="text" id="message" name="message" />
@@ -411,11 +415,16 @@
             }
         </div>
     </div>
+
+        </div>
+    </div>
+
 </div>
 
 @{
     var LAT = @Model.Lat.ToString().Replace(",", ".");
     var LNG = @Model.Lng.ToString().Replace(",", ".");
+    var inEvent = @ViewBag.userInEvent;
 }
 
 @section Scripts {
@@ -529,7 +538,7 @@
         function LimparoCampo() {
             $('#message').val('');
             $('#message').focus();
-            }
+        }
 
 
         if (!($('#userInEvent').val())) {
