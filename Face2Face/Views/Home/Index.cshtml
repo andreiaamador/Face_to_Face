@@ -55,10 +55,17 @@
     }
 
     #logs {
-        background-color: white;
-        opacity: 0.7;
+        background-color: rgba(255,255,255,0.6);
+        /*opacity: 0.7;*/
         border-radius: 20px;
+        text-align: center;
     }
+    #logs img{
+    width:30px;
+    height:30px;
+    }
+
+    
 </style>
 
 <body>
@@ -76,10 +83,20 @@
         <hr />
         <div class="col-md-12" id="logs">
           
-            <section id="socialLoginForm">
+            <br />
+
+            <img src="../../Content/Images/russia.png">
+            <img src="../../Content/Images/china.png">
+           <img src="../../Content/Images/portugal.png">
+            <img src="../../Content/Images/united-kingdom.png">
+            <img src="../../Content/Images/spain.png">
+            <img src="../../Content/Images/france.png">
+            <img src="../../Content/Images/germany.png">
+
+            @*<section id="socialLoginForm">*@
                 @Html.Partial("../Account/_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
                 @*"_ExternalLoginsListPartial"*@
-            </section>
+            @*</section>*@
 
 
         </div>

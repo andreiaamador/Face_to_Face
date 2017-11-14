@@ -318,7 +318,14 @@
     <Content Include="Content\Images\back.jpg" />
     <Content Include="Content\Images\backGround.jpg" />
     <Content Include="Content\Images\black_background.jpg" />
+    <Content Include="Content\Images\china.png" />
+    <Content Include="Content\Images\france.png" />
+    <Content Include="Content\Images\germany.png" />
     <Content Include="Content\Images\no-photo-available.png" />
+    <Content Include="Content\Images\portugal.png" />
+    <Content Include="Content\Images\russia.png" />
+    <Content Include="Content\Images\spain.png" />
+    <Content Include="Content\Images\united-kingdom.png" />
     <Content Include="Content\jquery.tagit.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
