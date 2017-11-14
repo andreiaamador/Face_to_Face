@@ -103,6 +103,10 @@
         border-radius: 50%;
     }
 
+        .participantsDetails img:hover, .reviews img:hover {
+            opacity: 0.8;
+        }
+
     .reviews a:hover {
         opacity: 0.8;
         text-decoration: none;
@@ -135,8 +139,6 @@
     #textReview {
         min-width: 400px;
     }
-
-
 </style>
 
 
@@ -159,7 +161,6 @@
             }
 
             <div class="row">
-
                 <div class="col-md-7">
                     <div class="row">
                         <div class="col-md-5">
@@ -176,7 +177,7 @@
                                 }
                             </div>
                         </div>
-                        
+
                         <div class="col-md-7">
 
                             <p class="title">
@@ -275,12 +276,12 @@
                             {
                                 <label id="ADDRESS" class="hidden">@Model.Address</label>
                                 @*<label> Lat: </label> @Model.Lat.ToString().Replace(",", ".")
-                    <label> Lng: </label> @Model.Lng*@
+                                    <label> Lng: </label> @Model.Lng*@
                                 <div id="map" class="map"> </div>
                             }
                             else
                             {<label>Address: </label>
-                                            @Model.Address;
+                            @Model.Address;
                             }
                         }
                     </p>
@@ -397,34 +398,25 @@
     </div>
 
     @*Chat -----------------------------------------                            ---------------------------------------------------------------------------------------------------------*@
-    @*<div class="col-md-12 WebChat">
+
+    @if (ViewBag.userInEvent)
+    {
+        <div class="col-md-12 WebChat">
             <div class="col-md-12">
-                @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "discussion" }))
+                @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
                 {
                     <input type="text" id="message" name="message" />
                     <input type="submit" id="sendmessage" value="Send" />
                     <input type="hidden" id="displayname" />
-                    @Html.Action("GetChatView", "EventTables", new { id = Model.EventID })
+
+                    <ul id="discussion">
+                        @Html.Partial("_ChatView", Model)
+                    </ul>
                 }
 
             </div>
-        </div>*@
-    <div class="col-md-12 WebChat">
-        <div class="col-md-12">
-            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
-            {
-                <input type="text" id="message" name="message" />
-                <input type="submit" id="sendmessage" value="Send" />
-                <input type="hidden" id="displayname" />
-
-                <ul id="discussion">
-                    @Html.Partial("_ChatView", Model)
-                </ul>
-            }
-
         </div>
-    </div>
-
+    }
 </div>
 
 @{
@@ -535,18 +527,17 @@
                         infoWindow.setContent($("#ADDRESS").text());
                         map.setCenter(pos);
             }
-            
+
         //WebChat ----------------------------------
 
         function LimparoCampo() {
             $('#message').val('');
             $('#message').focus();
             }
-            
+
     </script>
-}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
-    }
-    
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
-    }
+
+}
+
+
