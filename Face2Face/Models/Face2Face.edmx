@@ -81,6 +81,8 @@
           <Property Name="MaxUsers" Type="int" />
           <Property Name="Budget" Type="money" />
           <Property Name="Address" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Lat" Type="float" />
+          <Property Name="Lng" Type="float" />
         </EntityType>
         <EntityType Name="FluentLanguage">
           <Key>
@@ -796,6 +798,8 @@
           <NavigationProperty Name="MessageTable" Relationship="Face2FaceModel.FK_MessageTable_EventTable" FromRole="EventTable" ToRole="MessageTable" />
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_EventTable" FromRole="EventTable" ToRole="ReviewTable" />
           <NavigationProperty Name="UserProfile1" Relationship="Face2FaceModel.ParticipantsTable" FromRole="EventTable" ToRole="UserProfile" />
+          <Property Name="Lat" Type="Double" />
+          <Property Name="Lng" Type="Double" />
         </EntityType>
         <EntityType Name="LanguagesTable">
           <Key>
@@ -1127,6 +1131,8 @@
           <EntitySetMapping Name="EventTable">
             <EntityTypeMapping TypeName="Face2FaceModel.EventTable">
               <MappingFragment StoreEntitySet="EventTable">
+                <ScalarProperty Name="Lng" ColumnName="Lng" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Budget" ColumnName="Budget" />
                 <ScalarProperty Name="MaxUsers" ColumnName="MaxUsers" />
