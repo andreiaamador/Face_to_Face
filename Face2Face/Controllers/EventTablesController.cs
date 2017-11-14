@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using System.Web.Security;
 using System.Data.SqlClient;
 using System.IO;
+using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
@@ -68,7 +69,6 @@ namespace Face2Face.Controllers
                     }
                 }
             }
-
             return PartialView("_MyOwnEvents", eventos.OrderBy(e => e.Date).ToList());
         }
 
@@ -153,14 +153,29 @@ namespace Face2Face.Controllers
 
         public PartialViewResult Recommended(string Location)
         {
-            
 
             int userID = Convert.ToInt32(User.Identity.GetUserId());
+            ObjectParameter LanguageID = new ObjectParameter("LanguageID", typeof(int));
+            var intLanguages = db.UserProfile.Find(userID).LanguagesTable1;
 
-            string sqlQuery = "select * from EventTable where lower(Address) like lower('%"+Location+"%')";
-               var eventTable = db.EventTable.SqlQuery(sqlQuery).OrderBy(e => e.Date);
-
-            //var intLanguages = db.UserProfile.Find(userID).LanguagesTable1;
+            int count = 0;
+            string Temp = " and (LanguageID = ";
+            foreach (var lang in intLanguages)
+            {
+                db.sp_getLanguageID(lang.Language, LanguageID);
+                if (count == 0)
+                {
+                    Temp = string.Format("{0}{1}", Temp, LanguageID.Value);
+                    count++;
+                }
+                else
+                {
+                    Temp = string.Format("{0}  or LanguageID = {1}",Temp, LanguageID.Value);
+                }
+            }
+            Temp = Temp + ")";
+            string sqlQuery = "select * from EventTable where lower(Address) like lower('%" + Location + "%')" + Temp;
+            var eventTable = db.EventTable.SqlQuery(sqlQuery).OrderBy(e => e.Date);
 
             return PartialView("_allEvents", eventTable);
         }
@@ -429,9 +444,17 @@ namespace Face2Face.Controllers
                 eventTable.Address = Address;
 
                 var x = LatLng.Split(',');
-                eventTable.Lat = Convert.ToDouble(x[0] + "," + x[1]);
-                eventTable.Lng = Convert.ToDouble(x[2] + "," + x[3]);
 
+                if (x.Length == 2)
+                {
+                    eventTable.Lat = Convert.ToDouble(x[0].Replace(".",","));
+                    eventTable.Lng = Convert.ToDouble(x[1].Replace(".",","));
+                }
+                else
+                {
+                    eventTable.Lat = Convert.ToDouble(x[0] + "," + x[1]);
+                    eventTable.Lng = Convert.ToDouble(x[2] + "," + x[3]);
+                }
 
                 db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
