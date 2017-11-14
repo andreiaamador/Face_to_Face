@@ -180,18 +180,17 @@
 
                     <hr class="filterHr" />
 
-                        @using (Ajax.BeginForm("Filter", "EventTables", new AjaxOptions
-                        {//GetPatients is name of method in PatientController
-                            HttpMethod = "POST",
-                            InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
-                            UpdateTargetId = "targetRv"
-                            //LoadingElementId = "loader"
-                        }))
-                        {
-                                <input id="locationLabel"  class="hidden" type="submit" name="Location">
-                        }
-          
-                   
+                    @using (Ajax.BeginForm("Recommended", "EventTables", new AjaxOptions
+                    {//GetPatients is name of method in PatientController
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+                        UpdateTargetId = "targetRv"
+                        //LoadingElementId = "loader"
+                    }))
+                    {
+                        <input id="locationLabel" class="hidden" type="submit" name="Location">
+                    }
+
                     <hr class="filterHr" />
 
                     <div>
@@ -248,14 +247,14 @@
                                     </div>
                                 </div>
                             </div>
-                                <div id="btn">
-                                    <input type="submit" value="Search">
-                                </div>
+                            <div id="btn">
+                                <input type="submit" value="Search">
+                            </div>
                         }
                     </div>
                 </div>
             </div>
-            
+
             <a Id="filtersIcon">Search Filters</a>
             <i class="fa fa-search-minus search" aria-hidden="true"></i>
             <i class="fa fa-search-plus search hidden" aria-hidden="true"></i>
@@ -272,8 +271,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&"
-            async defer></script>
+
 
     <script>
         $(".search").click(function () {
@@ -353,7 +351,7 @@
             $(this).addClass("hidden");
         });
 
-   
+
         function getPosition() {
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
@@ -364,12 +362,12 @@
                     };
 
                     var lat = pos.lat;
-                     var lng = pos.lng;
+                    var lng = pos.lng;
 
                     console.log(lat);
                     console.log(lng);
-                    var url = 'http://maps.googleapis.com/maps/api/geocode/json?'+'latlng=' + lat + ',' + lng; /*"+CA&key=AIzaSyAH5ZR9K2cPcQ0oRNvwb3J-eG6yHPPwm4Q" */
-          
+                    var url = 'http://maps.googleapis.com/maps/api/geocode/json?' + 'latlng=' + lat + ',' + lng; /*"+CA&key=AIzaSyAH5ZR9K2cPcQ0oRNvwb3J-eG6yHPPwm4Q" */
+
                     $.getJSON({
                         url: url,
                         data: {
@@ -379,16 +377,15 @@
                         success: function (data, textStatus) {
                             //console.log(textStatus, data);
 
-                                if (data.results[5].formatted_address != null) {
-
-                                    console.log(data.results[5].formatted_address.split(","));
-                                    //"Look for events on " +
-                                    $("#locationLabel").val(data.results[5].formatted_address.split(",")[1]);
-                                    $("#locationLabel").removeClass("hidden");
-                                } 
+                            if (data.results[5].formatted_address != null) {
+                                console.log(data.results);
+                                var x = data.results[5].formatted_address.split(",").length - 2;
+                                $("#locationLabel").val(data.results[5].formatted_address.split(",")[x]);
+                                $("#locationLabel").removeClass("hidden");
+                            }
                         }
                     });
-                  
+
 
                 }, function () {
                     handleLocationError(true, infoWindow, map.getCenter());
@@ -414,4 +411,7 @@
         getPosition();
 
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&"
+            async defer></script>
+
 }

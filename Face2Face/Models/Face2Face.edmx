@@ -473,6 +473,12 @@
           <Parameter Name="userID" Type="int" Mode="In" />
           <Parameter Name="X" Type="float" Mode="InOut" />
         </Function>
+        <Function Name="sp_removeMessages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_removeReviwes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventID" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -706,6 +712,12 @@
             <End Role="EventTable" EntitySet="EventTable" />
             <End Role="UserProfile" EntitySet="UserProfile" />
           </AssociationSet>
+          <FunctionImport Name="sp_removeReviwes">
+          <Parameter Name="eventID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_removeMessages">
+            <Parameter Name="eventID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -1257,6 +1269,8 @@
               <ScalarProperty Name="EventID" ColumnName="EventID" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_removeReviwes" FunctionName="Face2FaceModel.Store.sp_removeReviwes" />
+          <FunctionImportMapping FunctionImportName="sp_removeMessages" FunctionName="Face2FaceModel.Store.sp_removeMessages" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

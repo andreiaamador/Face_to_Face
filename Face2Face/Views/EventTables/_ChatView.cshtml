@@ -1,14 +1,17 @@
-﻿@model ICollection<Face2Face.Models.MessageTable>
-    
-    <ul id="discussion">
-	 
-	    @foreach (var msg in Model)
-        {
-            @msg.UserProfile.Name
-            @msg.Message
-        } 
-	
-    </ul>
+﻿@model Face2Face.Models.EventTable
 
-// fazer uma lista para fazr display das mensagens que já existem na base de dados... Esta vai ser a partial view que vai ser atualizada
-No controlador, tenho que passar uma lista de mensagens à view para conseguir mostrá-las. Ou seja, tenho que passar um modelo.
+@{
+    Layout = null;
+}
+    
+        
+    @foreach (var m in Model.MessageTable.OrderBy(m=>m.MessageID))
+    {
+        <li>
+            <strong>@m.UserProfile.Name</strong>: @m.Message
+        </li>
+    }
+
+
+@*// fazer uma lista para fazr display das mensagens que já existem na base de dados... Esta vai ser a partial view que vai ser atualizada
+No controlador, tenho que passar uma lista de mensagens à view para conseguir mostrá-las. Ou seja, tenho que passar um modelo.*@
