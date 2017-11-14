@@ -5,7 +5,7 @@
 }
     
         
-    @foreach (var msg in Model.MessageTable.OrderBy(m=>m.MessageID))
+    @foreach (var msg in Model.MessageTable.OrderByDescending(m=>m.MessageID))
     {
         <li>
             <strong>@msg.EventTable.UserProfile1.FirstOrDefault(u=>u.UserID == msg.UserID).Name</strong>: @msg.Message
