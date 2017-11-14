@@ -45,7 +45,7 @@
         padding: 5px 11px;
     }
 
-    .pac-controls label {
+        .pac-controls label {
             font-family: Roboto;
             font-size: 13px;
             font-weight: 300;
@@ -62,7 +62,7 @@
         width: 400px;
     }
 
-    #pac-input:focus {
+        #pac-input:focus {
             border-color: #4d90fe;
         }
 
@@ -97,15 +97,16 @@
     }
 
     .participantsDetails img, .reviews img {
-        height: 200px;
-        width: 200px;
+        height: 150px;
+        width: 150px;
         margin: 5px;
+        border-radius: 50%;
     }
 
     .reviews a:hover {
-            opacity: 0.8;
-            text-decoration: none;
-        }
+        opacity: 0.8;
+        text-decoration: none;
+    }
 
     .photoReview {
         text-align: center;
@@ -136,14 +137,14 @@
     }
 </style>
 
-  
+
 <div class="row">
 
     @*<div class="col-md-3">
-        <div id="partTarget">
-            @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
-        </div>
-    </div>*@
+            <div id="partTarget">
+                @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
+            </div>
+        </div>*@
 
     @*Event Details -----------------------------------------
         ---------------------------------------------------------------------------------------------------------*@
@@ -152,7 +153,7 @@
 
         <div class="container-fluid eventDetails">
             @*&& DateTime.Now < Model.Date*@
-            @if (ViewBag.userLog == Model.UserID )
+            @if (ViewBag.userLog == Model.UserID)
             {
                 <p align="right">
                     @Html.ActionLink("Edit", "Edit", new { id = Model.EventID }) |
@@ -162,18 +163,23 @@
 
             <div class="row">
 
-                <div id="eventPhoto" class="col-md-4">
+                <div  class="col-md-6">
 
-                    @{
-                        if (Model.Photo != null)
-                        {
-                            <img src=@Model.Photo>
+                    <div id="eventPhoto">
+
+
+
+                        @{
+                            if (Model.Photo != null)
+                            {
+                                <img src=@Model.Photo>
+                            }
+                            else
+                            {
+                                <img src="~/Content/Images/no-photo-available.png">
+                            }
                         }
-                        else
-                        {
-                            <img src="~/Content/Images/no-photo-available.png">
-                        }
-                    }
+                    </div>
                 </div>
 
                 <div class="col-md-8">
@@ -219,13 +225,13 @@
                             {
                                 <br>
                                 <label id="ADDRESS" class="hidden">@Model.Address</label>
-                                <label> Lat: </label> @Model.Lat.ToString().Replace(",", ".")
-                                <label> Lng: </label> @Model.Lng
+                                @*<label> Lat: </label> @Model.Lat.ToString().Replace(",", ".")
+                                    <label> Lng: </label> @Model.Lng*@
                                 <div id="map" class="map"> </div>
                             }
                             else
                             {<label>Address: </label>
-                                @Model.Address;
+                            @Model.Address;
                             }
                         }
                     </p>
@@ -323,6 +329,9 @@
                 }
             </div>
         </div>
+
+
+
     </div>
 
 
@@ -340,11 +349,12 @@
 
     <div class="col-md-12 reviewsDetails">
 
-
-        <div id="targetRv">
-            @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
-        </div>
-
+        @if (@Model.ReviewTable.Count > 0)
+        {
+            <div id="targetRv">
+                @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
+            </div>
+        }
         @using (Ajax.BeginForm("AddReviews", "EventTables", new AjaxOptions
         {//GetPatients is name of method in PatientController
             HttpMethod = "POST",
@@ -386,29 +396,28 @@
                 </div>
             </div>
         }
-
     </div>
 
     @*Chat -----------------------------------------                            ---------------------------------------------------------------------------------------------------------*@
     @*<div class="col-md-12 WebChat">
-        <div class="col-md-12">
-            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "discussion" }))
-            {
-                <input type="text" id="message" name="message" />
-                <input type="submit" id="sendmessage" value="Send" />
-                <input type="hidden" id="displayname" />
-                @Html.Action("GetChatView", "EventTables", new { id = Model.EventID })
-            }
+            <div class="col-md-12">
+                @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "discussion" }))
+                {
+                    <input type="text" id="message" name="message" />
+                    <input type="submit" id="sendmessage" value="Send" />
+                    <input type="hidden" id="displayname" />
+                    @Html.Action("GetChatView", "EventTables", new { id = Model.EventID })
+                }
 
-        </div>
-    </div>*@
+            </div>
+        </div>*@
 
 </div>
 
-    @{
-        var LAT = @Model.Lat.ToString().Replace(",", ".");
-        var LNG = @Model.Lng.ToString().Replace(",", ".");
-    }
+@{
+    var LAT = @Model.Lat.ToString().Replace(",", ".");
+    var LNG = @Model.Lng.ToString().Replace(",", ".");
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -416,7 +425,7 @@
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
 
-        <script>
+    <script>
 
         $('#AddReview').click(function () {
 
@@ -495,7 +504,7 @@
             $("#goBtn").removeClass("hidden");
         });
 
-        $("#type-selector").addClass("hidden");          
+        $("#type-selector").addClass("hidden");
 
         // Geolocation ----------------------------------------
 
@@ -549,5 +558,5 @@
         }
     </script>
 }
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
     }

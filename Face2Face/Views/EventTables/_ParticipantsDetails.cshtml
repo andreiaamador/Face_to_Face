@@ -4,7 +4,15 @@
     Layout = null;
 }
 
+<style>
+    #partNames {
+        align-items: center;
+    }
 
+        #partNames a:hover {
+            text-decoration: none;
+        }
+</style>
 <div class="participantsDetails">
     @{   int parCount = Model.UserProfile1.Count;
 
@@ -27,27 +35,28 @@
                     @foreach (var part in Model.UserProfile1)
                     {
 
-                    <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
-                        @{
-                            if (@part.Photo != null)
-                            {
-                                <img src=@part.Photo>
 
-                            }
-                            else
-                            {
-                                <img src="~/Content/Images/avatar.png">
-                            }
-                        }
-                    </a>
-                    <p>@part.Name</p>
+                        @*@part.Name*@
 
-                    }
-                    
+                        <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
+                            @{
+                                if (@part.Photo != null)
+                                {
+                                    <img src=@part.Photo>
+
+                                }
+                                else
+                                {
+                                    <img src="~/Content/Images/avatar.png">
+                                }
+                            }
+                        </a>
+
+                                }
                 </div>
 
             </div>
-        }
+                                }
     }
 </div>
 
