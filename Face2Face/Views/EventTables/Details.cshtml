@@ -1,7 +1,76 @@
 ﻿@model Face2Face.Models.EventTable
 
 <style>
-    .eventDetails, .reviews {
+    #map {
+        height: 350px;
+        width: 350px;
+    }
+
+    #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    #infowindow-content .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+    }
+
+    #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+    }
+
+    .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+    }
+
+    .pac-controls label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+    #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+    }
+
+    #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+    .form-group.locationGoogle {
+        margin-left: 170px;
+    }
+
+    .eventDetails, .reviews, .participantsDetails, .WebChat {
         border: solid;
         border-color: black;
         border-radius: 5px;
@@ -9,11 +78,9 @@
         margin-bottom: 5px;
     }
 
-    .participantsDetails {
-        padding: 10px;
-        border: solid;
-        border-color: black;
-        border-radius: 5px;
+    #discussion {
+        height: 250px;
+        overflow: scroll;
     }
 
     .eventDetails img {
@@ -27,32 +94,40 @@
         font-weight: bold;
     }
 
+
+
     .participantsDetails img, .reviews img {
-        height: 40px;
-        width: 40px;
+        height: 150px;
+        width: 150px;
         margin: 5px;
+        border-radius: 50%;
     }
 
+    .participantsDetails img:hover, .reviews img:hover {
     .reviews a {
         /*//color: black;*/
     }
 
+
         .reviews a:hover {
+        .participantsDetails img:hover, .reviews img:hover {
             opacity: 0.8;
-            text-decoration: none;
         }
+
+    .reviews a:hover {
+        opacity: 0.8;
+        text-decoration: none;
+    }
 
     .photoReview {
         text-align: center;
         vertical-align: middle;
     }
 
-
     #totalUsers {
         text-align: right;
         margin: 5px;
     }
-
 
     #eventPhoto {
         text-align: center;
@@ -73,18 +148,17 @@
     }
 </style>
 
+
 <div class="row">
 
-    <div class="col-md-3">
-        <div id="partTarget">
-            @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
-        </div>
-    </div>
+    @*Event Details -----------------------------------------
+        ---------------------------------------------------------------------------------------------------------*@
 
-    <div class="col-md-9 eventDetails1">
+    <div class="col-md-12 eventDetails1">
 
         <div class="container-fluid eventDetails">
 
+            @*&& DateTime.Now < Model.Date*@
             @if (ViewBag.userLog == Model.UserID)
             {
                 <p align="right">
@@ -94,128 +168,142 @@
             }
 
             <div class="row">
+                <div class="col-md-7">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div id="eventPhoto">
+                                @{
+                                    if (Model.Photo != null)
+                                    {
+                                        <img src=@Model.Photo>
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Images/no-photo-available.png">
+                                    }
+                                }
+                            </div>
+                        </div>
 
-                <div id="eventPhoto" class="col-md-4">
+                        <div class="col-md-7">
 
-                    @{
-                        if (Model.Photo != null)
-                        {
-                            <img src=@Model.Photo>
-                        }
-                        else
-                        {
-                            <img src="~/Content/Images/no-photo-available.png">
-                        }
-                    }
+                            <p class="title">
+                                @Model.Name
+
+                                @{
+                                    if (Model.ReviewTable.Count != 0)
+                                    {
+
+                                        double eventClassification = 0;
+                                        int count = 0;
+
+                                        foreach (var rev in Model.ReviewTable)
+                                        {
+                                            eventClassification = eventClassification + @rev.Classification;
+                                            count++;
+                                        }
+
+                                        eventClassification = eventClassification / count;
+
+                                        if (eventClassification != 0)
+                                        {
+                                            int i = 0;
+                                            for (i = 0; i < Math.Floor(eventClassification); i++)
+                                            {
+                                                <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
+                                            }
+
+                                            if (eventClassification > i)
+                                            {
+                                                <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
+                                            }
+                                            @eventClassification
+                                        }
+                                    }
+                                }
+                            </p>
+
+                            <p>
+                                <label>Date: </label>
+                                @Model.Date
+                            </p>
+
+                            <p>
+                                <label>
+                                    Language:
+                                </label>
+                                @Model.LanguagesTable.Language
+                            </p>
+                            @if (@Model.MaxUsers != null)
+                            {
+                                <p>
+                                    <label>
+                                        Max. Users:
+                                    </label>
+                                    @Model.MaxUsers
+                                </p>
+                            }
+
+                            @if (@Model.Budget != null)
+                            {
+                                <p>
+                                    <label>
+                                        Budget:
+                                    </label>
+                                    @Model.Budget
+                                </p>
+
+                            }
+
+                            @{
+                                if (String.Format("{0:MM/dd/yyyy}", Model.EndSignUpDate) != "")
+                                {
+                                    <p>
+                                        <label>Final sign up date: </label>
+                                        @Model.EndSignUpDate
+                                    </p>
+                                }
+                            }
+
+                            @if (@Model.Summary != null)
+                            {
+                                <p align="justify">
+                                    <label>Summary: </label>
+                                    @Model.Summary
+                                </p>
+                            }
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-md-8">
-
-                    <p class="title">
-                        @Model.Name
-
+                <div class="col-md-5">
+                    <p>
                         @{
-                            if (Model.ReviewTable.Count != 0)
+                            if (@Model.Lat != null && @Model.Lng != null)
                             {
-
-                                double eventClassification = 0;
-                                int count = 0;
-
-                                foreach (var rev in Model.ReviewTable)
-                                {
-                                    eventClassification = eventClassification + @rev.Classification;
-                                    count++;
-                                }
-
-                                eventClassification = eventClassification / count;
-
-                                if (eventClassification != 0)
-                                {
-                                    int i = 0;
-                                    for (i = 0; i < Math.Floor(eventClassification); i++)
-                                    {
-                                        <i class="fa fa-star" aria-hidden="true" style="color:yellow"></i>
-                                    }
-
-                                    if (eventClassification > i)
-                                    {
-                                        <i class="fa fa-star-half-o" aria-hidden="true" style="color:yellow"></i>
-                                    }
-                                    @eventClassification
-                                }
+                                <label id="ADDRESS" class="hidden">@Model.Address</label>
+                                @*<label> Lat: </label> @Model.Lat.ToString().Replace(",", ".")
+                                    <label> Lng: </label> @Model.Lng*@
+                                <div id="map" class="map"> </div>
+                            }
+                            else
+                            {<label>Address: </label>
+                            @Model.Address;
                             }
                         }
                     </p>
-                    <p>
-
-                        <label>Address: </label>
-                        @Model.Address;
-                    </p>
-
-                    <p>
-                        <label>Date: </label>
-                        @Model.Date
-                    </p>
-
-                    @if (@Model.Summary != null)
-                    {
-                        <p align="justify">
-                            <label>Summary: </label>
-                            @Model.Summary
-                        </p>
-                    }
-
-                    <p>
-                        <label>
-                            Language:
-                        </label>
-                        @Model.LanguagesTable.Language
-                    </p>
-
-                    @if (@Model.MaxUsers != null)
-                    {
-                        <p>
-                            <label>
-                                Max. Users:
-                            </label>
-                            @Model.MaxUsers
-                        </p>
-                    }
-
-                    @if (@Model.Budget != null)
-                    {
-                        <p>
-                            <label>
-                                Budget:
-                            </label>
-                            @Model.Budget
-                        </p>
-
-                    }
-
-                    @{
-                        if (String.Format("{0:MM/dd/yyyy}", Model.EndSignUpDate) != "")
-                        {
-                            <p>
-                                <label>Final sign up date: </label>
-                                @Model.EndSignUpDate
-                            </p>
-                        }
-                    }
                 </div>
             </div>
 
             <div align="right">
                 @{
-
-                    if (Model.UserID!= ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
+                    <input type="hidden" value="@ViewBag.userInEvent" id="userInEvent" />
+                    if (Model.UserID != ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
                     {
                         <input type="button" value="Add a Review" id="AddReview" />
                     }
                     else
                     {
-                        @*<input type="button" value="Go!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
-                        @*<input type="button" value="Go and back!" onclick="location.href='@Url.Action("GoToEvent", "EventTables", new { id = Model.EventID })'" />*@
                         <input class="hidden" type="button" value="Add a Review" id="AddReview" />
                     }
 
@@ -235,11 +323,11 @@
                             if (ViewBag.userInEvent)
                             {
                                 <input id="dgoBtn" type="submit" value="Don't go!" />
-                                <input id="goBtn" class="hidden" type="submit" value="Go!" />                       
+                                <input id="goBtn" class="hidden" type="submit" value="Go!" />
                             }
                             else
                             {
-                                <input id = "dgoBtn" class="hidden" type="submit" value="Don't go!" />
+                                <input id="dgoBtn" class="hidden" type="submit" value="Don't go!" />
                                 <input id="goBtn" type="submit" value="Go!" />
                             }
                         }
@@ -248,10 +336,32 @@
             </div>
         </div>
 
-        <div id="targetRv">
-            @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
-        </div>
 
+
+    </div>
+
+
+    @*Participants -----------------------------------------
+        ---------------------------------------------------------------------------------------------------------*@
+
+    <div class="col-md-12 participantsPartial">
+        <div id="partTarget">
+            @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
+        </div>
+    </div>
+
+
+    @*Reviews -----------------------------------------                        
+        ---------------------------------------------------------------------------------------------------------*@
+
+    <div class="col-md-12 reviewsDetails">
+
+        @if (@Model.ReviewTable.Count > 0)
+        {
+            <div id="targetRv">
+                @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
+            </div>
+        }
         @using (Ajax.BeginForm("AddReviews", "EventTables", new AjaxOptions
         {//GetPatients is name of method in PatientController
             HttpMethod = "POST",
@@ -287,25 +397,52 @@
 
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             @Html.HiddenFor(model => model.EventID)
-
-        
-
                         </div>
-                            <input id="addRev" type="submit" value="Save" class="btn btn-default" />
+                        <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                     </div>
                 </div>
             </div>
         }
     </div>
 
+    @*Chat -----------------------------------------                            
+        ---------------------------------------------------------------------------------------------------------*@
 
+    
+    <div class="col-md-12">
+        <div class="col-md-12 WebChat">
+            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
+            {
+                <input type="text" id="message" name="message" />
+                <input type="submit" id="sendmessage" value="Send" />
+                <input type="hidden" id="displayname" />
+
+                    <ul id="discussion">
+                        @Html.Partial("_ChatView", Model)
+                    </ul>
+            }
+        </div>
+    </div>
+
+    @*Popup -----------------------------------------
+        ---------------------------------------------------------------------------------------------------------*@
+
+@section Popup{
+    <div id="popupOverlay" class="hidden"> 
+            <section id="reporting">
+                @Html.Partial("_Report")
+            </section>
+        </div>
+    
 </div>
+    }
+   
 
-@Html.Action("GetMap", "EventTables", new { eventID = Model.EventID })
-
-@*<div id="ChatViewPartial">
-    @{Html.RenderPartial("_ChatView", Model); }
-</div>*@
+@{
+    var LAT = @Model.Lat.ToString().Replace(",", ".");
+    var LNG = @Model.Lng.ToString().Replace(",", ".");
+    var inEvent = @ViewBag.userInEvent;
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -383,25 +520,73 @@
         $("#goBtn").click(function () {
             $("#goBtn").addClass("hidden");
             $("#dgoBtn").removeClass("hidden");
+            $('.WebChat').show();
         });
 
         $("#dgoBtn").click(function () {
             $("#dgoBtn").addClass("hidden");
-            $("#goBtn").removeClass("hidden");   
+            $("#goBtn").removeClass("hidden");
+            $('.WebChat').hide();
         });
 
         $("#type-selector").addClass("hidden");
-
-
         $("#pac-input").val("Barreiro, Portugal");
 
-
-        
+        // Geolocation ----------------------------------------
 
         // Call the codeAddress function (once) when the map is idle (ready)
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: @LAT, lng: @LNG },
+                zoom: 17
+            });
+            var infoWindow = new google.maps.InfoWindow({ map: map });
+
+            var pos = {
+                lat: @LAT,
+                lng:  @LNG
+             };
+                        infoWindow.setPosition(pos);
+                        infoWindow.setContent($("#ADDRESS").text());
+                        map.setCenter(pos);
+            }
+
+        //WebChat ----------------------------------
+
+        function LimparoCampo() {
+            $('#message').val('');
+            $('#message').focus();
+        }
+
+
+        if (!($('#userInEvent').val())) {
+            $('.WebChat').hide();
+        }
+        else {
+            $('.WebChat').show();
+        }
+
+        $('.ReportComment').click(function () {
+            $(this).hide();
+            $('#popupOverlay').removeClass('hidden');
+        });
         
+        $("#popupOverlay").click(function () {
+            $('#popupOverlay').fadeOut(350);
 
+        });
+        $('#reporting').click(function (evt) {
+            evt.stopPropagation();
+        });
+        $("#ReportCancel").click(function () {
+            $('#popupOverlay').fadeOut(350);
+        });
+        $("#ReportSubmit").click(function () {
+            $('#popupOverlay').fadeOut(350);
+        });
        
-
+       
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
+
 }

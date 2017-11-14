@@ -121,9 +121,6 @@
          border-radius:10px;
     }*/
 
-    body {
-        background-image: url("../../UploadedFiles/Background-Images.jpg");
-    }
 
 </style>
 
@@ -173,7 +170,6 @@
                                     </div>
                                 }
                                 @*@Html.ActionLink("Next Events", "NextEvents", "EventTables")*@
-
                             </p>
                             <p>
                                 <button onclick="location.href='@Url.Action("Create", "EventTables")';return false;">Create new Event</button>
@@ -184,19 +180,17 @@
 
                     <hr class="filterHr" />
 
-                        @using (Ajax.BeginForm("Filter", "EventTables", new AjaxOptions
-                        {//GetPatients is name of method in PatientController
-                            HttpMethod = "POST",
-                            InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
-                            UpdateTargetId = "targetRv"
-                            //LoadingElementId = "loader"
-                        }))
-                        {
-                           
-                                <input id="locationLabel"  class="hidden" type="submit" name="Location">
-                        }
-          
-                   
+                    @using (Ajax.BeginForm("Recommended", "EventTables", new AjaxOptions
+                    {//GetPatients is name of method in PatientController
+                        HttpMethod = "POST",
+                        InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
+                        UpdateTargetId = "targetRv"
+                        //LoadingElementId = "loader"
+                    }))
+                    {
+                        <input id="locationLabel" class="hidden" type="submit" name="Location">
+                    }
+
                     <hr class="filterHr" />
 
                     <div>
@@ -253,9 +247,9 @@
                                     </div>
                                 </div>
                             </div>
-                                <div id="btn">
-                                    <input type="submit" value="Search">
-                                </div>
+                            <div id="btn">
+                                <input type="submit" value="Search">
+                            </div>
                         }
                     </div>
                 </div>
@@ -277,10 +271,9 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&"
-            async defer></script>
-    <script>
 
+
+    <script>
         $(".search").click(function () {
 
             if ($("#filters").hasClass("hidden")) {
@@ -358,8 +351,7 @@
             $(this).addClass("hidden");
         });
 
-        var lat;
-        var lng;
+
         function getPosition() {
             // Try HTML5 geolocation.
             if (navigator.geolocation) {
@@ -368,12 +360,14 @@
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-                    lat = pos.lat;
-                    lng = pos.lng;
+
+                    var lat = pos.lat;
+                    var lng = pos.lng;
 
                     console.log(lat);
                     console.log(lng);
-                    var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng;
+                    var url = 'http://maps.googleapis.com/maps/api/geocode/json?' + 'latlng=' + lat + ',' + lng; /*"+CA&key=AIzaSyAH5ZR9K2cPcQ0oRNvwb3J-eG6yHPPwm4Q" */
+
                     $.getJSON({
                         url: url,
                         data: {
@@ -382,20 +376,14 @@
                         },
                         success: function (data, textStatus) {
                             //console.log(textStatus, data);
-                     
-                            console.log(data.results[5].formatted_address.split(","));
-                          
-                            var lgt = data.results[5].formatted_address.split(",").length - 2;
-                            console.log(lgt);
-
-                            if (data.results[5].formatted_address.split(",")[lgt] != null) {
-                                //"Look for events on " +
-                                $("#locationLabel").val(data.results[5].formatted_address.split(",")[0]);
+                            if (data.results[5].formatted_address != null) {
+                                console.log(data.results);
+                                var x = data.results[5].formatted_address.split(",").length - 2;
+                                $("#locationLabel").val(data.results[5].formatted_address.split(",")[x]);
                                 $("#locationLabel").removeClass("hidden");
                             }
                         }
                     });
-
 
 
                 }, function () {
@@ -422,4 +410,7 @@
         getPosition();
 
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&"
+            async defer></script>
+
 }

@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -12,24 +12,25 @@ using Microsoft.AspNet.Identity;
 using System.Web.Security;
 using System.Data.SqlClient;
 using System.IO;
+using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
-
     public class EventTablesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
         //internal static object cs;
 
         // GET: EventTables
+
         public ActionResult EventsList()
         {
             //var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
             //,eventTable.ToList()
 
-
             List<string> allList = new List<String>();
-            foreach (var lang in db.LanguagesTable) {
+            foreach (var lang in db.LanguagesTable)
+            {
                 allList.Add(lang.Language);
             }
 
@@ -54,11 +55,8 @@ namespace Face2Face.Controllers
         public PartialViewResult MyNextEvents()
         {
             int userID = Convert.ToInt32(User.Identity.GetUserId());
-
             var eventTable = db.EventTable;
 
-            //////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////
             List<EventTable> eventos = new List<EventTable>();
             foreach (var evnt in eventTable)
             {
@@ -71,7 +69,6 @@ namespace Face2Face.Controllers
                     }
                 }
             }
-
             return PartialView("_MyOwnEvents", eventos.OrderBy(e => e.Date).ToList());
         }
 
@@ -83,7 +80,7 @@ namespace Face2Face.Controllers
             string sqlQuery;
             int languageID = 0;
 
-            if (Location != "" || Date != "" || (Language != "--Select--" && Language !=null) || keyWord != "")
+            if (Location != "" || Date != "" || (Language != "--Select--" && Language != null) || keyWord != "")
             {
                 sqlQuery = "select * from EventTable where";
                 if (Location != "")
@@ -143,7 +140,8 @@ namespace Face2Face.Controllers
                 {
                     return PartialView("_allEvents", eventTable.OrderBy(e => e.Date).ToList());
                 }
-                else {
+                else
+                {
                     return PartialView("_allEvents", eventTable);
                 }
             }
@@ -153,6 +151,34 @@ namespace Face2Face.Controllers
             }
         }
 
+        public PartialViewResult Recommended(string Location)
+        {
+
+            int userID = Convert.ToInt32(User.Identity.GetUserId());
+            ObjectParameter LanguageID = new ObjectParameter("LanguageID", typeof(int));
+            var intLanguages = db.UserProfile.Find(userID).LanguagesTable1;
+
+            int count = 0;
+            string Temp = " and (LanguageID = ";
+            foreach (var lang in intLanguages)
+            {
+                db.sp_getLanguageID(lang.Language, LanguageID);
+                if (count == 0)
+                {
+                    Temp = string.Format("{0}{1}", Temp, LanguageID.Value);
+                    count++;
+                }
+                else
+                {
+                    Temp = string.Format("{0}  or LanguageID = {1}",Temp, LanguageID.Value);
+                }
+            }
+            Temp = Temp + ")";
+            string sqlQuery = "select * from EventTable where lower(Address) like lower('%" + Location + "%')" + Temp;
+            var eventTable = db.EventTable.SqlQuery(sqlQuery).OrderBy(e => e.Date);
+
+            return PartialView("_allEvents", eventTable);
+        }
         // GET: EventTables
         public ActionResult Index()
         {
@@ -160,46 +186,6 @@ namespace Face2Face.Controllers
             return View(eventTable.ToList());
         }
 
-        // GET: EventTables/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EventTable eventTable = db.EventTable.Find(id);
-            if (eventTable == null)
-            {
-                return HttpNotFound();
-            }
-
-            int userLog = Convert.ToInt32(User.Identity.GetUserId());
-            ViewBag.userLog = userLog;
-            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
-            ViewBag.isOnReviews = false;
-
-
-            ViewBag.isOnReviews = false;
-            foreach (var rev in db.ReviewTable) {
-                if (rev.UserID== userLog) {
-                    ViewBag.isOnReviews = true;
-                }
-
-            }
-           
-
-            //if (db.ReviewTable.Find(id, userLog) != null)
-            //{
-            //    ViewBag.isOnReviews = true;
-            //}
-            //else
-            //{
-            //    ViewBag.isOnReviews = false;
-            //}
-            ViewBag.Chat = db.MessageTable.Where(c => c.EventID == id).ToList();
-
-            return View(eventTable);
-        }
 
         public ActionResult GetParticipants(int eventID)
         {
@@ -263,14 +249,7 @@ namespace Face2Face.Controllers
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
 
             ViewBag.isOnReviews = true;
-            //if (db.ReviewTable.Find(EventID, userLog) != null)
-            //{
-            //    ViewBag.isOnReviews = true;
-            //}
-            //else
-            //{
-            //    ViewBag.isOnReviews = false;
-            //}
+
             return PartialView("_ReviewsPartial", eventTable);
         }
 
@@ -278,21 +257,20 @@ namespace Face2Face.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 int userLog = Convert.ToInt32(User.Identity.GetUserId());
 
                 ViewBag.isOnReviews = true;
-                foreach (var rev in db.ReviewTable) {
-                    if (rev.UserID==userLog) {
+                foreach (var rev in db.ReviewTable)
+                {
+                    if (rev.EventID == eventID && rev.UserID == userLog)
+                    {
                         db.ReviewTable.Remove(rev);
                         ViewBag.isOnReviews = false;
                         break;
                     }
                 }
 
-                //db.Entry(db.ReviewTable).State = EntityState.Deleted;
                 db.SaveChanges();
-                //}
 
                 ViewBag.userLog = userLog;
                 ViewBag.userInEvent = db.EventTable.Find(eventID).UserProfile1.Contains(db.UserProfile.Find(userLog));
@@ -302,94 +280,72 @@ namespace Face2Face.Controllers
         }
 
         //GET
-        public ActionResult ChatView(int? id)
+        public ActionResult GetChatView(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MessageTable messageTable = db.MessageTable.Find(id);
-            if (messageTable == null)
+
+            return View("_ChatView", db.EventTable.Find(id));
+        }
+
+        // GET: EventTables/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EventTable eventTable = db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == (int)id);
+            if (eventTable == null)
             {
                 return HttpNotFound();
             }
 
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
             ViewBag.userLog = userLog;
-            ViewBag.userInEvent = db.EventTable.Find(id).UserProfile1.Contains(db.UserProfile.Find(userLog));
-
-            if (db.ReviewTable.Find(id, userLog) != null)
+            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
+            ViewBag.isOnReviews = false;
+            
+            ViewBag.isOnReviews = false;
+            foreach (var rev in db.ReviewTable)
             {
-                ViewBag.isOnReviews = true;
-            }
-            else
-            {
-                ViewBag.isOnReviews = false;
-            }
 
-            return View("Details", db.EventTable.Find(id));
+
+                if (rev.EventID == id && rev.UserID == userLog)
+                {
+                    ViewBag.isOnReviews = true;
+                }
+            }
+            return View(eventTable);
         }
 
         [HttpPost]
-        public ActionResult ChatView([Bind(Include = "MessageID,EventID,UserID,Message")] MessageTable messageTable, string message, int? id)
+        public ActionResult AddMessage(int? id, string message)
         {
             if (ModelState.IsValid)
             {
-                messageTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
-                messageTable.EventID = (int)id;
+                MessageTable messageTable = new MessageTable
+                {
+                    UserID = Convert.ToInt32(User.Identity.GetUserId()),
+                    EventID = (int)id,
+                    Message = message,
+                };
 
                 db.MessageTable.Add(messageTable);
-                db.Entry(messageTable).State = EntityState.Added;
                 db.SaveChanges();
 
-                ViewBag.user = db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())).Name;
+                ViewBag.userName = db.UserProfile.FirstOrDefault(u => u.UserID == messageTable.UserID).Name;
             }
 
-            int userLog = Convert.ToInt32(User.Identity.GetUserId());
-            ViewBag.userLog = userLog;
-            ViewBag.userInEvent = db.EventTable.Find(id).UserProfile1.Contains(db.UserProfile.Find(userLog));
 
-            if (db.ReviewTable.Find(id, userLog) != null)
-            {
-                ViewBag.isOnReviews = true;
-            }
-            else
-            {
-                ViewBag.isOnReviews = false;
-            }
 
-            return View("Details", db.EventTable.Find(id));
-            //return PartialView("_ChatView", db.MessageTable.Where(c => c.EventID == userLoggedIn).ToList());
+            return PartialView("_ChatView", db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == id)); 
+            return PartialView("_ChatView", db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == id));
         }
-        
-        //[HttpPost]
-        //public ActionResult ChatView(int id, string message)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        int userLog = Convert.ToInt32(User.Identity.GetUserId());
-        //        ChatTable chatTable = new ChatTable
-        //        {
-        //            EventID = id,
-        //            UserID = userLog,
-        //            ChatEntry = message,
-        //        };
-
-        //        db.ChatTable.Add(chatTable);
-        //        db.Entry(chatTable).State = EntityState.Added;
-        //        db.SaveChanges();
-
-        //        ViewBag.user = userLog;
-        //        return RedirectToAction("ChatView", db.ChatTable);
-        //    }
-        //    else
-        //    {
-        //        return View("EventList", db.EventTable);
-        //    }
-        //}
 
         // GET: EventTables/Create
-
         public ActionResult Create()
         {
             ViewBag.LanguageID = new SelectList(db.LanguagesTable, "LanguageID", "Language");
@@ -403,7 +359,7 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address)
+        public ActionResult Create([Bind(Include = "EventID,LanguageID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string LatLng)
         {
             if (ModelState.IsValid)
             {
@@ -429,10 +385,15 @@ namespace Face2Face.Controllers
 
                 //eventTable.Date = Convert.ToDateTime(releaseDate+" "+hour+":00.00");
                 eventTable.Date = Convert.ToDateTime(releaseDate);
-                if (endSignUpDate!="") {
+                if (endSignUpDate != "")
+                {
                     eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
                 }
                 eventTable.Address = Address;
+
+                var x = LatLng.Split(',');
+                eventTable.Lat = Convert.ToDouble(x[0].Replace('.', ','));
+                eventTable.Lng = Convert.ToDouble(x[1].Replace('.', ','));
 
                 eventTable.UserProfile1.Add(db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
                 db.EventTable.Add(eventTable);
@@ -469,20 +430,38 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string NameEvent)
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string NameEvent, string LatLng)
         {
             if (ModelState.IsValid)
             {
                 eventTable.UserID = Convert.ToInt32(User.Identity.GetUserId());
 
                 eventTable.Name = NameEvent;
+
                 eventTable.Date = Convert.ToDateTime(releaseDate);
-                eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+                if (endSignUpDate != "")
+                {
+
+                    eventTable.EndSignUpDate = Convert.ToDateTime(endSignUpDate);
+                }
+
                 eventTable.Address = Address;
+
+                var x = LatLng.Split(',');
+
+                if (x.Length == 2)
+                {
+                    eventTable.Lat = Convert.ToDouble(x[0].Replace(".",","));
+                    eventTable.Lng = Convert.ToDouble(x[1].Replace(".",","));
+                }
+                else
+                {
+                    eventTable.Lat = Convert.ToDouble(x[0] + "," + x[1]);
+                    eventTable.Lng = Convert.ToDouble(x[2] + "," + x[3]);
+                }
+
                 db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
-
-
 
                 if (photo != null && photo.ContentLength > 0)
                     try
@@ -503,7 +482,7 @@ namespace Face2Face.Controllers
                     ViewBag.Message = "You have not specified a file.";
                 }
 
-                
+
                 return RedirectToAction("EventsList");
             }
 
@@ -512,7 +491,6 @@ namespace Face2Face.Controllers
             return View(eventTable);
         }
 
-        
         // GET: EventTables/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -527,19 +505,17 @@ namespace Face2Face.Controllers
             }
             return View(eventTable);
         }
-        
+
         // POST: EventTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             EventTable eventTable = db.EventTable.Find(id);
-
-
-            db.EventTable.Find(id).UserProfile1.Clear();
+            db.sp_removeMessages(id);
+            db.sp_removeReviwes(id);
+            eventTable.UserProfile1.Clear();
             db.EventTable.Remove(eventTable);
-
-
             db.SaveChanges();
             return RedirectToAction("EventsList");
         }
@@ -582,6 +558,11 @@ namespace Face2Face.Controllers
             {
                 return (double)0;
             }
+        }
+
+        public ActionResult _Report()
+        {
+            return PartialView("_Report");
         }
     }
 }

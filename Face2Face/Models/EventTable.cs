@@ -33,6 +33,8 @@ namespace Face2Face.Models
         public Nullable<int> MaxUsers { get; set; }
         public Nullable<decimal> Budget { get; set; }
         public string Address { get; set; }
+        public Nullable<double> Lat { get; set; }
+        public Nullable<double> Lng { get; set; }
     
         public virtual LanguagesTable LanguagesTable { get; set; }
         public virtual UserProfile UserProfile { get; set; }

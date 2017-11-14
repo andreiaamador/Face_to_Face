@@ -170,5 +170,23 @@ namespace Face2Face.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_getLanguageID", languageParameter, languageID);
         }
+    
+        public virtual int sp_removeReviwes(Nullable<int> eventID)
+        {
+            var eventIDParameter = eventID.HasValue ?
+                new ObjectParameter("eventID", eventID) :
+                new ObjectParameter("eventID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_removeReviwes", eventIDParameter);
+        }
+    
+        public virtual int sp_removeMessages(Nullable<int> eventID)
+        {
+            var eventIDParameter = eventID.HasValue ?
+                new ObjectParameter("eventID", eventID) :
+                new ObjectParameter("eventID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_removeMessages", eventIDParameter);
+        }
     }
 }

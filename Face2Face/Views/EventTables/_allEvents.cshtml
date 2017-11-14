@@ -4,11 +4,12 @@
 
 @*<div style="height: 550px; overflow: auto;">*@
 
+
+
 @foreach (var item in Model)
 {
     if (DateTime.Now < item.Date)
     {
-
         <div class="container-fluid event">
             <div class="row">
 
@@ -87,7 +88,6 @@
                         </label>
                         @item.Summary
                     </p>
-
                     <p>
                         <label>
                             Language:

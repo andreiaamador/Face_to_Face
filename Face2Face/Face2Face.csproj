@@ -239,8 +239,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Hubs\ChatHub.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
@@ -259,6 +257,7 @@
     <Compile Include="Models\EventTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Face2Face.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -382,6 +381,7 @@
     </EntityDeploy>
     <Content Include="Models\Face2Face.edmx.diagram">
       <DependentUpon>Face2Face.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="app.config" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -586,7 +586,9 @@
     <Content Include="Views\EventTables\_allEvents.cshtml" />
     <Content Include="Views\EventTables\_MyOwnEvents.cshtml" />
     <Content Include="Views\EventTables\_MyEvents.cshtml" />
+    <Content Include="Views\EventTables\_Report.cshtml" />
     <Content Include="Views\EventTables\_googleMaps.cshtml" />
+    <Content Include="Views\UserProfiles\_ProfileTopBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -621,13 +623,13 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54621</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:54622/</IISUrl>
+          <IISUrl>http://localhost:54621/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
           </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-          <servers defaultServer="SelfHostServer">
+          <servers defaultServer="">
             <server name="SelfHostServer" exePath="" cmdArgs="" url="http://localhost:54622/" workingDir="" />
           </servers>
         </WebProjectProperties>

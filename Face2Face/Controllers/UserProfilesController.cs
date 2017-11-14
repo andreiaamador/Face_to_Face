@@ -13,13 +13,11 @@ using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
-
     public class UserProfilesController : Controller
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
 
         private UserManager<ApplicationUser, int> userManager = new UserManager<ApplicationUser, int>(new CustomUserStore(new ApplicationDbContext()));
-
 
         // GET: UserProfiles
         public ActionResult Index()
@@ -27,7 +25,7 @@ namespace Face2Face.Controllers
             var userProfile = db.UserProfile.Include(u => u.AspNetUsers);
             return View(userProfile.ToList());
         }
-        
+
         // GET: UserProfiles/Details/5
         public ActionResult Details(int? id)
         {
@@ -42,7 +40,7 @@ namespace Face2Face.Controllers
             }
             return View(userProfile);
         }
-        
+
         // GET: UserProfiles/Create
         public ActionResult Create()
         {
@@ -62,22 +60,22 @@ namespace Face2Face.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
+                if (result.Succeeded)
+                {
                     userManager.AddToRole(user.Id, roleName);
                     UserProfile newUser = new UserProfile();
                     newUser.UserID = user.Id;
                     db.UserProfile.Add(newUser);
                     db.SaveChanges();
                     return RedirectToAction("Index", "Home");
-            }
-            
+                }
+
             }
 
             ViewBag.Roles = new SelectList(db.AspNetRoles, "Name", "Name");
             return View(model);
         }
-        
+
         // GET: UserProfiles/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -101,7 +99,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email", userProfile.UserID);
             return View(userProfile);
         }
-        
+
         // POST: UserProfiles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -132,7 +130,7 @@ namespace Face2Face.Controllers
             ViewBag.UserID = new SelectList(db.AspNetUsers, "Id", "Email", userProfile.UserID);
             return View(userProfile);
         }
-       
+
         // GET: UserProfiles/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -147,7 +145,7 @@ namespace Face2Face.Controllers
             }
             return View(userProfile);
         }
-        
+
         // POST: UserProfiles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -181,23 +179,26 @@ namespace Face2Face.Controllers
             int userLog = Convert.ToInt32(User.Identity.GetUserId());
             return View("ProfilePartial", db.UserProfile.Find(userLog));
         }
+
+        public ActionResult GetProfileTopBar()
+        {
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            return View("_ProfileTopBar", db.UserProfile.Find(userLog));
+        }
     }
-
-
 
     public class DbHelper
     {
         private Face2FaceEntities1 db = new Face2FaceEntities1();
-        
+
         public double? GetProfileClassificationAsync(int? id)
         {
             ObjectParameter x = new ObjectParameter("x", typeof(double));
-            db.sp_ProfileClassification(id,  x);
+            db.sp_ProfileClassification(id, x);
 
             if (!x.Value.Equals(System.DBNull.Value)) {
                 return Convert.ToDouble(x.Value);
             }
-
             else {
                 return null;
             }

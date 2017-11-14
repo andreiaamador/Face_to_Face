@@ -20,6 +20,10 @@ using System.Data.Entity.Core.Objects;
 
 namespace Face2Face.Controllers
 {
+
+
+    [Authorize]
+    //[Authorize(Roles = "Admin")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -101,6 +105,7 @@ namespace Face2Face.Controllers
             ViewBag.NationalityID = new SelectList(db.NationalityTable, "Nationality", "Nationality", userProfile.Nationality); //(Diego)
 
             string json = "[";
+            //List<string> availableLanguages = new List<string>();
             foreach (var item in db.LanguagesTable)
             {
                 json = json + "," + item.Language;
@@ -108,9 +113,22 @@ namespace Face2Face.Controllers
             json = json + "]";
             model.ListLanguages = json;
 
+            ViewBag.NationalityID = new SelectList(db.NationalityTable, "Nationality", "Nationality", userProfile.Nationality); //(Diego)
+
+            //string json2 = "[";
+            //List<string> availableNationalities = new List<string>();
+            //foreach (var item in db.NationalityTable)
+            //{
+            //    json2 = json2 + "," + item.Nationality;
+            //}
+            //json2 = json2 + "]";
+            //model.ListNationalities = json2;
+
+
             return View(model);
         }
-        
+
+
         // POST: /Manage/Index
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -148,23 +166,6 @@ namespace Face2Face.Controllers
 
 
             ObjectParameter l = new ObjectParameter("LanguageID", typeof(int));
-
-            //if (Fluents == "")
-            //{
-            //    userProfile.LanguagesTable.Remove();
-            //    db.SaveChanges();
-            //}
-            //else
-            //{
-            //    userProfile.LanguagesTable.Clear();
-            //    string[] fluents = Fluents.Split(',');
-            //    foreach (var langStr in fluents)
-            //    {
-            //        db.sp_getLanguageID(langStr, l);
-            //        userProfile.LanguagesTable.Add(db.LanguagesTable.Find(l.Value));
-            //    }
-            //    db.SaveChanges();
-            //}
 
 
 
@@ -205,7 +206,10 @@ namespace Face2Face.Controllers
             db.SaveChanges();
             return RedirectToAction("EventsList", "EventTables");
         }
-        
+
+
+        //[Authorize(Roles = "Admin")]
+
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]

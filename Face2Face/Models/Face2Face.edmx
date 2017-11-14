@@ -81,6 +81,8 @@
           <Property Name="MaxUsers" Type="int" />
           <Property Name="Budget" Type="money" />
           <Property Name="Address" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Lat" Type="float" />
+          <Property Name="Lng" Type="float" />
         </EntityType>
         <EntityType Name="FluentLanguage">
           <Key>
@@ -471,6 +473,12 @@
           <Parameter Name="userID" Type="int" Mode="In" />
           <Parameter Name="X" Type="float" Mode="InOut" />
         </Function>
+        <Function Name="sp_removeMessages" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_removeReviwes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="eventID" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -704,6 +712,12 @@
             <End Role="EventTable" EntitySet="EventTable" />
             <End Role="UserProfile" EntitySet="UserProfile" />
           </AssociationSet>
+          <FunctionImport Name="sp_removeReviwes">
+          <Parameter Name="eventID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_removeMessages">
+            <Parameter Name="eventID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -796,6 +810,8 @@
           <NavigationProperty Name="MessageTable" Relationship="Face2FaceModel.FK_MessageTable_EventTable" FromRole="EventTable" ToRole="MessageTable" />
           <NavigationProperty Name="ReviewTable" Relationship="Face2FaceModel.FK_ReviewTable_EventTable" FromRole="EventTable" ToRole="ReviewTable" />
           <NavigationProperty Name="UserProfile1" Relationship="Face2FaceModel.ParticipantsTable" FromRole="EventTable" ToRole="UserProfile" />
+          <Property Name="Lat" Type="Double" />
+          <Property Name="Lng" Type="Double" />
         </EntityType>
         <EntityType Name="LanguagesTable">
           <Key>
@@ -1127,6 +1143,8 @@
           <EntitySetMapping Name="EventTable">
             <EntityTypeMapping TypeName="Face2FaceModel.EventTable">
               <MappingFragment StoreEntitySet="EventTable">
+                <ScalarProperty Name="Lng" ColumnName="Lng" />
+                <ScalarProperty Name="Lat" ColumnName="Lat" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Budget" ColumnName="Budget" />
                 <ScalarProperty Name="MaxUsers" ColumnName="MaxUsers" />
@@ -1251,6 +1269,8 @@
               <ScalarProperty Name="EventID" ColumnName="EventID" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="sp_removeReviwes" FunctionName="Face2FaceModel.Store.sp_removeReviwes" />
+          <FunctionImportMapping FunctionImportName="sp_removeMessages" FunctionName="Face2FaceModel.Store.sp_removeMessages" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
