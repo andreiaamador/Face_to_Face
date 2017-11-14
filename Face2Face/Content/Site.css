@@ -1,12 +1,15 @@
 ﻿body {
     padding-top: 70px;
     padding-bottom: 20px;
+<<<<<<< HEAD
     /*background-image: url("../../UploadedFiles/tijolo.jpg");*/
     opacity: 0.9;
     /*opacity: 0.4;*/
 }   
 
+=======
 }
+>>>>>>> master
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -29,8 +32,10 @@ textarea {
     max-width: 280px;
 }
 
+<<<<<<< HEAD
 .col-md-3 {
     display: inline-block;
+=======
 /*detalhes evento*/
 
 #reporting{
@@ -58,5 +63,6 @@ textarea {
     overflow: auto;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4);
+>>>>>>> master
 }
 
