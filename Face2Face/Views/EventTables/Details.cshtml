@@ -139,11 +139,11 @@
   
 <div class="row">
 
-    <div class="col-md-3">
+    @*<div class="col-md-3">
         <div id="partTarget">
             @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
         </div>
-    </div>
+    </div>*@
 
     @*Event Details -----------------------------------------
         ---------------------------------------------------------------------------------------------------------*@
@@ -404,45 +404,17 @@
     </div>*@
 
 </div>
-@*<label id="LatInput">
 
-</label>*@
-@*Mapa Google -----------------------------------------
-    ---------------------------------------------------------------------------------------------------------*@
-@*@Html.Action("GetMap", "EventTables", new { eventID = Model.EventID })
-Lat: @Model.Lat <br />
-Lng: @Model.Lng
-
-
-<div id="map"></div>*@
     @{
         var LAT = @Model.Lat.ToString().Replace(",", ".");
         var LNG = @Model.Lng.ToString().Replace(",", ".");
     }
 
-
-@*<div id="ChatViewPartial">
-        @{Html.RenderPartial("_ChatView", Model); }
-    </div>*@
-
-@*@Html.Action("GetMap", "EventTables", new { eventID = Model.EventID })*@
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap"
-            async defer></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="~/signalr/hubs"></script>
-
-    <script>
-    @*<div id="ChatViewPartial">
-            @{Html.RenderPartial("_ChatView", Model); }
-        </div>*@
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-        <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 
         <script>
 
@@ -543,14 +515,7 @@ Lng: @Model.Lng
                         infoWindow.setContent($("#ADDRESS").text());
                         map.setCenter(pos);
         }
-        </script>
 
-        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-            infoWindow.setPosition(pos);
-            infoWindow.setContent(browserHasGeolocation ?
-                'Error: The Geolocation service failed.' :
-                'Error: Your browser doesn\'t support geolocation.');
-        }
 
         //WebChat ----------------------------------
 
