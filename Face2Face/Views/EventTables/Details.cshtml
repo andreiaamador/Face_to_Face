@@ -279,48 +279,13 @@
             <div align="right">
                 @{
 
-                    if (Model.UserID!= ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
-                        {
-                        <input type="button" value="Add a Review" id="AddReview" />
-                        }
-                        else
-                        {
-                        <input class="hidden" type="button" value="Add a Review" id="AddReview" />
-                    }
-
-                if (Model.UserID != ViewBag.userLog && DateTime.Now < Model.Date)
-                {
-                    using (Ajax.BeginForm("GoToEvent", "EventTables", new AjaxOptions
-                    {//GetPatients is name of method in PatientController
-                        HttpMethod = "POST",
-                        InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
-                        UpdateTargetId = "partTarget"
-                        //LoadingElementId = "loader"
-                    }))
-                    {
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.EventID)
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.EventID)
-                            <input class="hidden" type="button" value="Add a Review" id="AddReview" />
-                    }
-
-                        if (ViewBag.userInEvent)
-                        {
-                            <input id="dgoBtn" type="submit" value="Don't go!" />
-                            <input id="goBtn" class="hidden" type="submit" value="Go!" />
-                        }
-                        else
-                        {
-                            <input id="dgoBtn" class="hidden" type="submit" value="Don't go!" />
-                            <input id="goBtn" type="submit" value="Go!" />
                     if (Model.UserID != ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
                     {
-                                <input type="button" value="Add a Review" id="AddReview" />
+                        <input type="button" value="Add a Review" id="AddReview" />
                     }
                     else
                     {
-                                <input class="hidden" type="button" value="Add a Review" id="AddReview" />
+                        <input class="hidden" type="button" value="Add a Review" id="AddReview" />
                     }
 
                     if (Model.UserID != ViewBag.userLog && DateTime.Now < Model.Date)
@@ -333,22 +298,59 @@
                             //LoadingElementId = "loader"
                         }))
                         {
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    @Html.HiddenFor(model => model.EventID)
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.EventID)
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.EventID)
+                            <input class="hidden" type="button" value="Add a Review" id="AddReview" />
+                        }
 
-                            if (ViewBag.userInEvent)
+                        if (ViewBag.userInEvent)
+                        {
+                        <input id="dgoBtn" type="submit" value="Don't go!" />
+                        <input id="goBtn" class="hidden" type="submit" value="Go!" />
+                        }
+                        else
+                        {
+                        <input id="dgoBtn" class="hidden" type="submit" value="Don't go!" />
+                        <input id="goBtn" type="submit" value="Go!" />
+                            if (Model.UserID != ViewBag.userLog && ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.NoModel.Date)
                             {
-                                        <input id="dgoBtn" type="submit" value="Don't go!" />
-                                        <input id="goBtn" class="hidden" type="submit" value="Go!" />
+                            <input type="button" value="Add a Review" id="AddReview" />
                             }
                             else
                             {
-                                        <input id="dgoBtn" class="hidden" type="submit" value="Don't go!" />
-                                        <input id="goBtn" type="submit" value="Go!" />
+                            <input class="hidden" type="button" value="Add a Review" id="AddReview" />
+                            }
+
+                            if (Model.UserID != ViewBag.userLog && DateTime.Now < Model.Date)
+                            {
+                                using (Ajax.BeginForm("GoToEvent", "EventTables", new AjaxOptions
+                                {//GetPatients is name of method in PatientController
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace, //target element(#targetRev) will bereplaced
+                                    UpdateTargetId = "partTarget"
+                                    //LoadingElementId = "loader"
+                                }))
+                                {
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.EventID)
+
+                                    if (ViewBag.userInEvent)
+                                    {
+                                    <input id="dgoBtn" type="submit" value="Don't go!" />
+                                    <input id="goBtn" class="hidden" type="submit" value="Go!" />
+                                    }
+                                    else
+                                    {
+                                    <input id="dgoBtn" class="hidden" type="submit" value="Don't go!" />
+                                    <input id="goBtn" type="submit" value="Go!" />
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                }
         </div>
         </div>
     </div>
@@ -452,3 +454,142 @@ Lng: @Model.Lng
 
 @*@Html.Action("GetMap", "EventTables", new { eventID = Model.EventID })*@
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap"
+            async defer></script>
+    <script>
+
+        $('#LatInput').val(@Model.Lat.ToString());
+          $('#LatInput').text(@Model.Lat.ToString());
+
+        $('#AddReview').click(function () {
+
+            if ($('.addReviewForm').hasClass("hidden")) {
+                $('.addReviewForm').removeClass("hidden");
+            }
+            else {
+                $('.addReviewForm').addClass("hidden");
+            }
+        })
+
+        $(".starRev").click(function () {
+
+            $(".starRev").removeClass("fa-star-o");
+            $(".starRev").removeClass("fa-star");
+
+            if ($(this).hasClass("1")) {
+                $(".1").addClass("fa-star");
+                $(".2").addClass("fa-star-o");
+                $(".3").addClass("fa-star-o");
+                $(".4").addClass("fa-star-o");
+                $(".5").addClass("fa-star-o");
+                $("#lbsRev").text(1);
+                $("#lbsRev").val(1);
+            }
+
+            if ($(this).hasClass("2")) {
+                $(".1").addClass("fa-star");
+                $(".2").addClass("fa-star");
+                $(".3").addClass("fa-star-o");
+                $(".4").addClass("fa-star-o");
+                $(".5").addClass("fa-star-o");
+                $("#lbsRev").text(2);
+                $("#lbsRev").val(2);
+            }
+
+            if ($(this).hasClass("3")) {
+                $(".1").addClass("fa-star");
+                $(".2").addClass("fa-star");
+                $(".3").addClass("fa-star");
+                $(".4").addClass("fa-star-o");
+                $(".5").addClass("fa-star-o");
+                $("#lbsRev").text(3);
+                $("#lbsRev").val(3);
+            }
+
+            if ($(this).hasClass("4")) {
+                $(".1").addClass("fa-star");
+                $(".2").addClass("fa-star");
+                $(".3").addClass("fa-star");
+                $(".4").addClass("fa-star");
+                $(".5").addClass("fa-star-o");
+                $("#lbsRev").text(4);
+                $("#lbsRev").val(4);
+            }
+
+            if ($(this).hasClass("5")) {
+                $(".starRev").addClass("fa-star");
+                $("#lbsRev").text(5);
+                $("#lbsRev").val(5);
+            }
+        })
+
+        $("#addRev").click(function () {
+            $(".addReviewForm").addClass("hidden");
+            $("#AddReview").addClass("hidden");
+        });
+
+        $("#goBtn").click(function () {
+            $("#goBtn").addClass("hidden");
+            $("#dgoBtn").removeClass("hidden");
+        });
+
+        $("#dgoBtn").click(function () {
+            $("#dgoBtn").addClass("hidden");
+            $("#goBtn").removeClass("hidden");
+        });
+
+        $("#type-selector").addClass("hidden");
+
+
+        // Call the codeAddress function (once) when the map is idle (ready)
+        function initMap() {
+
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 6
+            });
+            var infoWindow = new google.maps.InfoWindow({ map: map });
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -34.397, lng: 150.644 },
+                zoom: 6
+            });
+            var infoWindow = new google.maps.InfoWindow({ map: map });
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log(position);
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent('Location found.');
+                    console.log(pos);
+
+                    map.setCenter(pos);
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.');
+        }
+
+
+    </script>
+}
