@@ -199,7 +199,6 @@ namespace Face2Face.Controllers
             if (!x.Value.Equals(System.DBNull.Value)) {
                 return Convert.ToDouble(x.Value);
             }
-
             else {
                 return null;
             }

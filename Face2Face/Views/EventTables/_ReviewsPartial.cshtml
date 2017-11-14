@@ -1,10 +1,10 @@
 ﻿@model Face2Face.Models.EventTable
 
+
 @{
     Layout = null;
 }
 <style>
-
     .reviews {
         border: solid;
         border-color: black;
@@ -97,15 +97,25 @@
                                             if (@review.UserID == @ViewBag.userLog)
                                             {
                                                 @Html.ActionLink("Remove", "RemoveReviews", new { eventID = @review.EventID, userID = @review.UserID })
+                                                <span> | </span>
                                             }
+
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <a href="#" class="ReportComment">Report Comment</a>
+                                                </div>
+                                            </div>
                                         }
                                     </div>
                                 }
                             </div>
                         </div>
-                                                }
-                                            }
+                    }
+
+                }
             }
         </div>
     </div>
 </div>
+

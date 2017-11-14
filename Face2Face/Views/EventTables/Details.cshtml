@@ -94,6 +94,8 @@
         font-weight: bold;
     }
 
+
+
     .participantsDetails img, .reviews img {
         height: 150px;
         width: 150px;
@@ -102,6 +104,13 @@
     }
 
     .participantsDetails img:hover, .reviews img:hover {
+    .reviews a {
+        /*//color: black;*/
+    }
+
+
+        .reviews a:hover {
+        .participantsDetails img:hover, .reviews img:hover {
             opacity: 0.8;
         }
 
@@ -326,9 +335,6 @@
                 }
             </div>
         </div>
-
-
-
     </div>
 
 
@@ -342,7 +348,8 @@
     </div>
 
 
-    @*Reviews -----------------------------------------                        ---------------------------------------------------------------------------------------------------------*@
+    @*Reviews -----------------------------------------                        
+        ---------------------------------------------------------------------------------------------------------*@
 
     <div class="col-md-12 reviewsDetails">
 
@@ -395,7 +402,8 @@
         }
     </div>
 
-    @*Chat -----------------------------------------                            ---------------------------------------------------------------------------------------------------------*@
+    @*Chat -----------------------------------------                            
+        ---------------------------------------------------------------------------------------------------------*@
 
     
     <div class="col-md-12">
@@ -413,7 +421,18 @@
         </div>
     </div>
 
+    @*Popup -----------------------------------------
+        ---------------------------------------------------------------------------------------------------------*@
+
+@section Popup{
+    <div id="popupOverlay" class="hidden"> 
+            <section id="reporting">
+                @Html.Partial("_Report")
+            </section>
+        </div>
+    
 </div>
+    }
    
 
 @{
@@ -508,6 +527,7 @@
         });
 
         $("#type-selector").addClass("hidden");
+        $("#pac-input").val("Barreiro, Portugal");
 
         // Geolocation ----------------------------------------
 
@@ -543,9 +563,27 @@
             $('.WebChat').show();
         }
 
+        $('.ReportComment').click(function () {
+            $(this).hide();
+            $('#popupOverlay').removeClass('hidden');
+        });
+        
+        $("#popupOverlay").click(function () {
+            $('#popupOverlay').fadeOut(350);
+
+        });
+        $('#reporting').click(function (evt) {
+            evt.stopPropagation();
+        });
+        $("#ReportCancel").click(function () {
+            $('#popupOverlay').fadeOut(350);
+        });
+        $("#ReportSubmit").click(function () {
+            $('#popupOverlay').fadeOut(350);
+        });
+       
+       
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
 
 }
-
-

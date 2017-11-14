@@ -376,7 +376,6 @@
                         },
                         success: function (data, textStatus) {
                             //console.log(textStatus, data);
-
                             if (data.results[5].formatted_address != null) {
                                 console.log(data.results);
                                 var x = data.results[5].formatted_address.split(",").length - 2;
