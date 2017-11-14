@@ -1,9 +1,6 @@
 ﻿@model Face2Face.Models.EventTable
 
 <style>
-    .eventDetails, .reviews, .participantsDetails {
-
-
     #map {
         height: 350px;
         width: 350px;
@@ -48,7 +45,7 @@
         padding: 5px 11px;
     }
 
-        .pac-controls label {
+    .pac-controls label {
             font-family: Roboto;
             font-size: 13px;
             font-weight: 300;
@@ -65,10 +62,9 @@
         width: 400px;
     }
 
-        #pac-input:focus {
+    #pac-input:focus {
             border-color: #4d90fe;
         }
-
 
     .form-group.locationGoogle {
         margin-left: 170px;
@@ -82,14 +78,16 @@
         margin-bottom: 5px;
     }
 
-    #partNames {
-        display: inline-block;
-        text-align: center;
+    .participantsDetails {
+        padding: 10px;
+        border: solid;
+        border-color: black;
+        border-radius: 5px;
     }
 
     .eventDetails img {
-        height: 250px;
-        width: 250px;
+        height: 150px;
+        width: 150px;
         margin: 5px;
     }
 
@@ -98,17 +96,13 @@
         font-weight: bold;
     }
 
-    .participantsDetails img {
-        height: 150px;
-        width: 150px;
+    .participantsDetails img, .reviews img {
+        height: 200px;
+        width: 200px;
         margin: 5px;
     }
 
-    .reviews a {
-        /*//color: black;*/
-    }
-
-        .reviews a:hover {
+    .reviews a:hover {
             opacity: 0.8;
             text-decoration: none;
         }
@@ -144,13 +138,10 @@
 
   
 <div class="row">
-    <div class="col-md-3">
-        <div id="partTarget">
-            @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
-        </div>
 
 
-    </div>
+    @*Event Details -----------------------------------------
+        ---------------------------------------------------------------------------------------------------------*@
 
     <div class="col-md-12 eventDetails1">
 
@@ -322,23 +313,23 @@
     @*Participants -----------------------------------------
         ---------------------------------------------------------------------------------------------------------*@
 
-                        <div class="col-md-12 participantsPartial">
-                            <div id="partTarget">
-                                @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
-                            </div>
-                        </div>
+    <div class="col-md-12 participantsPartial">
+        <div id="partTarget">
+            @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
+        </div>
+    </div>
 
 
     @*Reviews -----------------------------------------                        ---------------------------------------------------------------------------------------------------------*@
 
-                        <div class="col-md-12 reviewsDetails">
+    <div class="col-md-12 reviewsDetails">
 
 
-                            <div id="targetRv">
-                                @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
-                            </div>
+        <div id="targetRv">
+            @Html.Action("GetReviews", "EventTables", new { eventID = Model.EventID })
+        </div>
 
-                            @using (Ajax.BeginForm("AddReviews", "EventTables", new AjaxOptions
+        @using (Ajax.BeginForm("AddReviews", "EventTables", new AjaxOptions
         {//GetPatients is name of method in PatientController
             HttpMethod = "POST",
             InsertionMode = InsertionMode.Replace, //target element(#targetRev) will be replaced
@@ -346,46 +337,46 @@
             //LoadingElementId = "loader"
         }))
         {
-        <div class="addReviewForm hidden">
-            <div class="form-horizontal">
-                <hr />
-                <div class="form-group">
-                    <label class="control-label col-md-2">Classification</label>
-                    <div class="col-md-10">
-                        <i class="fa fa-star starRev 1" aria-hidden="true" style="color:yellow"></i>
-                        <i class="fa fa-star-o starRev 2" aria-hidden="true" style="color:yellow"></i>
-                        <i class="fa fa-star-o starRev 3" aria-hidden="true" style="color:yellow"></i>
-                        <i class="fa fa-star-o starRev 4" aria-hidden="true" style="color:yellow"></i>
-                        <i class="fa fa-star-o starRev 5" aria-hidden="true" style="color:yellow"></i>
-                        <input id="lbsRev" class="hidden" type="number" name="classification" max="5" min="0" />
+            <div class="addReviewForm hidden">
+                <div class="form-horizontal">
+                    <hr />
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Classification</label>
+                        <div class="col-md-10">
+                            <i class="fa fa-star starRev 1" aria-hidden="true" style="color:yellow"></i>
+                            <i class="fa fa-star-o starRev 2" aria-hidden="true" style="color:yellow"></i>
+                            <i class="fa fa-star-o starRev 3" aria-hidden="true" style="color:yellow"></i>
+                            <i class="fa fa-star-o starRev 4" aria-hidden="true" style="color:yellow"></i>
+                            <i class="fa fa-star-o starRev 5" aria-hidden="true" style="color:yellow"></i>
+                            <input id="lbsRev" class="hidden" type="number" name="classification" max="5" min="0" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-2">Review</label>
-                    <div class="col-md-10">
-                        <input id="textReview" type="text" name="review" />
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Review</label>
+                        <div class="col-md-10">
+                            <input id="textReview" type="text" name="review" />
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
 
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.HiddenFor(model => model.EventID)
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.EventID)
+                        </div>
+                        <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                     </div>
-                    <input id="addRev" type="submit" value="Save" class="btn btn-default" />
                 </div>
             </div>
-        </div>
         }
 
-                        </div>
+    </div>
 
     @*Chat -----------------------------------------                            ---------------------------------------------------------------------------------------------------------*@
-    <div class="col-md-12 WebChat">
+    @*<div class="col-md-12 WebChat">
         <div class="col-md-12">
-            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", InsertionMode =InsertionMode.Replace, UpdateTargetId ="discussion" }))
+            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "discussion" }))
             {
                 <input type="text" id="message" name="message" />
                 <input type="submit" id="sendmessage" value="Send" />
@@ -394,12 +385,12 @@
             }
 
         </div>
-    </div>
-                    
-</div>
-<label id="LatInput">
+    </div>*@
 
-</label>
+</div>
+@*<label id="LatInput">
+
+</label>*@
 @*Mapa Google -----------------------------------------
     ---------------------------------------------------------------------------------------------------------*@
 @*@Html.Action("GetMap", "EventTables", new { eventID = Model.EventID })
@@ -422,6 +413,9 @@ Lng: @Model.Lng
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap"
             async defer></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
     <script>
 
         $('#LatInput').val(@Model.Lat.ToString());
@@ -507,6 +501,8 @@ Lng: @Model.Lng
         $("#type-selector").addClass("hidden");
 
 
+        // Geolocation ----------------------------------------
+
         // Call the codeAddress function (once) when the map is idle (ready)
         function initMap() {
 
@@ -553,6 +549,35 @@ Lng: @Model.Lng
                 'Error: Your browser doesn\'t support geolocation.');
         }
 
+        //WebChat ----------------------------------
 
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.addNewMessageToPage = function (name, message) {
+                // Add the message to the page.
+                $('#discussion').append('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) + '</li>');
+            };
+            // Get the user name and store it to prepend to messages.
+            $('#displayname').val("andreia");
+            // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            });
+        });
+        // This optional function html-encodes messages for display in the page.
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
     </script>
 }
