@@ -397,12 +397,9 @@
 
     @*Chat -----------------------------------------                            ---------------------------------------------------------------------------------------------------------*@
 
+    
     <div class="col-md-12">
-        <div class="WebChat">
-    @*@if (ViewBag.userInEvent)
-        { }*@
-    <div class="col-md-12 WebChat">
-        <div class="col-md-12">
+        <div class="col-md-12 WebChat">
             @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
             {
                 <input type="text" id="message" name="message" />
@@ -416,10 +413,8 @@
         </div>
     </div>
 
-        </div>
-    </div>
-
 </div>
+   
 
 @{
     var LAT = @Model.Lat.ToString().Replace(",", ".");
