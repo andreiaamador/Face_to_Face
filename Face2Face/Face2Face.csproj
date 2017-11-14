@@ -258,7 +258,6 @@
     <Compile Include="Models\EventTable.cs">
       <DependentUpon>Face2Face.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Hubs\ChatHub.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Face2Face.Context.cs">
       <AutoGen>True</AutoGen>
