@@ -1,7 +1,9 @@
 ﻿body {
     padding-top: 70px;
     padding-bottom: 20px;
-    background-color:rgba(220, 111, 111, 0.80)
+    /*background-image: url("../../UploadedFiles/tijolo.jpg");*/
+    opacity: 0.9;
+    /*opacity: 0.4;*/
 }   
 
 
@@ -25,3 +27,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.col-md-3 {
+    display: inline-block;
+}
+

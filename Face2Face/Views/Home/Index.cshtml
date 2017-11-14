@@ -6,7 +6,6 @@
         border: solid;
         border-radius: 20px;
         padding: 10px;
-        background-color: gainsboro;
         /*box-shadow: 5px 5px 5px #888888;*/
     }
 
@@ -15,7 +14,6 @@
         padding-right: 30px;
         color: black;
         
-            /*url("../../UploadedFiles/convivio.jpg");*/
     }
 
     #btn {
@@ -25,26 +23,29 @@
         width: 280px;
     }
 
-    /*body {
-        background-image: url("../../UploadedFiles/mundo2.jpg");
-    }*/
+    body {
+        background-color: #10a1d8;
+        opacity:0.8;
+    }
 
+    .entrada{
+        opacity:0.99;
+    }
 
     h3 {
         color: black;
     }
-
-    #loginForm {
+    /*#loginForm {
     
     opacity:0.8;
-    }
+    }*/
 </style>
 <body>
     <div class="row">
         <div class="col-md-7">
             <div id="intro" align="justify">
-                <h2>Face2Face</h2>
-                <p class="lead">Do you want to learn a new language outside a classroom?</p>
+                <h3>Face2Face</h3>
+                <p class="lead">A way to combine meetings in every language!</p>
                 @*<p align="justify">
                     Do you feel that sometimes you don't have enough time at school, for exemple, to speak the new language that you're learning?
                     <br></br>
@@ -55,82 +56,40 @@
                     A way to learn but also allows you to meet people from others nationalities and who share the same insterests than you.
                 </p>*@
                 <div class="entrada">
-                    <img src="../../UploadedFiles/evento3.jpg" width="500" height="500">
+                    <img src="../../UploadedFiles/evento3.jpg" width="1200" height="800">
                 </div>
             </div>
 
         </div>
         <div id="intro" align="justify">
-            <h3> A way to combine meetings in every language!</h3>
+            @Html.Partial("../Account/_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            @*<h3> </h3>*@
         </div>
-            <div id="logins" class="col-md-5">
+            @*<div id="logins" class="col-md-5">
 
                 <div align="justify">
                     <div class="row">
                         <div class="col-md-12">
-                            <section id="loginForm">
-                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                                    @Html.AntiForgeryToken()
-
-                                    <hr />
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                        <div class="col-md-10">
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                        <div class="col-md-10">
-                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <div class="checkbox">
-                                                @Html.CheckBoxFor(m => m.RememberMe)
-                                                @Html.LabelFor(m => m.RememberMe)
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input id="btn" type="submit" value="Log in" class="btn btn-default" />
-                                        </div>
-                                    </div>
-                                    <p>
-                                        @Html.ActionLink("Register as a new user", "Register", "Account")
-                                    </p>
-                                    @* Enable this once you have account confirmation enabled for password reset functionality
-                                    <p>
-                                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                                    </p>*@
-                                }
+                          
                             </section>
                         </div>
 
-                    </div>
-                    <div class="row">
-
-
+                    </div>*@
+                    @*<div class="row">
                         <div class="col-md-12">
 
-                            <section id="socialLoginForm">
+                            <section id="socialLoginForm">*@
 
-                                @Html.Partial("../Account/_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                @*@Html.Partial("../Account/_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })*@
 
                                 @*"_ExternalLoginsListPartial"*@
-                            </section>
+                            @*</section>
                         </div>
                     </div>
 
 
                 </div>
-            </div>
+            </div>*@
         </div>
     </body>
 
@@ -139,3 +98,45 @@
 
     }
 
+@*<section id="loginForm">
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+                            @Html.AntiForgeryToken()
+
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input id="btn" type="submit" value="Log in" class="btn btn-default" />
+                                </div>
+                            </div>*@
+@*<p>
+        @Html.ActionLink("Register as a new user", "Register", "Account")
+    </p>*@
+@* Enable this once you have account confirmation enabled for password reset functionality
+    <p>
+        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+    </p>*@
+@*}*@
