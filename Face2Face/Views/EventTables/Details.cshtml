@@ -399,29 +399,30 @@
 
     @*Chat -----------------------------------------                            ---------------------------------------------------------------------------------------------------------*@
 
-    @if (ViewBag.userInEvent)
-    {
-        <div class="col-md-12 WebChat">
-            <div class="col-md-12">
-                @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
-                {
-                    <input type="text" id="message" name="message" />
-                    <input type="submit" id="sendmessage" value="Send" />
-                    <input type="hidden" id="displayname" />
+    @*@if (ViewBag.userInEvent)
+        { }*@
+    <div class="col-md-12 WebChat">
+        <div class="col-md-12">
+            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
+            {
+                <input type="text" id="message" name="message" />
+                <input type="submit" id="sendmessage" value="Send" />
+                <input type="hidden" id="displayname" />
 
                     <ul id="discussion">
                         @Html.Partial("_ChatView", Model)
                     </ul>
-                }
+            }
 
-            </div>
         </div>
-    }
+    </div>
+
 </div>
 
 @{
     var LAT = @Model.Lat.ToString().Replace(",", ".");
     var LNG = @Model.Lng.ToString().Replace(",", ".");
+    var inEvent = @ViewBag.userInEvent;
 }
 
 @section Scripts {
@@ -533,7 +534,7 @@
         function LimparoCampo() {
             $('#message').val('');
             $('#message').focus();
-            }
+        }
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>

@@ -21,6 +21,7 @@ namespace Face2Face.Controllers
         //internal static object cs;
 
         // GET: EventTables
+
         public ActionResult EventsList()
         {
             //var eventTable = db.EventTable.Include(e => e.LanguagesTable).Include(e => e.UserProfile);
@@ -53,11 +54,8 @@ namespace Face2Face.Controllers
         public PartialViewResult MyNextEvents()
         {
             int userID = Convert.ToInt32(User.Identity.GetUserId());
-
             var eventTable = db.EventTable;
 
-            //////////////////////////////////////////////////////////
-            //////////////////////////////////////////////////////////
             List<EventTable> eventos = new List<EventTable>();
             foreach (var evnt in eventTable)
             {
@@ -153,6 +151,19 @@ namespace Face2Face.Controllers
             }
         }
 
+        public PartialViewResult Recommended(string Location)
+        {
+            
+
+            int userID = Convert.ToInt32(User.Identity.GetUserId());
+
+            string sqlQuery = "select * from EventTable where lower(Address) like lower('%"+Location+"%')";
+               var eventTable = db.EventTable.SqlQuery(sqlQuery).OrderBy(e => e.Date);
+
+            //var intLanguages = db.UserProfile.Find(userID).LanguagesTable1;
+
+            return PartialView("_allEvents", eventTable);
+        }
         // GET: EventTables
         public ActionResult Index()
         {
@@ -223,7 +234,7 @@ namespace Face2Face.Controllers
             ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
 
             ViewBag.isOnReviews = true;
-            
+
             return PartialView("_ReviewsPartial", eventTable);
         }
 
@@ -243,7 +254,7 @@ namespace Face2Face.Controllers
                         break;
                     }
                 }
-                
+
                 db.SaveChanges();
 
                 ViewBag.userLog = userLog;
@@ -260,7 +271,7 @@ namespace Face2Face.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
+
             return View("_ChatView", db.EventTable.Find(id));
         }
 
@@ -311,8 +322,8 @@ namespace Face2Face.Controllers
                 db.MessageTable.Add(messageTable);
                 db.SaveChanges();
             }
-            
-            return PartialView("_ChatView", db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == id)); 
+
+            return PartialView("_ChatView", db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == id));
         }
 
         // GET: EventTables/Create
@@ -362,8 +373,8 @@ namespace Face2Face.Controllers
                 eventTable.Address = Address;
 
                 var x = LatLng.Split(',');
-                eventTable.Lat = Convert.ToDouble(x[0].Replace('.',','));
-                eventTable.Lng = Convert.ToDouble(x[1].Replace('.',','));
+                eventTable.Lat = Convert.ToDouble(x[0].Replace('.', ','));
+                eventTable.Lng = Convert.ToDouble(x[1].Replace('.', ','));
 
                 eventTable.UserProfile1.Add(db.UserProfile.Find(Convert.ToInt32(User.Identity.GetUserId())));
                 db.EventTable.Add(eventTable);
@@ -400,7 +411,7 @@ namespace Face2Face.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string NameEvent,string LatLng)
+        public ActionResult Edit([Bind(Include = "EventID,LanguageID,UserID,Name,Date,Summary,EndSignUpDate,MaxUsers,Budget,Address")] EventTable eventTable, HttpPostedFileBase photo, string releaseDate, string endSignUpDate, string Address, string NameEvent, string LatLng)
         {
             if (ModelState.IsValid)
             {
@@ -416,9 +427,12 @@ namespace Face2Face.Controllers
                 }
 
                 eventTable.Address = Address;
+
                 var x = LatLng.Split(',');
-                eventTable.Lat = Convert.ToDouble(x[0].Replace('.',','));
-                eventTable.Lng = Convert.ToDouble(x[1].Replace('.',','));
+                eventTable.Lat = Convert.ToDouble(x[0] + "," + x[1]);
+                eventTable.Lng = Convert.ToDouble(x[2] + "," + x[3]);
+
+
                 db.Entry(eventTable).State = EntityState.Modified;
                 db.SaveChanges();
 
