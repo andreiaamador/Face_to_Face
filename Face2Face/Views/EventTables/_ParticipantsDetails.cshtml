@@ -26,23 +26,23 @@
                 <div class="col-md-8 col-md-offset-1" id="partNames">
                     @foreach (var part in Model.UserProfile1)
                     {
+                        <div>
+                            <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
+                                @{
+                                    if (@part.Photo != null)
+                                    {
+                                        <img src=@part.Photo>
 
-                    <a href='@Url.Action("Details", "UserProfiles", new { id = @part.UserID })'>
-                        @{
-                            if (@part.Photo != null)
-                            {
-                                <img src=@part.Photo>
-
-                            }
-                            else
-                            {
-                                <img src="~/Content/Images/avatar.png">
-                            }
-                        }
-                    </a>
-                    <p>@part.Name</p>
-
-                    }
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Images/avatar.png">
+                                    }
+                                }
+                            </a>
+                            <p>@part.Name</p>
+                        </div>
+                                    }
                     
                 </div>
 

@@ -410,13 +410,6 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
-    <EntityDeploy Include="Models\Login.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Login.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Login.edmx.diagram">
-      <DependentUpon>Login.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
@@ -498,16 +491,6 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
-    <Content Include="Models\Login.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Login.edmx</DependentUpon>
-      <LastGenOutput>Login.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Login.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Login.edmx</DependentUpon>
-      <LastGenOutput>Login.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />

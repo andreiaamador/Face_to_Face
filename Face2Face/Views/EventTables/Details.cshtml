@@ -139,12 +139,6 @@
   
 <div class="row">
 
-    @*<div class="col-md-3">
-        <div id="partTarget">
-            @Html.Action("GetParticipants", "EventTables", new { eventID = Model.EventID })
-        </div>
-    </div>*@
-
     @*Event Details -----------------------------------------
         ---------------------------------------------------------------------------------------------------------*@
 
@@ -390,18 +384,21 @@
     </div>
 
     @*Chat -----------------------------------------                            ---------------------------------------------------------------------------------------------------------*@
-    @*<div class="col-md-12 WebChat">
+    <div class="col-md-12 WebChat">
         <div class="col-md-12">
-            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.Replace, UpdateTargetId = "discussion" }))
+            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
             {
                 <input type="text" id="message" name="message" />
                 <input type="submit" id="sendmessage" value="Send" />
                 <input type="hidden" id="displayname" />
-                @Html.Action("GetChatView", "EventTables", new { id = Model.EventID })
+
+                <ul id="discussion">
+                    @Html.Partial("_ChatView", Model)
+                </ul>
             }
 
         </div>
-    </div>*@
+    </div>
 
 </div>
 
@@ -413,8 +410,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="~/signalr/hubs"></script>
 
         <script>
 
@@ -500,54 +495,14 @@
         // Geolocation ----------------------------------------
 
         // Call the codeAddress function (once) when the map is idle (ready)
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: @LAT, lng: @LNG },
-                zoom: 17
-            });
-            var infoWindow = new google.maps.InfoWindow({ map: map });
-
-            var pos = {
-                lat: @LAT,
-                lng:  @LNG
-             };
-                        infoWindow.setPosition(pos);
-                        infoWindow.setContent($("#ADDRESS").text());
-                        map.setCenter(pos);
-        }
 
 
+            
         //WebChat ----------------------------------
 
-        $(function () {
-            // Reference the auto-generated proxy for the hub.
-            var chat = $.connection.chatHub;
-            // Create a function that the hub can call back to display messages.
-            chat.client.addNewMessageToPage = function (name, message) {
-                // Add the message to the page.
-                $('#discussion').append('<li><strong>' + htmlEncode(name)
-                    + '</strong>: ' + htmlEncode(message) + '</li>');
-            };
-            // Get the user name and store it to prepend to messages.
-            $('#displayname').val("andreia");
-            // Set initial focus to message input box.
+        function LimparoCampo() {
+            $('#message').val('');
             $('#message').focus();
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                $('#sendmessage').click(function () {
-                    // Call the Send method on the hub.
-                    chat.server.send($('#displayname').val(), $('#message').val());
-                    // Clear text box and reset focus for next comment.
-                    $('#message').val('').focus();
-                });
-            });
-        });
-        // This optional function html-encodes messages for display in the page.
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
         }
     </script>
-}
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
     }
