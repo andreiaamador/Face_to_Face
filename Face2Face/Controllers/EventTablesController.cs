@@ -160,37 +160,6 @@ namespace Face2Face.Controllers
             return View(eventTable.ToList());
         }
 
-        // GET: EventTables/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EventTable eventTable = db.EventTable.Find(id);
-            if (eventTable == null)
-            {
-                return HttpNotFound();
-            }
-
-            int userLog = Convert.ToInt32(User.Identity.GetUserId());
-            ViewBag.userLog = userLog;
-            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
-            ViewBag.isOnReviews = false;
-
-
-            ViewBag.isOnReviews = false;
-            foreach (var rev in db.ReviewTable)
-            {
-
-
-                if (rev.EventID == id && rev.UserID == userLog)
-                {
-                    ViewBag.isOnReviews = true;
-                }
-            }
-            return View(eventTable);
-        }
 
         public ActionResult GetParticipants(int eventID)
         {
@@ -295,6 +264,38 @@ namespace Face2Face.Controllers
             return View("_ChatView", db.EventTable.Find(id));
         }
 
+        // GET: EventTables/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EventTable eventTable = db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == (int)id);
+            if (eventTable == null)
+            {
+                return HttpNotFound();
+            }
+
+            int userLog = Convert.ToInt32(User.Identity.GetUserId());
+            ViewBag.userLog = userLog;
+            ViewBag.userInEvent = eventTable.UserProfile1.Contains(db.UserProfile.Find(userLog));
+            ViewBag.isOnReviews = false;
+
+
+            ViewBag.isOnReviews = false;
+            foreach (var rev in db.ReviewTable)
+            {
+
+
+                if (rev.EventID == id && rev.UserID == userLog)
+                {
+                    ViewBag.isOnReviews = true;
+                }
+            }
+            return View(eventTable);
+        }
+
         [HttpPost]
         public ActionResult AddMessage(int? id, string message)
         {
@@ -308,13 +309,10 @@ namespace Face2Face.Controllers
                 };
 
                 db.MessageTable.Add(messageTable);
-                db.Entry(messageTable).State = EntityState.Added;
                 db.SaveChanges();
-
-                ViewBag.user = db.UserProfile.Find(messageTable.UserID).Name;
             }
             
-            return PartialView("_ChatView", db.EventTable.Find(id)); 
+            return PartialView("_ChatView", db.EventTable.Include("MessageTable").FirstOrDefault(e => e.EventID == id)); 
         }
 
         // GET: EventTables/Create
