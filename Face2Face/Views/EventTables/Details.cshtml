@@ -45,7 +45,7 @@
         padding: 5px 11px;
     }
 
-        .pac-controls label {
+    .pac-controls label {
             font-family: Roboto;
             font-size: 13px;
             font-weight: 300;
@@ -62,7 +62,7 @@
         width: 400px;
     }
 
-        #pac-input:focus {
+    #pac-input:focus {
             border-color: #4d90fe;
         }
 
@@ -70,7 +70,7 @@
         margin-left: 170px;
     }
 
-    .eventDetails, .reviews {
+    .eventDetails, .reviews, .participantsDetails, .WebChat {
         border: solid;
         border-color: black;
         border-radius: 5px;
@@ -78,11 +78,9 @@
         margin-bottom: 5px;
     }
 
-    .participantsDetails {
-        padding: 10px;
-        border: solid;
-        border-color: black;
-        border-radius: 5px;
+    #discussion {
+        height: 250px;
+        overflow: scroll;
     }
 
     .eventDetails img {
@@ -103,7 +101,7 @@
         border-radius: 50%;
     }
 
-        .participantsDetails img:hover, .reviews img:hover {
+    .participantsDetails img:hover, .reviews img:hover {
             opacity: 0.8;
         }
 
@@ -290,7 +288,7 @@
 
             <div align="right">
                 @{
-
+                    <input type="hidden" value="@ViewBag.userInEvent" id="userInEvent" />
                     if (Model.UserID != ViewBag.userLog && !ViewBag.isOnReviews && ViewBag.userInEvent && DateTime.Now > Model.Date)
                     {
                         <input type="button" value="Add a Review" id="AddReview" />
@@ -399,24 +397,20 @@
 
     @*Chat -----------------------------------------                            ---------------------------------------------------------------------------------------------------------*@
 
-    @if (ViewBag.userInEvent)
-    {
-        <div class="col-md-12 WebChat">
-            <div class="col-md-12">
-                @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
-                {
-                    <input type="text" id="message" name="message" />
-                    <input type="submit" id="sendmessage" value="Send" />
-                    <input type="hidden" id="displayname" />
+    <div class="col-md-12">
+        <div class="WebChat">
+            @using (Ajax.BeginForm("AddMessage", "EventTables", new { id = Model.EventID }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "discussion", OnSuccess = "LimparoCampo" }))
+            {
+                <input type="text" id="message" name="message" />
+                <input type="submit" id="sendmessage" value="Send" />
+                <input type="hidden" id="displayname" />
 
                     <ul id="discussion">
                         @Html.Partial("_ChatView", Model)
                     </ul>
-                }
-
-            </div>
+            }
         </div>
-    }
+    </div>
 </div>
 
 @{
@@ -500,11 +494,13 @@
         $("#goBtn").click(function () {
             $("#goBtn").addClass("hidden");
             $("#dgoBtn").removeClass("hidden");
+            $('.WebChat').show();
         });
 
         $("#dgoBtn").click(function () {
             $("#dgoBtn").addClass("hidden");
             $("#goBtn").removeClass("hidden");
+            $('.WebChat').hide();
         });
 
         $("#type-selector").addClass("hidden");
@@ -534,6 +530,14 @@
             $('#message').val('');
             $('#message').focus();
             }
+
+
+        if (!($('#userInEvent').val())) {
+            $('.WebChat').hide();
+        }
+        else {
+            $('.WebChat').show();
+        }
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCrYByZUP81omfmV8Hh9bhsFL1Hx8DCMs&libraries=places&callback=initMap" async defer></script>
