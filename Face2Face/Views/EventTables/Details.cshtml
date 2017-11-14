@@ -97,9 +97,8 @@
         font-weight: bold;
     }
 
-<<<<<<< HEAD
-<div class="row" id="body">
-=======
+
+
     .participantsDetails img, .reviews img {
         height: 40px;
         width: 40px;
@@ -109,7 +108,7 @@
     .reviews a {
         /*//color: black;*/
     }
->>>>>>> master
+
 
         .reviews a:hover {
             opacity: 0.8;
@@ -378,19 +377,14 @@ Lng: @Model.Lng
 
 <div id="map"></div>
 
-@*@Html.Action("GetMap", "EventTables", new {eventID = Model.EventID})*@
 
-@*<div id="ChatViewPartial">
-        @{Html.RenderPartial("_ChatView", Model); }
-    </div>*@
-
-<<<<<<< HEAD
 @section Popup{
-    <div id="popupOverlay" class="hidden">
-        <section id="reporting">
-            @Html.Partial("_Report")
-        </section>
-    </div>
+    <div id="popupOverlay" class="hidden"> 
+            <section id="reporting">
+                @Html.Partial("_Report")
+            </section>
+        </div>
+    
 }
 
 @section Scripts {
@@ -480,23 +474,8 @@ Lng: @Model.Lng
             $("#goBtn").removeClass("hidden");
         });
 
-
         $("#type-selector").addClass("hidden");
-
-
         $("#pac-input").val("Barreiro, Portugal");
-
-
-
-
-
-
-        $('.ReportComment').click(function () {
-            $(this).hide();
-            $('#popupOverlay').removeClass('hidden');
-        });
-
-        $("#type-selector").addClass("hidden");
 
 
         // Call the codeAddress function (once) when the map is idle (ready)
@@ -545,27 +524,26 @@ Lng: @Model.Lng
                 'Error: Your browser doesn\'t support geolocation.');
         }
 
-        $(this).click(function () {
 
-            if ($('#popupOverlay').hasClass("hidden")) {
-
-                console.log("yes");
-            }
-
-            //$('#popupOverlay').addClass('hidden');
+        $('.ReportComment').click(function () {
+            $(this).hide();
+            $('#popupOverlay').removeClass('hidden');
+        });
+        
+        $("#popupOverlay").click(function () {
+            $('#popupOverlay').fadeOut(350);
 
         });
-
-
-
-        //$('#popupOverlay').click(function (e) {
-        //    e.stopPropagation();
-        //});
-        //$('#body').click(function () {
-        //    $('#popupOverlay').addClass('hidden');
-        //});
-
-
+        $('#reporting').click(function (evt) {
+            evt.stopPropagation();
+        });
+        $("#ReportCancel").click(function () {
+            $('#popupOverlay').fadeOut(350);
+        });
+        $("#ReportSubmit").click(function () {
+            $('#popupOverlay').fadeOut(350);
+        });
+       
        
     </script>
 }

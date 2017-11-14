@@ -167,23 +167,6 @@ namespace Face2Face.Controllers
 
             ObjectParameter l = new ObjectParameter("LanguageID", typeof(int));
 
-            //if (Fluents == "")
-            //{
-            //    userProfile.LanguagesTable.Remove();
-            //    db.SaveChanges();
-            //}
-            //else
-            //{
-            //    userProfile.LanguagesTable.Clear();
-            //    string[] fluents = Fluents.Split(',');
-            //    foreach (var langStr in fluents)
-            //    {
-            //        db.sp_getLanguageID(langStr, l);
-            //        userProfile.LanguagesTable.Add(db.LanguagesTable.Find(l.Value));
-            //    }
-            //    db.SaveChanges();
-            //}
-
 
 
             userProfile.LanguagesTable.Clear();

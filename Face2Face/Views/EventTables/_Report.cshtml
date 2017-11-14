@@ -4,20 +4,17 @@
     ViewBag.Title = "_Report";
 }
 
-<div id="report">
+<div id="report" class="">
     <p>Report This Comment: </p>
     <input type="radio" name="usrname" /> Spam or scam <br>
     <input type="radio" name="usrname" /> Hate speech or personal attack <br>
     <input type="radio" name="usrname" /> Sexually explicit content <br>
     <input type="radio" name="usrname" /> Violence or harmful behavior <br>
-    <input type="radio" name="usrname" id="outrosReport" /> Outros:* <br>
+    <input type="radio" name="usrname" id="outrosReport" /> Others:* <br>
     <div id="outros">
         @Html.TextBox("ReportOutros", null, new { @class = "form-control" })
     </div>
 
-
-    <input type="button" id="ReportSubmit" value="Submit">
-    <input type="button" id="ReportCancel" value="Cancel">
-
-</div>
-
+        <input type="button" id="ReportSubmit" value="Submit">
+        <input type="button" id="ReportCancel" value="Cancel">
+   </div>
